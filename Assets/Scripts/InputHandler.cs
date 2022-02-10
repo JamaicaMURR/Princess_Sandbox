@@ -11,6 +11,8 @@ public class InputHandler : MainBusUser
 
     public float forceStep = 5;
 
+    public float controlDelay = 0.125f;
+
     float _redZoneDesire;
     float _leftControlForce;
     float _rightControlForce;
@@ -24,8 +26,16 @@ public class InputHandler : MainBusUser
         mainBus.Add(new RawWrap(() => _redZoneDesire), redZoneDesireControllerKey);
     }
 
-    public void IncreaseLeft() => _leftControlForce += forceStep;
-    public void IncreaseRight() => _rightControlForce += forceStep;
+    public void MoveLeft()
+    {
+        _leftControlForce += forceStep;
+        //StartCoroutine(ResetAfterDelay(controlDelay));
+    }
+    public void MoveRight()
+    {
+        _rightControlForce += forceStep;
+        //StartCoroutine(ResetAfterDelay(controlDelay));
+    }
     public void ResetLR()
     {
         _leftControlForce = default;
@@ -34,4 +44,10 @@ public class InputHandler : MainBusUser
 
     public void IncreaseRedZoneDesire() => _redZoneDesire += forceStep;
     public void DecreaseRedZoneDesire() => _redZoneDesire -= forceStep;
+
+    IEnumerator ResetAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        ResetLR();
+    }
 }

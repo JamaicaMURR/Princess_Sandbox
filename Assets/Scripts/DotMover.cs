@@ -6,6 +6,8 @@ using Princess;
 public class DotMover : MainBusUser
 {
     public float speed = 2;
+    public float leftBorder = -3.75f;
+    public float rightBorder = 3.75f;
 
     public string redZoneDetectorKey = "rzd";
     public string nodeLeftKey = "nodeLeft";
@@ -39,10 +41,10 @@ public class DotMover : MainBusUser
 
     private void Update()
     {
-        if(left.Signal)
+        if(left.Signal && transform.position.x > leftBorder)
             transform.Translate(Vector2.left * speed * Time.deltaTime);
 
-        if(right.Signal)
+        if(right.Signal && transform.position.x < rightBorder)
             transform.Translate(Vector2.right * speed * Time.deltaTime);
     }
 }

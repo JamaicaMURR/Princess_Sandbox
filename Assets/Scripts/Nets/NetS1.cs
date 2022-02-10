@@ -22,12 +22,12 @@ public class NetS1 : MainBusUser
     {
         ConnectMainBus();
 
-        Alpha alpha = new Alpha(0, 0.1f);
+        Simple simple = new Simple();
 
-        left = new Node() { Activator = alpha };
-        right = new Node() { Activator = alpha };
+        left = new Node() { Activator = simple };
+        right = new Node() { Activator = simple };
 
-        vertex = new Vertex() { Activator = alpha, Sandman = new Morpheus(), Predictor = new Haruspex(), RMemory = new Plume(10), FMemory = new Plume(10) };
+        vertex = new Vertex() { Activator = simple, Sandman = new Morpheus(), Predictor = new Haruspex(), RMemory = new Plume(10), FMemory = new Plume(10) };
 
         mainBus.Add(left, nodeLeftKey);
         mainBus.Add(right, nodeRightKey);
