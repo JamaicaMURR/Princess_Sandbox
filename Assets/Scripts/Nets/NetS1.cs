@@ -27,7 +27,7 @@ public class NetS1 : MainBusUser
         left = new Node() { Activator = alpha };
         right = new Node() { Activator = alpha };
 
-        vertex = new Vertex() { Activator = alpha, Sandman = new Morpheus(), Predictor = new Haruspex() };
+        vertex = new Vertex() { Activator = alpha, Sandman = new Morpheus(), Predictor = new Haruspex(), RMemory = new Plume(10), FMemory = new Plume(10) };
 
         mainBus.Add(left, nodeLeftKey);
         mainBus.Add(right, nodeRightKey);
@@ -52,6 +52,11 @@ public class NetS1 : MainBusUser
 
         vertex.Connect(left, edgeMaker);
         vertex.Connect(right, edgeMaker);
+    }
+
+    private void FixedUpdate()
+    {
+        Proceed();
     }
 
     void Proceed()
