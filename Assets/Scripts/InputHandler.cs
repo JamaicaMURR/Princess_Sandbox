@@ -28,26 +28,26 @@ public class InputHandler : MainBusUser
 
     public void MoveLeft()
     {
-        _leftControlForce += forceStep;
-        //StartCoroutine(ResetAfterDelay(controlDelay));
+        _leftControlForce = forceStep;
     }
     public void MoveRight()
     {
-        _rightControlForce += forceStep;
-        //StartCoroutine(ResetAfterDelay(controlDelay));
+        _rightControlForce = forceStep;
     }
     public void ResetLR()
     {
-        _leftControlForce = default;
-        _rightControlForce = default;
+        StartCoroutine(ResetAfterDelay());
     }
 
     public void IncreaseRedZoneDesire() => _redZoneDesire += forceStep;
     public void DecreaseRedZoneDesire() => _redZoneDesire -= forceStep;
 
-    IEnumerator ResetAfterDelay(float delay)
+    IEnumerator ResetAfterDelay()
     {
-        yield return new WaitForSeconds(delay);
-        ResetLR();
+        _leftControlForce = -forceStep;
+        _rightControlForce = -forceStep;
+        yield return new WaitForSeconds(controlDelay);
+        _leftControlForce = default;
+        _rightControlForce = default;
     }
 }

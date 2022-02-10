@@ -9,4 +9,6 @@ public class MainBus : MonoBehaviour
     public void Add(object o, string key) => _bus.Add(key, o);
 
     public T Get<T>(string key) => (T)_bus[key];
+
+    public void WipeBus() => _bus = new Dictionary<string, object>();
 }
