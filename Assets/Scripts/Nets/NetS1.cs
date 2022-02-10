@@ -6,14 +6,14 @@ using Princess.ConnectionToolkit;
 
 public class NetS1 : MainBusUser
 {
-    public string RedZoneDetectorKey = "rzd";
-    public string VertexKey = "vertex1";
-    public string NodeLeftKey = "nodeLeft";
-    public string NodeRightKey = "nodeRight";
+    public string redZoneDetectorKey = "rzd";
+    public string vertexKey = "vertex1";
+    public string nodeLeftKey = "nodeLeft";
+    public string nodeRightKey = "nodeRight";
 
-    public string LeftControllerKey = "lc";
-    public string RightControllerKey = "rc";
-    public string RedZoneDesireControllerKey = "rzdc";
+    public string leftControllerKey = "lc";
+    public string rightControllerKey = "rc";
+    public string redZoneDesireControllerKey = "rzdc";
 
     Node left, right;
     Vertex vertex;
@@ -29,21 +29,21 @@ public class NetS1 : MainBusUser
 
         vertex = new Vertex() { Activator = alpha, Sandman = new Morpheus(), Predictor = new Haruspex() };
 
-        mainBus.Add(left, NodeLeftKey);
-        mainBus.Add(right, NodeRightKey);
-        mainBus.Add(vertex, VertexKey);
+        mainBus.Add(left, nodeLeftKey);
+        mainBus.Add(right, nodeRightKey);
+        mainBus.Add(vertex, vertexKey);
     }
 
     private void Start()
     {
-        IRawProvider leftController = mainBus.Get<IRawProvider>(LeftControllerKey);
-        IRawProvider rightController = mainBus.Get<IRawProvider>(RightControllerKey);
+        IRawProvider leftController = mainBus.Get<IRawProvider>(leftControllerKey);
+        IRawProvider rightController = mainBus.Get<IRawProvider>(rightControllerKey);
 
         left.Hopper = new Controllable(new Heap(), leftController.GetRaw);
         right.Hopper = new Controllable(new Heap(), rightController.GetRaw);
 
-        IRawProvider redZoneDesireController = mainBus.Get<IRawProvider>(RedZoneDesireControllerKey);
-        ISignalSource redZoneDetector = mainBus.Get<ISignalSource>(RedZoneDetectorKey);
+        IRawProvider redZoneDesireController = mainBus.Get<IRawProvider>(redZoneDesireControllerKey);
+        ISignalSource redZoneDetector = mainBus.Get<ISignalSource>(redZoneDetectorKey);
 
         vertex.Hopper = new Controllable(new Heap(), redZoneDesireController.GetRaw);
         vertex.SignalSource = redZoneDetector;
