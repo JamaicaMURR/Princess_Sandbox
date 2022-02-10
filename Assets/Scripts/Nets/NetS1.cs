@@ -48,7 +48,7 @@ public class NetS1 : MainBusUser
         vertex.Hopper = new Controllable(new Heap(), redZoneDesireController.GetRaw);
         vertex.SignalSource = redZoneDetector;
 
-        EdgeMaker edgeMaker = new HeavyMaker();
+        EdgeMaker edgeMaker = new MeatMaker();
 
         vertex.Connect(left, edgeMaker);
         vertex.Connect(right, edgeMaker);
@@ -57,6 +57,12 @@ public class NetS1 : MainBusUser
     private void FixedUpdate()
     {
         Proceed();
+    }
+
+    public void Sleep()
+    {
+        vertex.Sleep(Princess.EventType.Rise);
+        vertex.Sleep(Princess.EventType.Fall);
     }
 
     void Proceed()
