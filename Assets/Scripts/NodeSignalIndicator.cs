@@ -5,16 +5,13 @@ using Princess;
 
 public class NodeSignalIndicator : MainBusUser
 {
-    Node _node;
     SpriteRenderer _indicatorRenderer;
 
     public string indicatorName = "Indicator";
     public string nodeBusKey;
 
-    public float periodOfRefreshing;
-
-    public Sprite trueSprite;
-    public Sprite falseSprite;
+    public Sprite indicatorSpriteOnTrue;
+    public Sprite indicatorSpriteOnFalse;
 
 
     private void Awake()
@@ -26,25 +23,14 @@ public class NodeSignalIndicator : MainBusUser
 
     private void Start()
     {
-        _node = mainBus.Get<Node>(nodeBusKey);
-        StartCoroutine(Refresh());
+        Node node;
+
+        node = mainBus.Get<Node>(nodeBusKey);
+
+        node.OnRise += ChangeAtTrue;
+        node.OnFall += ChangeAtFalse;
     }
 
-    void ChangeAtTrue() => _indicatorRenderer.sprite = trueSprite;
-
-    void ChangeAtFalse() => _indicatorRenderer.sprite = falseSprite;
-
-    // TODO: realize on events
-    IEnumerator Refresh()
-    {
-        while(true)
-        {
-            if(_node.Signal)
-                ChangeAtTrue();
-            else
-                ChangeAtFalse();
-
-            yield return new WaitForSeconds(periodOfRefreshing);
-        }
-    }
+    void ChangeAtTrue() => _indicatorRenderer.sprite = indicatorSpriteOnTrue;
+    void ChangeAtFalse() => _indicatorRenderer.sprite = indicatorSpriteOnFalse;
 }
