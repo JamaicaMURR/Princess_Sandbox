@@ -10,10 +10,12 @@ public class DotMover : MainBusUser
     public float rightBorder = 3.75f;
 
     public string redZoneDetectorKey = "rzd";
+    public string rightHalfDetectorKey = "rhd";
     public string nodeLeftKey = "nodeLeft";
     public string nodeRightKey = "nodeRight";
 
     bool _isOnRedZone;
+    bool _isOnRightHalf;
 
     Node left, right;
 
@@ -31,6 +33,7 @@ public class DotMover : MainBusUser
     {
         ConnectMainBus();
         mainBus.Add(new SignalWrap(() => _isOnRedZone), redZoneDetectorKey);
+        mainBus.Add(new SignalWrap(() => _isOnRightHalf), rightHalfDetectorKey);
     }
 
     private void Start()
@@ -46,5 +49,10 @@ public class DotMover : MainBusUser
 
         if(right.Signal && transform.position.x < rightBorder)
             transform.Translate(Vector2.right * speed * Time.deltaTime);
+
+        if(transform.position.x <= 0)
+            _isOnRightHalf = false;
+        else
+            _isOnRightHalf = true;
     }
 }
