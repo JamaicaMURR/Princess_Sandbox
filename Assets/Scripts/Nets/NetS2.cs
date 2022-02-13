@@ -11,6 +11,8 @@ public class NetS2 : MainBusUser
     public string vertex2Key = "vertex2";
     public string nodeLeftKey = "nodeLeft";
     public string nodeRightKey = "nodeRight";
+    public string vertex1ActualDesireKey = "v1ad";
+    public string vertex2ActualDesireKey = "v2ad";
 
     public string leftControllerKey = "lc";
     public string rightControllerKey = "rc";
@@ -28,13 +30,34 @@ public class NetS2 : MainBusUser
         left = new Node() { Activator = activator };
         right = new Node() { Activator = activator };
 
-        vertex1 = new Vertex() { Activator = activator, Sandman = new Morpheus(), Predictor = new Haruspex(), RMemory = new Plume(10), FMemory = new Plume(10) };
-        vertex2 = new Vertex() { Activator = activator, Hopper = new Heap(), Sandman = new Morpheus(), Predictor = new Haruspex(), RMemory = new Plume(10), FMemory = new Plume(10) };
+        vertex1 = new Vertex()
+        {
+            Activator = activator,
+            Sandman = new Morpheus(),
+            Predictor = new Haruspex(),
+            RMemory = new Plume(10),
+            FMemory = new Plume(10),
+            Caller = new RandyOne()
+        };
+
+        vertex2 = new Vertex()
+        {
+            Activator = activator,
+            Hopper = new Heap(),
+            Sandman = new Morpheus(),
+            Predictor = new Haruspex(),
+            RMemory = new Plume(10),
+            FMemory = new Plume(10),
+            Caller = new RandyOne()
+        };
 
         mainBus.Add(left, nodeLeftKey);
         mainBus.Add(right, nodeRightKey);
         mainBus.Add(vertex1, vertex1Key);
         mainBus.Add(vertex2, vertex2Key);
+
+        mainBus.Add(new RawWrap(() => vertex1.RawDesire), vertex1ActualDesireKey);
+        mainBus.Add(new RawWrap(() => vertex2.RawDesire), vertex2ActualDesireKey);
     }
 
     private void Start()
@@ -55,7 +78,7 @@ public class NetS2 : MainBusUser
 
         vertex2.SignalSource = rightHalfDetector;
 
-        EdgeMaker edgeMaker = new HeavyMaker();
+        EdgeMaker edgeMaker = new HeavyEM();
 
         vertex1.Connect(left, edgeMaker);
         vertex1.Connect(right, edgeMaker);
@@ -66,17 +89,15 @@ public class NetS2 : MainBusUser
         vertex2.Connect(vertex1, edgeMaker);
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         Proceed();
     }
 
     public void Sleep()
     {
-        vertex1.Sleep(Princess.EventType.Rise);
-        vertex1.Sleep(Princess.EventType.Fall);
-        vertex2.Sleep(Princess.EventType.Rise);
-        vertex2.Sleep(Princess.EventType.Fall);
+        vertex1.Sleep();
+        vertex2.Sleep();
     }
 
     void Proceed()

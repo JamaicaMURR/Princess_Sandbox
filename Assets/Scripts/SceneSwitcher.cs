@@ -7,12 +7,12 @@ using UnityEngine.SceneManagement;
 public class SceneSwitcher : MonoBehaviour
 {
     public string previousSceneName;
-    public string thisSceneName;
+    public string currentSceneName;
     public string nextSceneName;
 
     public UnityEvent OnSwitch;
 
-    public void SwitchToNextScene()
+    public void SwitchToNext()
     {
         OnSwitch?.Invoke();
         SceneManager.LoadScene(nextSceneName); 
@@ -21,7 +21,7 @@ public class SceneSwitcher : MonoBehaviour
     public void ReloadScene()
     {
         OnSwitch?.Invoke();
-        SceneManager.LoadScene(thisSceneName);
+        SceneManager.LoadScene(currentSceneName);
     }
 
     public void SwitchToPrevious() 

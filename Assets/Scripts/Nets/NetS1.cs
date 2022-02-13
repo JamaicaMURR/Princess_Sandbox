@@ -27,7 +27,15 @@ public class NetS1 : MainBusUser
         left = new Node() { Activator = activator };
         right = new Node() { Activator = activator };
 
-        vertex = new Vertex() { Activator = activator, Sandman = new Morpheus(), Predictor = new Haruspex(), RMemory = new Plume(10), FMemory = new Plume(10) };
+        vertex = new Vertex()
+        {
+            Activator = activator,
+            Sandman = new Morpheus(),
+            Predictor = new Haruspex(),
+            RMemory = new Plume(10),
+            FMemory = new Plume(10),
+            Caller = new RandyOne()
+        };
 
         mainBus.Add(left, nodeLeftKey);
         mainBus.Add(right, nodeRightKey);
@@ -48,13 +56,13 @@ public class NetS1 : MainBusUser
         vertex.Hopper = new Controllable(new Heap(), redZoneDesireController.GetRaw);
         vertex.SignalSource = redZoneDetector;
 
-        EdgeMaker edgeMaker = new MeatMaker();
+        EdgeMaker edgeMaker = new MeatEM();
 
         vertex.Connect(left, edgeMaker);
         vertex.Connect(right, edgeMaker);
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         Proceed();
     }
