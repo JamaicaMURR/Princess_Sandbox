@@ -34,10 +34,9 @@ public class NetS2 : MainBusUser
         {
             Activator = activator,
             Sandman = new Morpheus(),
-            Predictor = new Haruspex(),
             RMemory = new Plume(10),
             FMemory = new Plume(10),
-            Caller = new RandyOne()
+            Caller = new ExperimentalCaller()
         };
 
         vertex2 = new Vertex()
@@ -45,10 +44,9 @@ public class NetS2 : MainBusUser
             Activator = activator,
             Hopper = new Heap(),
             Sandman = new Morpheus(),
-            Predictor = new Haruspex(),
             RMemory = new Plume(10),
             FMemory = new Plume(10),
-            Caller = new RandyOne()
+            Caller = new ExperimentalCaller()
         };
 
         mainBus.Add(left, nodeLeftKey);
@@ -71,7 +69,7 @@ public class NetS2 : MainBusUser
         IRawProvider redZoneDesireController = mainBus.Get<IRawProvider>(redZoneDesireControllerKey);
         ISignalSource redZoneDetector = mainBus.Get<ISignalSource>(redZoneDetectorKey);
 
-        vertex1.Hopper = new Controllable(new Heap(), redZoneDesireController.GetRaw);
+        vertex1.Hopper = new ControllableHeap(redZoneDesireController.GetRaw);
         vertex1.SignalSource = redZoneDetector;
 
         ISignalSource rightHalfDetector = mainBus.Get<ISignalSource>(rightHalfDetectorKey);

@@ -31,10 +31,9 @@ public class NetS1 : MainBusUser
         {
             Activator = activator,
             Sandman = new Morpheus(),
-            Predictor = new Haruspex(),
             RMemory = new Plume(10),
             FMemory = new Plume(10),
-            Caller = new RandyOne()
+            Caller = new ExperimentalCaller()
         };
 
         mainBus.Add(left, nodeLeftKey);
