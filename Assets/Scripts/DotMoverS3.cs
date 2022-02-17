@@ -5,7 +5,7 @@ using Princess;
 
 public class DotMoverS3 : MainBusUser
 {
-    public float speed = 2;
+    public float speed = 4;
     public float leftBorder = -3.75f;
     public float rightBorder = 3.75f;
     public float upBorder = 3.75f;
@@ -17,6 +17,8 @@ public class DotMoverS3 : MainBusUser
     public string nodeRightKey = "nodeRight";
     public string nodeUpKey = "nodeUp";
     public string nodeDownKey = "nodeDown";
+    public string dotXKey = "x";
+    public string dotYKey = "y";
 
     bool _isOnRedZone;
     bool _isOnBlueZone;
@@ -46,6 +48,8 @@ public class DotMoverS3 : MainBusUser
         ConnectMainBus();
         mainBus.Add(new SignalWrap(() => _isOnRedZone), redZoneDetectorKey);
         mainBus.Add(new SignalWrap(() => _isOnBlueZone), blueZoneDetectorKey);
+        mainBus.Add(new RawWrap(() => transform.position.x), dotXKey);
+        mainBus.Add(new RawWrap(() => transform.position.y), dotYKey);
     }
 
     private void Start()
