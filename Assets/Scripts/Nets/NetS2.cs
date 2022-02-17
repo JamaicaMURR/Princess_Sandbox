@@ -17,6 +17,7 @@ public class NetS2 : MainBusUser
     public string leftControllerKey = "lc";
     public string rightControllerKey = "rc";
     public string redZoneDesireControllerKey = "rzdc";
+    public string rightHalfDesireControllerKey = "rhdc";
 
     Node left, right;
     Vertex vertex1, vertex2;
@@ -42,7 +43,6 @@ public class NetS2 : MainBusUser
         vertex2 = new Vertex()
         {
             Activator = activator,
-            Hopper = new Heap(),
             Sandman = new Morpheus(),
             RMemory = new Plume(10),
             FMemory = new Plume(10),
@@ -72,8 +72,10 @@ public class NetS2 : MainBusUser
         vertex1.Hopper = new ControllableHeap(redZoneDesireController.GetRaw);
         vertex1.SignalSource = redZoneDetector;
 
+        IRawProvider rightHalfDesireController = mainBus.Get<IRawProvider>(rightHalfDesireControllerKey);
         ISignalSource rightHalfDetector = mainBus.Get<ISignalSource>(rightHalfDetectorKey);
 
+        vertex2.Hopper = new ControllableHeap(rightHalfDesireController.GetRaw);
         vertex2.SignalSource = rightHalfDetector;
 
         EdgeMaker edgeMaker = new HeavyEM();

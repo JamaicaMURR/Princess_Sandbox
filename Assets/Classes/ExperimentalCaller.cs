@@ -40,7 +40,30 @@ namespace Princess
         {
             (int edgeNumber, float callForce) callParams = (0, 0);
 
-            // TODO: implementation
+            float absCallForce = Math.Abs(rawDesire);
+            int bestInSolution = 0;
+
+            for(int i = 0; i < punchcard.Length; i++)
+            {
+                if(punchcard[i])
+                {
+                    if(solution[i] < 0 && rawcard[i] < absCallForce && -solution[i] > bestInSolution)
+                    {
+                        bestInSolution = -solution[i];
+                        callParams.edgeNumber = i;
+                        callParams.callForce = absCallForce;
+                    }
+                }
+                else
+                {
+                    if(solution[i] > 0 && rawcard[i] > -absCallForce && solution[i] > bestInSolution)
+                    {
+                        bestInSolution = solution[i];
+                        callParams.edgeNumber = i;
+                        callParams.callForce = -absCallForce;
+                    }
+                }
+            }
 
             return callParams;
         }

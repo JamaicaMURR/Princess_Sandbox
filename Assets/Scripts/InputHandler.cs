@@ -8,6 +8,7 @@ public class InputHandler : MainBusUser
     public string leftControllerKey = "lc";
     public string rightControllerKey = "rc";
     public string redZoneDesireControllerKey = "rzdc";
+    public string rightHalfDesireControllerKey = "rhdc";
 
     public float forceStep = 5;
 
@@ -16,6 +17,7 @@ public class InputHandler : MainBusUser
     float _redZoneDesire;
     float _leftControlForce;
     float _rightControlForce;
+    float _rightHalfDesire;
 
     private void Awake()
     {
@@ -24,6 +26,7 @@ public class InputHandler : MainBusUser
         mainBus.Add(new RawWrap(() => _leftControlForce), leftControllerKey);
         mainBus.Add(new RawWrap(() => _rightControlForce), rightControllerKey);
         mainBus.Add(new RawWrap(() => _redZoneDesire), redZoneDesireControllerKey);
+        mainBus.Add(new RawWrap(() => _rightHalfDesire), rightHalfDesireControllerKey);
     }
 
     public void MoveLeft()
@@ -41,6 +44,9 @@ public class InputHandler : MainBusUser
 
     public void IncreaseRedZoneDesire() => _redZoneDesire += forceStep;
     public void DecreaseRedZoneDesire() => _redZoneDesire -= forceStep;
+
+    public void IncreaseRightHalfDesire() => _rightHalfDesire += forceStep;
+    public void DecreaseRightHalfDesire() => _rightHalfDesire -= forceStep;
 
     IEnumerator ResetAfterDelay()
     {
