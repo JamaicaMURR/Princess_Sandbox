@@ -37,7 +37,7 @@ public class NetS2 : MainBusUser
             Sandman = new Morpheus(),
             RMemory = new Plume(10),
             FMemory = new Plume(10),
-            Caller = new ExperimentalCaller()
+            Caller = new Cannon()
         };
 
         vertex2 = new Vertex()
@@ -46,7 +46,7 @@ public class NetS2 : MainBusUser
             Sandman = new Morpheus(),
             RMemory = new Plume(10),
             FMemory = new Plume(10),
-            Caller = new ExperimentalCaller()
+            Caller = new Cannon()
         };
 
         mainBus.Add(left, nodeLeftKey);

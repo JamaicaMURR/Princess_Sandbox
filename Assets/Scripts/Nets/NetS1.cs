@@ -33,7 +33,7 @@ public class NetS1 : MainBusUser
             Sandman = new Morpheus(),
             RMemory = new Plume(10),
             FMemory = new Plume(10),
-            Caller = new ExperimentalCaller()
+            Caller = new Cannon()
         };
 
         mainBus.Add(left, nodeLeftKey);

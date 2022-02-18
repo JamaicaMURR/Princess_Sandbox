@@ -2,7 +2,7 @@
 
 namespace Princess
 {
-    public class ExperimentalCaller : ICaller
+    public class ExperimentalCaller/* : ICaller*/
     {
         public (int edgeNumber, float callForce) Straight(float rawDesire, bool[] punchcard, float[] rawcard, int[] solution)
         {
