@@ -55,7 +55,7 @@ public class NetS1 : MainBusUser
         vertex.Hopper = new Controllable(new Heap(), redZoneDesireController.GetRaw);
         vertex.SignalSource = redZoneDetector;
 
-        EdgeMaker edgeMaker = new MeatEM();
+        EdgeMaker edgeMaker = new HeavyEM();
 
         vertex.Connect(left, edgeMaker);
         vertex.Connect(right, edgeMaker);
