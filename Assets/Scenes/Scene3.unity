@@ -2751,7 +2751,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainBusHolderName: MainBus
-  speed: 2
+  speed: 4
   leftBorder: -3.75
   rightBorder: 3.75
   upBorder: 3.75

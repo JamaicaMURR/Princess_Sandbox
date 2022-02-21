@@ -37,7 +37,7 @@ public class NetS2 : MainBusUser
             Sandman = new Morpheus(),
             RMemory = new Plume(10),
             FMemory = new Plume(10),
-            Caller = new Cannon()
+            Caller = new Mortar()
         };
 
         vertex2 = new Vertex()
@@ -46,7 +46,7 @@ public class NetS2 : MainBusUser
             Sandman = new Morpheus(),
             RMemory = new Plume(10),
             FMemory = new Plume(10),
-            Caller = new Cannon()
+            Caller = new Mortar()
         };
 
         mainBus.Add(left, nodeLeftKey);
@@ -54,8 +54,8 @@ public class NetS2 : MainBusUser
         mainBus.Add(vertex1, vertex1Key);
         mainBus.Add(vertex2, vertex2Key);
 
-        mainBus.Add(new RawWrap(() => vertex1.RawDesire), vertex1ActualDesireKey);
-        mainBus.Add(new RawWrap(() => vertex2.RawDesire), vertex2ActualDesireKey);
+        mainBus.Add(new RawWrap(() => vertex1.Desire), vertex1ActualDesireKey);
+        mainBus.Add(new RawWrap(() => vertex2.Desire), vertex2ActualDesireKey);
     }
 
     private void Start()

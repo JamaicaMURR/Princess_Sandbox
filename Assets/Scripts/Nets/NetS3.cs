@@ -46,7 +46,7 @@ public class NetS3 : MainBusUser
     {
         ConnectMainBus();
 
-        Alpha activator = new Alpha(0, 0.1f);
+        Alpha activator = new Alpha(0, 0.5f);
 
         left = new Node() { Activator = activator };
         right = new Node() { Activator = activator };
@@ -55,7 +55,7 @@ public class NetS3 : MainBusUser
 
         Simple simple = new Simple();
         Morpheus morpheus = new Morpheus();
-        Cannon cannon = new Cannon();
+        ICaller caller = new Mortar();
 
         redZoneVertex = GetRawVertex();
         blueZoneVertex = GetRawVertex();
@@ -92,7 +92,7 @@ public class NetS3 : MainBusUser
                 Sandman = morpheus,
                 RMemory = new Plume(10),
                 FMemory = new Plume(10),
-                Caller = cannon
+                Caller = caller
             };
         }
     }

@@ -76,6 +76,6 @@ public class DotMoverS3 : MainBusUser
         if(down.Signal && transform.position.y > downBorder)
             resultive += Vector2.down;
 
-        transform.Translate(resultive * speed * Time.deltaTime);
+        transform.Translate(resultive.normalized * speed * Time.deltaTime);
     }
 }
