@@ -11,71 +11,60 @@ public class NetS2 : MainBusUser
     public string vertex2Key = "vertex2";
     public string nodeLeftKey = "nodeLeft";
     public string nodeRightKey = "nodeRight";
-    public string vertex1ActualDesireKey = "v1ad";
-    public string vertex2ActualDesireKey = "v2ad";
 
     public string leftControllerKey = "lc";
     public string rightControllerKey = "rc";
     public string redZoneDesireControllerKey = "rzdc";
     public string rightHalfDesireControllerKey = "rhdc";
 
-    Node left, right;
+    Sink left, right;
     Vertex vertex1, vertex2;
 
     private void Awake()
     {
         ConnectMainBus();
 
-        Alpha activator = new Alpha(0, 0.1f);
-
-        left = new Node() { Activator = activator };
-        right = new Node() { Activator = activator };
+        left = new Sink();
+        right = new Sink();
 
         vertex1 = new Vertex()
         {
-            Activator = activator,
-            Sandman = new Morpheus(),
             RMemory = new Plume(10),
             FMemory = new Plume(10),
+            Sandman = new Morpheus(),
             Caller = new Mortar()
         };
 
         vertex2 = new Vertex()
         {
-            Activator = activator,
-            Sandman = new Morpheus(),
             RMemory = new Plume(10),
             FMemory = new Plume(10),
+            Sandman = new Morpheus(),
             Caller = new Mortar()
         };
+
+        Basis leftController = new Basis(left);
+        Basis rightController = new Basis(right);
+        Basis redZoneDesireController = new Basis(vertex1);
+        Basis rightHalfDesireController = new Basis(vertex2);
+
+        mainBus.Add(leftController, leftControllerKey);
+        mainBus.Add(rightController, rightControllerKey);
+        mainBus.Add(redZoneDesireController, redZoneDesireControllerKey);
+        mainBus.Add(rightHalfDesireController, rightHalfDesireControllerKey);
 
         mainBus.Add(left, nodeLeftKey);
         mainBus.Add(right, nodeRightKey);
         mainBus.Add(vertex1, vertex1Key);
         mainBus.Add(vertex2, vertex2Key);
-
-        mainBus.Add(new RawWrap(() => vertex1.Desire), vertex1ActualDesireKey);
-        mainBus.Add(new RawWrap(() => vertex2.Desire), vertex2ActualDesireKey);
     }
 
     private void Start()
     {
-        IRawProvider leftController = mainBus.Get<IRawProvider>(leftControllerKey);
-        IRawProvider rightController = mainBus.Get<IRawProvider>(rightControllerKey);
-
-        left.Hopper = new Controllable(new Heap(), leftController.GetRaw);
-        right.Hopper = new Controllable(new Heap(), rightController.GetRaw);
-
-        IRawProvider redZoneDesireController = mainBus.Get<IRawProvider>(redZoneDesireControllerKey);
         ISignalSource redZoneDetector = mainBus.Get<ISignalSource>(redZoneDetectorKey);
-
-        vertex1.Hopper = new ControllableHeap(redZoneDesireController.GetRaw);
         vertex1.SignalSource = redZoneDetector;
 
-        IRawProvider rightHalfDesireController = mainBus.Get<IRawProvider>(rightHalfDesireControllerKey);
         ISignalSource rightHalfDetector = mainBus.Get<ISignalSource>(rightHalfDetectorKey);
-
-        vertex2.Hopper = new ControllableHeap(rightHalfDesireController.GetRaw);
         vertex2.SignalSource = rightHalfDetector;
 
         EdgeMaker edgeMaker = new HeavyEM();

@@ -15,27 +15,31 @@ public class NetS1 : MainBusUser
     public string rightControllerKey = "rc";
     public string redZoneDesireControllerKey = "rzdc";
 
-    Node left, right;
+    Sink left, right;
     Vertex vertex;
 
     private void Awake()
     {
         ConnectMainBus();
 
-        Alpha activator = new Alpha(0, 0.1f);
-
-        left = new Node() { Activator = activator };
-        right = new Node() { Activator = activator };
+        left = new Sink();
+        right = new Sink();
 
         vertex = new Vertex()
         {
-            Activator = activator,
-            Sandman = new Morpheus(),
             RMemory = new Plume(10),
             FMemory = new Plume(10),
+            Sandman = new Morpheus(),
             Caller = new Mortar()
         };
 
+        Basis leftController = new Basis(left);
+        Basis rightController = new Basis(right);
+        Basis redZoneDesireController = new Basis(vertex);
+
+        mainBus.Add(leftController, leftControllerKey);
+        mainBus.Add(rightController, rightControllerKey);
+        mainBus.Add(redZoneDesireController, redZoneDesireControllerKey);
         mainBus.Add(left, nodeLeftKey);
         mainBus.Add(right, nodeRightKey);
         mainBus.Add(vertex, vertexKey);
@@ -43,16 +47,8 @@ public class NetS1 : MainBusUser
 
     private void Start()
     {
-        IRawProvider leftController = mainBus.Get<IRawProvider>(leftControllerKey);
-        IRawProvider rightController = mainBus.Get<IRawProvider>(rightControllerKey);
-
-        left.Hopper = new Controllable(new Heap(), leftController.GetRaw);
-        right.Hopper = new Controllable(new Heap(), rightController.GetRaw);
-
-        IRawProvider redZoneDesireController = mainBus.Get<IRawProvider>(redZoneDesireControllerKey);
         ISignalSource redZoneDetector = mainBus.Get<ISignalSource>(redZoneDetectorKey);
 
-        vertex.Hopper = new Controllable(new Heap(), redZoneDesireController.GetRaw);
         vertex.SignalSource = redZoneDetector;
 
         EdgeMaker edgeMaker = new HeavyEM();
@@ -66,11 +62,7 @@ public class NetS1 : MainBusUser
         Proceed();
     }
 
-    public void Sleep()
-    {
-        vertex.Sleep(Princess.EventType.Rise);
-        vertex.Sleep(Princess.EventType.Fall);
-    }
+    public void Sleep() => vertex.Sleep();
 
     void Proceed()
     {

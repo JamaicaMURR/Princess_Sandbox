@@ -20,9 +20,6 @@ public class NetS3 : MainBusUser
     public string nodeUpKey = "nodeUp";
     public string nodeDownKey = "nodeDown";
 
-    //public string vertex1ActualDesireKey = "v1ad";
-    //public string vertex2ActualDesireKey = "v2ad";
-
     public string dotXKey = "x";
     public string dotYKey = "y";
 
@@ -34,7 +31,7 @@ public class NetS3 : MainBusUser
     public string redZoneDesireControllerKey = "rzdc";
     public string blueZoneDesireControllerKey = "bzdc";
 
-    Node left, right, up, down;
+    Sink left, right, up, down;
     Vertex redZoneVertex, blueZoneVertex;
     Vertex[] verticals;
     Vertex[] horizontals;
@@ -46,19 +43,30 @@ public class NetS3 : MainBusUser
     {
         ConnectMainBus();
 
-        Alpha activator = new Alpha(0, 0.5f);
+        left = new Sink();
+        right = new Sink();
+        up = new Sink();
+        down = new Sink();
 
-        left = new Node() { Activator = activator };
-        right = new Node() { Activator = activator };
-        up = new Node() { Activator = activator };
-        down = new Node() { Activator = activator };
-
-        Simple simple = new Simple();
         Morpheus morpheus = new Morpheus();
         ICaller caller = new Mortar();
 
         redZoneVertex = GetRawVertex();
         blueZoneVertex = GetRawVertex();
+
+        Basis leftController = new Basis(left);
+        Basis rightController = new Basis(right);
+        Basis upController = new Basis(up);
+        Basis downController = new Basis(down);
+        Basis redZoneDesireController = new Basis(redZoneVertex);
+        Basis blueZoneDesireController = new Basis(blueZoneVertex);
+
+        mainBus.Add(leftController, leftControllerKey);
+        mainBus.Add(rightController, rightControllerKey);
+        mainBus.Add(upController, upControllerKey);
+        mainBus.Add(downController, downControllerKey);
+        mainBus.Add(redZoneDesireController, redZoneDesireControllerKey);
+        mainBus.Add(blueZoneDesireController, blueZoneDesireControllerKey);
 
         mainBus.Add(left, nodeLeftKey);
         mainBus.Add(right, nodeRightKey);
@@ -75,23 +83,17 @@ public class NetS3 : MainBusUser
         {
             verticals[i] = GetRawVertex();
             horizontals[i] = GetRawVertex();
-            verticals[i].Hopper = new Heap();
-            horizontals[i].Hopper = new Heap();
             mainBus.Add(verticals[i], verticalVerticesKeys[i]);
             mainBus.Add(horizontals[i], horizontalVerticesKeys[i]);
         }
-
-        //mainBus.Add(new RawWrap(() => vertex1.RawDesire), vertex1ActualDesireKey);
-        //mainBus.Add(new RawWrap(() => vertex2.RawDesire), vertex2ActualDesireKey);
 
         Vertex GetRawVertex()
         {
             return new Vertex()
             {
-                Activator = simple,
-                Sandman = morpheus,
                 RMemory = new Plume(10),
                 FMemory = new Plume(10),
+                Sandman = morpheus,
                 Caller = caller
             };
         }
@@ -99,28 +101,12 @@ public class NetS3 : MainBusUser
 
     private void Start()
     {
-        IRawProvider leftController = mainBus.Get<IRawProvider>(leftControllerKey);
-        IRawProvider rightController = mainBus.Get<IRawProvider>(rightControllerKey);
-        IRawProvider upController = mainBus.Get<IRawProvider>(upControllerKey);
-        IRawProvider downController = mainBus.Get<IRawProvider>(downControllerKey);
-
-        left.Hopper = new ControllableHeap(leftController.GetRaw);
-        right.Hopper = new ControllableHeap(rightController.GetRaw);
-        up.Hopper = new ControllableHeap(upController.GetRaw);
-        down.Hopper = new ControllableHeap(downController.GetRaw);
-
         allNodes = new List<Node>() { left, right, up, down };
 
-        IRawProvider redZoneDesireController = mainBus.Get<IRawProvider>(redZoneDesireControllerKey);
         ISignalSource redZoneDetector = mainBus.Get<ISignalSource>(redZoneDetectorKey);
-
-        redZoneVertex.Hopper = new ControllableHeap(redZoneDesireController.GetRaw);
         redZoneVertex.SignalSource = redZoneDetector;
 
-        IRawProvider blueZoneDesireController = mainBus.Get<IRawProvider>(blueZoneDesireControllerKey);
         ISignalSource blueZoneDetector = mainBus.Get<ISignalSource>(blueZoneDetectorKey);
-
-        blueZoneVertex.Hopper = new ControllableHeap(blueZoneDesireController.GetRaw);
         blueZoneVertex.SignalSource = blueZoneDetector;
 
         allVertices = new List<Vertex>() { redZoneVertex, blueZoneVertex };
