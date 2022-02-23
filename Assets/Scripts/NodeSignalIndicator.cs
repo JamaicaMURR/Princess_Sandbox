@@ -38,7 +38,10 @@ public class NodeSignalIndicator : MainBusUser
         _node.OnRise += ChangeAtTrue;
         _node.OnFall += ChangeAtFalse;
 
-        _node.OnTick += CheckIntension;
+        _node.OnTaskIsSetted += CheckIntension;
+        _node.OnTaskIsFinished += CheckIntension;
+
+        CheckIntension();
     }
 
     void ChangeAtTrue() => _indicatorRenderer.sprite = indicatorSpriteOnTrue;

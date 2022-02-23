@@ -55,6 +55,8 @@ public class NetS1 : MainBusUser
 
         vertex.Connect(left, edgeMaker);
         vertex.Connect(right, edgeMaker);
+
+        vertex.Connect(vertex, edgeMaker);
     }
 
     private void Update()

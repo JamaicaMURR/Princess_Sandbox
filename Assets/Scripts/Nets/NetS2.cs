@@ -69,6 +69,9 @@ public class NetS2 : MainBusUser
 
         EdgeMaker edgeMaker = new HeavyEM();
 
+        vertex1.Connect(vertex1, edgeMaker);
+        vertex2.Connect(vertex2, edgeMaker);
+
         vertex1.Connect(left, edgeMaker);
         vertex1.Connect(right, edgeMaker);
         vertex1.Connect(vertex2, edgeMaker);
