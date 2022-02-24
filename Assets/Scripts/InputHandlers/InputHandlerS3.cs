@@ -46,24 +46,24 @@ public class InputHandlerS3 : MainBusUser
 
     public void MoveLeft()
     {
-        leftController.PushTask(forceStep);
-        rightController.PushTask(-forceStep);
+        leftController.InitiateTask(forceStep);
+        rightController.InitiateTask(-forceStep);
     }
     public void MoveRight()
     {
-        rightController.PushTask(forceStep);
-        leftController.PushTask(-forceStep);
+        rightController.InitiateTask(forceStep);
+        leftController.InitiateTask(-forceStep);
     }
     
     public void MoveUp()
     {
-        upController.PushTask(forceStep);
-        downController.PushTask(-forceStep);
+        upController.InitiateTask(forceStep);
+        downController.InitiateTask(-forceStep);
     }
     public void MoveDown()
     {
-        downController.PushTask(forceStep);
-        upController.PushTask(-forceStep);
+        downController.InitiateTask(forceStep);
+        upController.InitiateTask(-forceStep);
     }
     public void ResetLRUD()
     {
@@ -73,30 +73,30 @@ public class InputHandlerS3 : MainBusUser
     public void IncreaseRedZoneDesire()
     {
         _redZoneDesire += forceStep;
-        redZoneDesireController.PushTask(_redZoneDesire);
+        redZoneDesireController.InitiateTask(_redZoneDesire);
     }
     public void DecreaseRedZoneDesire()
     {
         _redZoneDesire -= forceStep;
-        redZoneDesireController.PushTask(_redZoneDesire);
+        redZoneDesireController.InitiateTask(_redZoneDesire);
     }
     public void IncreaseBlueZoneDesire()
     {
         _blueZoneDesire += forceStep;
-        blueZoneDesireController.PushTask(_blueZoneDesire);
+        blueZoneDesireController.InitiateTask(_blueZoneDesire);
     }
     public void DecreaseBlueZoneDesire()
     {
         _blueZoneDesire -= forceStep;
-        blueZoneDesireController.PushTask(_blueZoneDesire);
+        blueZoneDesireController.InitiateTask(_blueZoneDesire);
     }
 
     IEnumerator ResetAfterDelay()
     {
-        leftController.PushTask(-forceStep);
-        rightController.PushTask(-forceStep);
-        upController.PushTask(-forceStep);
-        downController.PushTask(-forceStep);
+        leftController.InitiateTask(-forceStep);
+        rightController.InitiateTask(-forceStep);
+        upController.InitiateTask(-forceStep);
+        downController.InitiateTask(-forceStep);
         yield return new WaitForSeconds(controlDelay);
         leftController.CancelTask();
         rightController.CancelTask();

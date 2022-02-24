@@ -34,13 +34,13 @@ public class InputHandlerS1 : MainBusUser
 
     public void MoveLeft()
     {
-        leftController.PushTask(forceStep);
-        rightController.PushTask(-forceStep);
+        leftController.InitiateTask(forceStep);
+        rightController.InitiateTask(-forceStep);
     }
     public void MoveRight()
     {
-        rightController.PushTask(forceStep);
-        leftController.PushTask(-forceStep);
+        rightController.InitiateTask(forceStep);
+        leftController.InitiateTask(-forceStep);
     }
     public void ResetLR()
     {
@@ -50,18 +50,18 @@ public class InputHandlerS1 : MainBusUser
     public void IncreaseRedZoneDesire()
     {
         redZoneDesire += forceStep;
-        redZoneDesireController.PushTask(redZoneDesire);
+        redZoneDesireController.InitiateTask(redZoneDesire);
     }
     public void DecreaseRedZoneDesire()
     {
         redZoneDesire -= forceStep;
-        redZoneDesireController.PushTask(redZoneDesire);
+        redZoneDesireController.InitiateTask(redZoneDesire);
     }
 
     IEnumerator ResetAfterDelay()
     {
-        leftController.PushTask(-forceStep);
-        rightController.PushTask(-forceStep);
+        leftController.InitiateTask(-forceStep);
+        rightController.InitiateTask(-forceStep);
         yield return new WaitForSeconds(controlDelay);
         leftController.CancelTask();
         rightController.CancelTask();
