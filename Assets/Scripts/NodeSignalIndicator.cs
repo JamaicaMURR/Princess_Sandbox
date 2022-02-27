@@ -2,38 +2,41 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Princess;
+using UnityEngine.UI;
 
 public class NodeSignalIndicator : MainBusUser
 {
-    SpriteRenderer _indicatorRenderer;
-    SpriteRenderer _upArrowRendrer;
-    SpriteRenderer _downArrowRenderer;
+    GameObject _signalIsTrueIndicator, _signalIsFalseIndicator, _taskIsTrueIndicator, _taskIsFalseIndicator;
 
     Node _node;
 
-    public string indicatorName = "Indicator";
-    public string upArrowName = "UpArrow";
-    public string downArrowName = "DownArrow";
+    public string signalIsTrueIndicatorName = "IndicatorTrue";
+    public string signalIsFalseIndicatorName = "IndicatorFalse";
+    public string taskIsTrueIndicatorName = "TaskIsTrueIndicator";
+    public string taskIsFalseIndicatorName = "TaskIsFalseIndicator";
+    public string headerTextName = "Header";
     public string nodeBusKey;
-
-    public Sprite indicatorSpriteOnTrue;
-    public Sprite indicatorSpriteOnFalse;
-    public Sprite upArrowIndication;
-    public Sprite downArrowIndication;
-
 
     private void Awake()
     {
         ConnectMainBus();
 
-        _indicatorRenderer = transform.Find(indicatorName).GetComponent<SpriteRenderer>();
-        _upArrowRendrer = transform.Find(upArrowName).GetComponent<SpriteRenderer>();
-        _downArrowRenderer = transform.Find(downArrowName).GetComponent<SpriteRenderer>();
+        _signalIsTrueIndicator = transform.Find(signalIsTrueIndicatorName).gameObject;
+        _signalIsFalseIndicator = transform.Find(signalIsFalseIndicatorName).gameObject;
+        _taskIsTrueIndicator = transform.Find(taskIsTrueIndicatorName).gameObject;
+        _taskIsFalseIndicator = transform.Find(taskIsFalseIndicatorName).gameObject;
+
+        transform.Find(headerTextName).GetComponent<Text>().text = nodeBusKey;
     }
 
     private void Start()
     {
         _node = mainBus.Get<Node>(nodeBusKey);
+
+        if(_node.Signal)
+            ChangeAtTrue();
+        else
+            ChangeAtFalse();
 
         _node.OnRise += ChangeAtTrue;
         _node.OnFall += ChangeAtFalse;
@@ -44,26 +47,34 @@ public class NodeSignalIndicator : MainBusUser
         CheckIntension();
     }
 
-    void ChangeAtTrue() => _indicatorRenderer.sprite = indicatorSpriteOnTrue;
-    void ChangeAtFalse() => _indicatorRenderer.sprite = indicatorSpriteOnFalse;
+    void ChangeAtTrue()
+    {
+        _signalIsTrueIndicator.SetActive(true);
+        _signalIsFalseIndicator.SetActive(false);
+    }
+    void ChangeAtFalse()
+    {
+        _signalIsTrueIndicator.SetActive(false);
+        _signalIsFalseIndicator.SetActive(true);
+    }
     void CheckIntension()
     {
         int intension = _node.Intension;
 
-        if(intension==Node.INTENSION_NEUTRAL)
+        if(intension == Node.INTENSION_NEUTRAL)
         {
-            _upArrowRendrer.sprite = null;
-            _downArrowRenderer.sprite = null;
+            _taskIsTrueIndicator.SetActive(false);
+            _taskIsFalseIndicator.SetActive(false);
         }
-        else if(intension==Node.INTENSION_RISE)
+        else if(intension == Node.INTENSION_RISE)
         {
-            _upArrowRendrer.sprite = upArrowIndication;
-            _downArrowRenderer.sprite = null;
+            _taskIsTrueIndicator.SetActive(true);
+            _taskIsFalseIndicator.SetActive(false);
         }
         else
         {
-            _downArrowRenderer.sprite = downArrowIndication;
-            _upArrowRendrer.sprite = null;
+            _taskIsTrueIndicator.SetActive(false);
+            _taskIsFalseIndicator.SetActive(true);
         }
 
     }

@@ -1,0 +1,827 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Princess</name>
+    </assembly>
+    <members>
+        <member name="T:Princess.Cannon">
+            <summary></summary>
+        </member>
+        <member name="F:Princess.Cannon.AttenuationFunction">
+            <summary></summary>
+        </member>
+        <member name="M:Princess.Cannon.#ctor">
+            <summary></summary>
+        </member>
+        <member name="M:Princess.Cannon.#ctor(System.Func{System.Single,System.Single})">
+            <summary></summary>
+            <param name="attenuationFunction"></param>
+        </member>
+        <member name="M:Princess.Cannon.CalculateStraightCall(System.Single,System.Boolean[],System.Single[],System.Single[])">
+            <summary></summary>
+            <param name="rawForce"></param>
+            <param name="punchcard"></param>
+            <param name="weightsReport"></param>
+            <param name="solution"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Princess.Cannon.CalculateInvertedCall(System.Single,System.Boolean[],System.Single[],System.Single[])">
+            <summary></summary>
+            <param name="rawForce"></param>
+            <param name="punchcard"></param>
+            <param name="weightsReport"></param>
+            <param name="solution"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Princess.Laser">
+            <summary></summary>
+        </member>
+        <member name="M:Princess.Laser.#ctor(System.Single)">
+            <summary></summary>
+            <param name="attenuationCoefficient"></param>
+        </member>
+        <member name="T:Princess.Mortar">
+            <summary></summary>
+        </member>
+        <member name="F:Princess.Mortar.DEFAULT_TAX">
+            <summary></summary>
+        </member>
+        <member name="M:Princess.Mortar.#ctor(System.Single)">
+            <summary></summary>
+            <param name="tax"></param>
+        </member>
+        <member name="T:Princess.Barrel">
+            <summary></summary>
+        </member>
+        <member name="P:Princess.Barrel.Item(System.Int32)">
+            <summary></summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Princess.Barrel.GetEnumerator">
+            <summary></summary>
+            <returns></returns>
+        </member>
+        <member name="P:Princess.Barrel.IsEmpty">
+            <summary></summary>
+        </member>
+        <member name="P:Princess.Barrel.Count">
+            <summary></summary>
+        </member>
+        <member name="E:Princess.Barrel.OnFull">
+            <summary></summary>
+        </member>
+        <member name="M:Princess.Barrel.#ctor(System.Int32)">
+            <summary></summary>
+            <param name="size"></param>
+        </member>
+        <member name="M:Princess.Barrel.Add(System.Boolean[])">
+            <summary></summary>
+            <param name="punchcard"></param>
+        </member>
+        <member name="M:Princess.Barrel.Wipe">
+            <summary></summary>
+        </member>
+        <member name="T:Princess.Meat">
+            <summary></summary>
+        </member>
+        <member name="M:Princess.Meat.#ctor(System.Func{System.Single,System.Single,System.Single})">
+            <summary></summary>
+            <param name="oblivionFunction"></param>
+        </member>
+        <member name="M:Princess.Meat.Pour(System.Single[],System.Single[],System.Single,System.Single)">
+            <summary></summary>
+            <param name="sand"></param>
+            <param name="sandbag"></param>
+            <param name="sandWeight"></param>
+            <param name="bagWeight"></param>
+        </member>
+        <member name="T:Princess.Fantas">
+            <summary></summary>
+        </member>
+        <member name="M:Princess.Fantas.#ctor">
+            <summary></summary>
+        </member>
+        <member name="T:Princess.Indicator">
+            <summary></summary>
+        </member>
+        <member name="E:Princess.Indicator.OnRiseTask">
+            <summary>
+            Invokes if conducted task objective is true
+            </summary>
+        </member>
+        <member name="E:Princess.Indicator.OnFallTask">
+            <summary>
+            Invokes if conducted task objective is false
+            </summary>
+        </member>
+        <member name="M:Princess.Indicator.#ctor(Princess.Node,Princess.IPourer)">
+            <summary></summary>
+            <param name="destination"></param>
+            <param name="pourer"></param>
+        </member>
+        <member name="M:Princess.Indicator.Conduct(Princess.Task)">
+            <summary></summary>
+            <param name="task"></param>
+        </member>
+        <member name="T:Princess.IndicatorHeavyEM">
+            <summary></summary>
+        </member>
+        <member name="M:Princess.IndicatorHeavyEM.Produce(Princess.Node)">
+            <summary></summary>
+            <param name="destination"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Princess.MeatEM">
+            <summary></summary>
+        </member>
+        <member name="M:Princess.MeatEM.#ctor(System.Func{System.Single,System.Single,System.Single})">
+            <summary></summary>
+            <param name="oblivionFunction"></param>
+        </member>
+        <member name="T:Princess.HeavyEM">
+            <summary></summary>
+        </member>
+        <member name="M:Princess.HeavyEM.#ctor">
+            <summary></summary>
+        </member>
+        <member name="T:Princess.ICaller">
+            <summary>
+            Calculates calls
+            </summary>
+        </member>
+        <member name="M:Princess.ICaller.CalculateStraightCall(System.Single,System.Boolean[],System.Single[],System.Single[])">
+            <summary></summary>
+            <param name="rawForce"></param>
+            <param name="punchcard"></param>
+            <param name="weightsReport"></param>
+            <param name="solution"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Princess.ICaller.CalculateInvertedCall(System.Single,System.Boolean[],System.Single[],System.Single[])">
+            <summary></summary>
+            <param name="rawForce"></param>
+            <param name="punchcard"></param>
+            <param name="weightsReport"></param>
+            <param name="solution"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Princess.IPourer">
+            <summary></summary>
+        </member>
+        <member name="M:Princess.IPourer.Pour(System.Single[],System.Single[],System.Single,System.Single)">
+            <summary></summary>
+            <param name="sand"></param>
+            <param name="sandbag"></param>
+            <param name="sandWeight"></param>
+            <param name="bagWeight"></param>
+        </member>
+        <member name="T:Princess.IRawProvider">
+            <summary></summary>
+        </member>
+        <member name="M:Princess.IRawProvider.GetRaw">
+            <summary>
+            Provides float value
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Princess.ISandman">
+            <summary></summary>
+        </member>
+        <member name="M:Princess.ISandman.MakeSand(System.Int32,System.Boolean,Princess.IMemory)">
+            <summary></summary>
+            <param name="index"></param>
+            <param name="state"></param>
+            <param name="storage"></param>
+            <returns>Returns null if storage is empty</returns>
+        </member>
+        <member name="T:Princess.IMemory">
+            <summary>
+            Accumulates punchcards
+            </summary>
+        </member>
+        <member name="P:Princess.IMemory.Item(System.Int32)">
+            <summary>
+            Indexer
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="E:Princess.IMemory.OnFull">
+            <summary></summary>
+        </member>
+        <member name="P:Princess.IMemory.IsEmpty">
+            <summary></summary>
+        </member>
+        <member name="P:Princess.IMemory.Count">
+            <summary>
+            Number of punchcards in memory
+            </summary>
+        </member>
+        <member name="M:Princess.IMemory.Add(System.Boolean[])">
+            <summary>
+            Adds punchcard to memory
+            </summary>
+            <param name="punchcard"></param>
+        </member>
+        <member name="M:Princess.IMemory.Wipe">
+            <summary></summary>
+        </member>
+        <member name="T:Princess.Dozer">
+            <summary></summary>
+        </member>
+        <member name="M:Princess.Dozer.Pour(System.Single[],System.Single[],System.Single,System.Single)">
+            <summary>
+            Pours sand into sandbag
+            </summary>
+            <param name="sand"></param>
+            <param name="sandbag"></param>
+            <param name="sandWeight"></param>
+            <param name="bagWeight"></param>
+        </member>
+        <member name="T:Princess.MonitoringToolkit.MonitoringExtensions">
+            <summary></summary>
+        </member>
+        <member name="M:Princess.MonitoringToolkit.MonitoringExtensions.GetInfo(System.Boolean[],System.Int32,System.Char,System.Char,System.String,System.String,System.String)">
+            <summary></summary>
+            <param name="punchcard"></param>
+            <param name="rowLength"></param>
+            <param name="trueChar"></param>
+            <param name="falseChar"></param>
+            <param name="firsPrefix"></param>
+            <param name="prefix"></param>
+            <param name="delimiter"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Princess.MonitoringToolkit.MonitoringExtensions.GetInfo(Princess.Node,System.Char,System.Char)">
+            <summary></summary>
+            <param name="node"></param>
+            <param name="trueChar"></param>
+            <param name="falseChar"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Princess.MonitoringToolkit.MonitoringExtensions.GetInfo(Princess.Vertex,System.Char,System.Char)">
+            <summary></summary>
+            <param name="vertex"></param>
+            <param name="trueChar"></param>
+            <param name="falseChar"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Princess.MonitoringToolkit.MonitoringExtensions.GetFullInfo(Princess.Vertex,System.Char,System.Char)">
+            <summary></summary>
+            <param name="vertex"></param>
+            <param name="trueChar"></param>
+            <param name="falseChar"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Princess.Node">
+            <summary>
+            Node of vertexnet
+            </summary>
+        </member>
+        <member name="F:Princess.Node.INTENSION_RISE">
+            <summary></summary>
+        </member>
+        <member name="F:Princess.Node.INTENSION_NEUTRAL">
+            <summary></summary>
+        </member>
+        <member name="F:Princess.Node.INTENSION_FALL">
+            <summary></summary>
+        </member>
+        <member name="P:Princess.Node.task">
+            <summary></summary>
+        </member>
+        <member name="P:Princess.Node.IsUnderTask">
+            <summary></summary>
+        </member>
+        <member name="P:Princess.Node.Weight">
+            <summary></summary>
+        </member>
+        <member name="P:Princess.Node.Intension">
+            <summary></summary>
+        </member>
+        <member name="P:Princess.Node.Signal">
+            <summary></summary>
+        </member>
+        <member name="E:Princess.Node.OnRise">
+            <summary></summary>
+        </member>
+        <member name="E:Princess.Node.OnFall">
+            <summary></summary>
+        </member>
+        <member name="E:Princess.Node.OnTaskIsSetted">
+            <summary></summary>
+        </member>
+        <member name="E:Princess.Node.OnTaskIsFinished">
+            <summary></summary>
+        </member>
+        <member name="E:Princess.Node.OnTick">
+            <summary></summary>
+        </member>
+        <member name="M:Princess.Node.Listen">
+            <summary>
+            Initial phase of working cycle
+            </summary>
+        </member>
+        <member name="M:Princess.Node.OnListen">
+            <summary></summary>
+        </member>
+        <member name="M:Princess.Node.Receive(Princess.Task)">
+            <summary></summary>
+        </member>
+        <member name="M:Princess.Node.OnTaskSet">
+            <summary></summary>
+        </member>
+        <member name="M:Princess.Node.OnTaskFinish">
+            <summary></summary>
+        </member>
+        <member name="T:Princess.Sink">
+            <summary>
+            Output node of vertexnet
+            </summary>
+        </member>
+        <member name="E:Princess.Sink.OnRise">
+            <summary></summary>
+        </member>
+        <member name="E:Princess.Sink.OnFall">
+            <summary></summary>
+        </member>
+        <member name="M:Princess.Sink.OnListen">
+            <summary></summary>
+        </member>
+        <member name="M:Princess.Sink.OnTaskSet">
+            <summary></summary>
+        </member>
+        <member name="M:Princess.Sink.OnTaskFinish">
+            <summary></summary>
+        </member>
+        <member name="T:Princess.Morpheus">
+            <summary></summary>
+        </member>
+        <member name="M:Princess.Morpheus.#ctor(System.Func{System.Single,System.Single})">
+            <summary></summary>
+            <param name="collectorResultHandler"></param>
+        </member>
+        <member name="M:Princess.Morpheus.MakeSand(System.Int32,System.Boolean,Princess.IMemory)">
+            <summary></summary>
+            <param name="index"></param>
+            <param name="state"></param>
+            <param name="memory"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Princess.Basis">
+            <summary></summary>
+        </member>
+        <member name="E:Princess.Basis.OnTaskInitiated">
+            <summary></summary>
+        </member>
+        <member name="P:Princess.Basis.ContinuousMode">
+            <summary></summary>
+        </member>
+        <member name="M:Princess.Basis.#ctor(Princess.Node)">
+            <summary></summary>
+            <param name="node"></param>
+        </member>
+        <member name="M:Princess.Basis.InitiateTask(System.Boolean,System.Single)">
+            <summary></summary>
+            <param name="incomingObjective"></param>
+            <param name="incomingWeight"></param>
+        </member>
+        <member name="M:Princess.Basis.CancelTask">
+            <summary></summary>
+        </member>
+        <member name="T:Princess.SandConstants">
+            <summary></summary>
+        </member>
+        <member name="F:Princess.SandConstants.T_BORDER">
+            <summary></summary>
+        </member>
+        <member name="F:Princess.SandConstants.N_POINT">
+            <summary></summary>
+        </member>
+        <member name="F:Princess.SandConstants.F_BORDER">
+            <summary></summary>
+        </member>
+        <member name="T:Princess.Plume">
+            <summary></summary>
+        </member>
+        <member name="P:Princess.Plume.Item(System.Int32)">
+            <summary></summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Princess.Plume.GetEnumerator">
+            <summary></summary>
+            <returns></returns>
+        </member>
+        <member name="E:Princess.Plume.OnFull">
+            <summary></summary>
+        </member>
+        <member name="P:Princess.Plume.IsEmpty">
+            <summary></summary>
+        </member>
+        <member name="P:Princess.Plume.Count">
+            <summary></summary>
+        </member>
+        <member name="M:Princess.Plume.#ctor(System.Int32)">
+            <summary></summary>
+            <param name="size"></param>
+        </member>
+        <member name="M:Princess.Plume.Add(System.Boolean[])">
+            <summary></summary>
+            <param name="punchcard"></param>
+        </member>
+        <member name="M:Princess.Plume.Wipe">
+            <summary></summary>
+        </member>
+        <member name="T:Princess.ConnectionToolkit.SensorMaker">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Princess.ConnectionToolkit.SensorMaker.MakeLadder(System.Func{System.Single},System.Int32,System.Single,System.Single,System.Boolean)">
+            <summary>
+            
+            </summary>
+            <param name="provider"></param>
+            <param name="segments"></param>
+            <param name="lockCalibration"></param>
+            <param name="min"></param>
+            <param name="max"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Princess.ConnectionToolkit.SensorMaker.MakeTimeLadder(Princess.Node,System.Int32,System.Int32,System.Func{System.Int32,System.Int32})">
+            <summary>
+            
+            </summary>
+            <param name="target"></param>
+            <param name="initialTicks"></param>
+            <param name="sensorsAmount"></param>
+            <param name="nextTicksPointCalculator"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Princess.Universal`1">
+            <summary></summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Princess.Universal`1.#ctor(System.Func{`0})">
+            <summary>
+            
+            </summary>
+            <param name="componentGetter"></param>
+        </member>
+        <member name="M:Princess.Universal`1.Dispense">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Princess.IDispenser`1">
+            <summary></summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Princess.IDispenser`1.Dispense">
+            <summary></summary>
+            <returns></returns>
+        </member>
+        <member name="T:Princess.EventType">
+            <summary></summary>
+        </member>
+        <member name="F:Princess.EventType.Rise">
+            <summary>
+            False --> true
+            </summary>
+        </member>
+        <member name="F:Princess.EventType.Fall">
+            <summary>
+            True --> false
+            </summary>
+        </member>
+        <member name="T:Princess.SandbagType">
+            <summary>
+            Type of sandbag
+            </summary>
+        </member>
+        <member name="F:Princess.SandbagType.RT">
+            <summary>
+            Rise-true
+            </summary>
+        </member>
+        <member name="F:Princess.SandbagType.RF">
+            <summary>
+            Rise-false
+            </summary>
+        </member>
+        <member name="F:Princess.SandbagType.FT">
+            <summary>
+            Fall-true
+            </summary>
+        </member>
+        <member name="F:Princess.SandbagType.FF">
+            <summary>
+            Fall-false
+            </summary>
+        </member>
+        <member name="T:Princess.Average">
+            <summary>
+            Calculates and store average value of all added values
+            </summary>
+        </member>
+        <member name="P:Princess.Average.Val">
+            <summary>
+            Resultive average value
+            </summary>
+        </member>
+        <member name="P:Princess.Average.Mass">
+            <summary>
+            Total mass of all added numbers
+            </summary>
+        </member>
+        <member name="M:Princess.Average.#ctor">
+            <summary></summary>
+        </member>
+        <member name="M:Princess.Average.Add(System.Single,System.Single)">
+            <summary>
+            Adds value
+            </summary>
+            <param name="newval"></param>
+            <param name="weight"></param>
+        </member>
+        <member name="M:Princess.Average.Add(Princess.Average)">
+            <summary>
+            Adds average value from other Average
+            </summary>
+            <param name="a"></param>
+        </member>
+        <member name="M:Princess.Average.Wipe">
+            <summary>
+            Wipes object
+            </summary>
+        </member>
+        <member name="M:Princess.Average.CalcAverage(System.Single,System.Single,System.Single,System.Single)">
+            <summary>
+            Calculates average of 2 values with specified weights
+            </summary>
+            <param name="value1"></param>
+            <param name="value2"></param>
+            <param name="weight1">Weight of value1</param>
+            <param name="weight2">Weight of value2</param>
+            <returns></returns>
+        </member>
+        <member name="T:Princess.Calibrator">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Princess.Calibrator.Min">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Princess.Calibrator.Max">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Princess.Calibrator.Gap">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Princess.Calibrator.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Princess.Calibrator.LockCalibration">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Princess.PointSensor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Princess.Timer">
+            <summary></summary>
+        </member>
+        <member name="P:Princess.Timer.Target">
+            <summary></summary>
+        </member>
+        <member name="M:Princess.Timer.#ctor(Princess.Node)">
+            <summary></summary>
+            <param name="target"></param>
+        </member>
+        <member name="P:Princess.Timer.Ticks">
+            <summary></summary>
+        </member>
+        <member name="T:Princess.SignalWrap">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Princess.SignalWrap.#ctor(System.Func{System.Boolean})">
+            <summary>
+            
+            </summary>
+            <param name="signalGetter"></param>
+        </member>
+        <member name="M:Princess.SignalWrap.GetSignal">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Princess.Tail`1">
+            <summary>
+            Indexed flow storage
+            </summary>
+            <typeparam name="T">Type of members</typeparam>
+        </member>
+        <member name="P:Princess.Tail`1.Item(System.Int32)">
+            <summary>
+            Indexer
+            </summary>
+            <param name="i"> Index </param>
+            <returns></returns>
+        </member>
+        <member name="P:Princess.Tail`1.Newest">
+            <summary>
+            Newest member
+            </summary>
+        </member>
+        <member name="P:Princess.Tail`1.Length">
+            <summary>
+            Full length of flow storage
+            </summary>
+        </member>
+        <member name="P:Princess.Tail`1.Count">
+            <summary>
+            Number of members in flow storage
+            </summary>
+        </member>
+        <member name="M:Princess.Tail`1.#ctor(System.Int32)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="length">Length of flow storage</param>
+        </member>
+        <member name="M:Princess.Tail`1.Add(`0[])">
+            <summary>
+            Adds new members to the flow storage
+            </summary>
+            <param name="members">Members</param>
+        </member>
+        <member name="M:Princess.Tail`1.Contains(`0)">
+            <summary>
+            Determines if the specified object is in the flow storage
+            </summary>
+            <param name="member">Member</param>
+            <returns></returns>
+        </member>
+        <member name="M:Princess.Tail`1.GetEnumerator">
+            <summary>
+            Provides enumerator
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Princess.Cortex">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Princess.Vertex">
+            <summary>
+            Main element of vertexnet
+            </summary>
+        </member>
+        <member name="P:Princess.Vertex.delegatedTask">
+            <summary></summary>
+        </member>
+        <member name="P:Princess.Vertex.VisionWidth">
+            <summary>
+            Number of edges to other nodes
+            </summary>
+        </member>
+        <member name="P:Princess.Vertex.RLearning">
+            <summary></summary>
+        </member>
+        <member name="P:Princess.Vertex.FLearning">
+            <summary></summary>
+        </member>
+        <member name="P:Princess.Vertex.Calling">
+            <summary></summary>
+        </member>
+        <member name="P:Princess.Vertex.Punchcard">
+            <summary></summary>
+        </member>
+        <member name="P:Princess.Vertex.WeightsReport">
+            <summary></summary>
+        </member>
+        <member name="P:Princess.Vertex.RiseSolution">
+            <summary></summary>
+        </member>
+        <member name="P:Princess.Vertex.FallSolution">
+            <summary></summary>
+        </member>
+        <member name="P:Princess.Vertex.SignalSource">
+            <summary>
+            Source of signal
+            </summary>
+        </member>
+        <member name="P:Princess.Vertex.Sandman">
+            <summary></summary>
+        </member>
+        <member name="P:Princess.Vertex.Caller">
+            <summary></summary>
+        </member>
+        <member name="P:Princess.Vertex.RMemory">
+            <summary></summary>
+        </member>
+        <member name="P:Princess.Vertex.FMemory">
+            <summary></summary>
+        </member>
+        <member name="P:Princess.Vertex.Edges">
+            <summary></summary>
+        </member>
+        <member name="E:Princess.Vertex.OnRise">
+            <summary>
+            Called when signal become true
+            </summary>
+        </member>
+        <member name="E:Princess.Vertex.OnFall">
+            <summary>
+            Called when signal become false
+            </summary>
+        </member>
+        <member name="M:Princess.Vertex.#ctor">
+            <summary>
+            Need SigmalSource and components: Activator, Hopper, Sandman, Caller, RMemory and FMemory
+            </summary>
+        </member>
+        <member name="M:Princess.Vertex.OnListen">
+            <summary></summary>
+        </member>
+        <member name="M:Princess.Vertex.Think">
+            <summary>
+            2nd phase of working cycle
+            </summary>
+        </member>
+        <member name="M:Princess.Vertex.Call">
+            <summary>
+            3rd phase of working cycle
+            </summary>
+        </member>
+        <member name="M:Princess.Vertex.Sleep">
+            <summary>
+            Makes sand from both memories and pours it into sandbags in edges
+            </summary>
+        </member>
+        <member name="M:Princess.Vertex.Sleep(Princess.EventType)">
+            <summary>
+            Makes sand from chosen memory and pours it into sandbags in edges
+            </summary>
+        </member>
+        <member name="M:Princess.Vertex.IsConnectedTo(Princess.Node)">
+            <summary></summary>
+            <param name="node"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Princess.Vertex.Connect(Princess.Node,Princess.EdgeMaker)">
+            <summary></summary>
+            <param name="node"></param>
+            <param name="edgeMaker"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Princess.Vertex.Disconnect(System.Int32)">
+            <summary></summary>
+            <param name="edgeIndex"></param>
+        </member>
+        <member name="M:Princess.Vertex.Disconnect(Princess.Node)">
+            <summary></summary>
+            <param name="node"></param>
+        </member>
+        <member name="M:Princess.Vertex.RefreshSignal">
+            <summary></summary>
+        </member>
+        <member name="M:Princess.Vertex.RefreshPunchcardOnly">
+            <summary></summary>
+        </member>
+        <member name="M:Princess.Vertex.RefreshAllCards">
+            <summary></summary>
+        </member>
+        <member name="M:Princess.Vertex.WipeEdges">
+            <summary></summary>
+        </member>
+        <member name="M:Princess.Vertex.WipeMemory">
+            <summary></summary>
+        </member>
+        <member name="M:Princess.Vertex.OnTaskSet">
+            <summary></summary>
+        </member>
+        <member name="M:Princess.Vertex.OnTaskFinish">
+            <summary></summary>
+        </member>
+    </members>
+</doc>

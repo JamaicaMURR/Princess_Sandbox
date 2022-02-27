@@ -7,13 +7,16 @@ using Princess.ConnectionToolkit;
 public class NetS1 : MainBusUser
 {
     public string redZoneDetectorKey = "rzd";
-    public string vertexKey = "vertex1";
-    public string nodeLeftKey = "nodeLeft";
-    public string nodeRightKey = "nodeRight";
+    public string vertexKey = "Is_On_RedZone";
+    public string nodeLeftKey = "Go_Left";
+    public string nodeRightKey = "Go_Right";
 
-    public string leftControllerKey = "lc";
-    public string rightControllerKey = "rc";
-    public string redZoneDesireControllerKey = "rzdc";
+    public string leftBasisKey = "Left";
+    public string rightBasisKey = "Right";
+    public string redZoneBasisKey = "Red zone basis";
+
+    public string leftEdgeKey = "el";
+    public string rightEdgeKey = "er";
 
     Sink left, right;
     Vertex vertex;
@@ -33,16 +36,26 @@ public class NetS1 : MainBusUser
             Caller = new Mortar()
         };
 
-        Basis leftController = new Basis(left);
-        Basis rightController = new Basis(right);
-        Basis redZoneDesireController = new Basis(vertex);
+        Basis leftBasis = new Basis(left);
+        Basis rightBasis = new Basis(right);
+        Basis redZoneBasis = new Basis(vertex);
 
-        mainBus.Add(leftController, leftControllerKey);
-        mainBus.Add(rightController, rightControllerKey);
-        mainBus.Add(redZoneDesireController, redZoneDesireControllerKey);
+        mainBus.Add(leftBasis, leftBasisKey);
+        mainBus.Add(rightBasis, rightBasisKey);
+        mainBus.Add(redZoneBasis, redZoneBasisKey);
         mainBus.Add(left, nodeLeftKey);
         mainBus.Add(right, nodeRightKey);
         mainBus.Add(vertex, vertexKey);
+
+        EdgeMaker edgeMaker = new HeavyEM();
+
+        Edge leftEdge = vertex.Connect(left, edgeMaker);
+        Edge rightEdge = vertex.Connect(right, edgeMaker);
+
+        vertex.Connect(vertex, edgeMaker);
+
+        mainBus.Add(leftEdge, leftEdgeKey);
+        mainBus.Add(rightEdge, rightEdgeKey);
     }
 
     private void Start()
@@ -50,13 +63,6 @@ public class NetS1 : MainBusUser
         ISignalSource redZoneDetector = mainBus.Get<ISignalSource>(redZoneDetectorKey);
 
         vertex.SignalSource = redZoneDetector;
-
-        EdgeMaker edgeMaker = new HeavyEM();
-
-        vertex.Connect(left, edgeMaker);
-        vertex.Connect(right, edgeMaker);
-
-        vertex.Connect(vertex, edgeMaker);
     }
 
     private void Update()

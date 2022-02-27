@@ -5,7 +5,7 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class CustomButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
+public class CustomLockableButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
 {
     Image _targetImage;
 
@@ -13,24 +13,15 @@ public class CustomButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     public Sprite highlitedSprite;
     public Sprite pressedSprite;
 
+    public CustomLockableButton[] counterButtons;
+
     public UnityEvent OnClick;
     public UnityEvent OnRelease;
 
     private void Awake()
     {
         _targetImage = GetComponent<Image>();
-    }
-
-    private void OnMouseDown()
-    {
-        _targetImage.sprite = pressedSprite;
-        OnClick?.Invoke();
-    }
-
-    private void OnMouseUp()
-    {
-        _targetImage.sprite = highlitedSprite;
-        OnRelease?.Invoke();
+        
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -47,11 +38,13 @@ public class CustomButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     {
         _targetImage.sprite = pressedSprite;
         OnClick?.Invoke();
+
+        foreach(CustomLockableButton button in counterButtons)
+            button.Release();
     }
 
-    public void OnPointerUp(PointerEventData eventData)
+    public void Release()
     {
-        _targetImage.sprite = highlitedSprite;
-        OnRelease?.Invoke();
+        _targetImage.sprite = defaultSprite;
     }
 }

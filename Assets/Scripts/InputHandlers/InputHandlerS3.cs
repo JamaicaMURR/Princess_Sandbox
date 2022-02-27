@@ -44,63 +44,63 @@ public class InputHandlerS3 : MainBusUser
         blueZoneDesireController = mainBus.Get<Basis>(blueZoneDesireControllerKey);
     }
 
-    public void MoveLeft()
-    {
-        leftController.InitiateTask(forceStep);
-        rightController.InitiateTask(-forceStep);
-    }
-    public void MoveRight()
-    {
-        rightController.InitiateTask(forceStep);
-        leftController.InitiateTask(-forceStep);
-    }
+    //public void MoveLeft()
+    //{
+    //    leftController.InitiateTask(forceStep);
+    //    rightController.InitiateTask(-forceStep);
+    //}
+    //public void MoveRight()
+    //{
+    //    rightController.InitiateTask(forceStep);
+    //    leftController.InitiateTask(-forceStep);
+    //}
     
-    public void MoveUp()
-    {
-        upController.InitiateTask(forceStep);
-        downController.InitiateTask(-forceStep);
-    }
-    public void MoveDown()
-    {
-        downController.InitiateTask(forceStep);
-        upController.InitiateTask(-forceStep);
-    }
-    public void ResetLRUD()
-    {
-        StartCoroutine(ResetAfterDelay());
-    }
+    //public void MoveUp()
+    //{
+    //    upController.InitiateTask(forceStep);
+    //    downController.InitiateTask(-forceStep);
+    //}
+    //public void MoveDown()
+    //{
+    //    downController.InitiateTask(forceStep);
+    //    upController.InitiateTask(-forceStep);
+    //}
+    //public void ResetLRUD()
+    //{
+    //    StartCoroutine(ResetAfterDelay());
+    //}
 
-    public void IncreaseRedZoneDesire()
-    {
-        _redZoneDesire += forceStep;
-        redZoneDesireController.InitiateTask(_redZoneDesire);
-    }
-    public void DecreaseRedZoneDesire()
-    {
-        _redZoneDesire -= forceStep;
-        redZoneDesireController.InitiateTask(_redZoneDesire);
-    }
-    public void IncreaseBlueZoneDesire()
-    {
-        _blueZoneDesire += forceStep;
-        blueZoneDesireController.InitiateTask(_blueZoneDesire);
-    }
-    public void DecreaseBlueZoneDesire()
-    {
-        _blueZoneDesire -= forceStep;
-        blueZoneDesireController.InitiateTask(_blueZoneDesire);
-    }
+    //public void IncreaseRedZoneDesire()
+    //{
+    //    _redZoneDesire += forceStep;
+    //    redZoneDesireController.InitiateTask(_redZoneDesire);
+    //}
+    //public void DecreaseRedZoneDesire()
+    //{
+    //    _redZoneDesire -= forceStep;
+    //    redZoneDesireController.InitiateTask(_redZoneDesire);
+    //}
+    //public void IncreaseBlueZoneDesire()
+    //{
+    //    _blueZoneDesire += forceStep;
+    //    blueZoneDesireController.InitiateTask(_blueZoneDesire);
+    //}
+    //public void DecreaseBlueZoneDesire()
+    //{
+    //    _blueZoneDesire -= forceStep;
+    //    blueZoneDesireController.InitiateTask(_blueZoneDesire);
+    //}
 
-    IEnumerator ResetAfterDelay()
-    {
-        leftController.InitiateTask(-forceStep);
-        rightController.InitiateTask(-forceStep);
-        upController.InitiateTask(-forceStep);
-        downController.InitiateTask(-forceStep);
-        yield return new WaitForSeconds(controlDelay);
-        leftController.CancelTask();
-        rightController.CancelTask();
-        upController.CancelTask();
-        downController.CancelTask();
-    }
+    //IEnumerator ResetAfterDelay()
+    //{
+    //    leftController.InitiateTask(-forceStep);
+    //    rightController.InitiateTask(-forceStep);
+    //    upController.InitiateTask(-forceStep);
+    //    downController.InitiateTask(-forceStep);
+    //    yield return new WaitForSeconds(controlDelay);
+    //    leftController.CancelTask();
+    //    rightController.CancelTask();
+    //    upController.CancelTask();
+    //    downController.CancelTask();
+    //}
 }
