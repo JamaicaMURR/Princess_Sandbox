@@ -11,8 +11,8 @@ public class DotMover : MainBusUser
 
     public string redZoneDetectorKey = "rzd";
     public string rightHalfDetectorKey = "rhd";
-    public string nodeLeftKey = "nodeLeft";
-    public string nodeRightKey = "nodeRight";
+    public string nodeLeftKey = "Left";
+    public string nodeRightKey = "Right";
 
     bool _isOnRedZone;
     bool _isOnRightHalf;

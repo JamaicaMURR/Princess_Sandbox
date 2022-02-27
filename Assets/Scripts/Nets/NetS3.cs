@@ -9,27 +9,27 @@ public class NetS3 : MainBusUser
     public string redZoneDetectorKey = "rzd";
     public string blueZoneDetectorKey = "bzd";
 
-    public string redZoneVertexKey = "rzv";
-    public string blueZoneVertexKey = "bzv";
+    public string redZoneVertexKey = "Is_On_RedZone";
+    public string blueZoneVertexKey = "Is_On_BlueZone";
 
-    public string[] verticalVerticesKeys = new string[] { "v1", "v2", "v3" };
-    public string[] horizontalVerticesKeys = new string[] { "h1", "h2", "h3" };
+    public string[] verticalVerticesKeys = new string[] { "y>-2", "y>0", "y>2" };
+    public string[] horizontalVerticesKeys = new string[] { "x>-2", "x>0", "x>2" };
 
-    public string nodeLeftKey = "nodeLeft";
-    public string nodeRightKey = "nodeRight";
-    public string nodeUpKey = "nodeUp";
-    public string nodeDownKey = "nodeDown";
+    public string nodeLeftKey = "Go_Left";
+    public string nodeRightKey = "Go_Right";
+    public string nodeUpKey = "Go_Up";
+    public string nodeDownKey = "Go_Down";
 
     public string dotXKey = "x";
     public string dotYKey = "y";
 
-    public string leftControllerKey = "lc";
-    public string rightControllerKey = "rc";
-    public string upControllerKey = "uc";
-    public string downControllerKey = "dc";
+    public string leftBasisKey = "Left";
+    public string rightBasisKey = "Right";
+    public string upBasisKey = "Up";
+    public string downBasisKey = "Down";
 
-    public string redZoneDesireControllerKey = "rzdc";
-    public string blueZoneDesireControllerKey = "bzdc";
+    public string redZoneBasisKey = "RedZone_Basis";
+    public string blueZoneBasisKey = "BlueZone_Basis";
 
     Sink left, right, up, down;
     Vertex redZoneVertex, blueZoneVertex;
@@ -54,19 +54,19 @@ public class NetS3 : MainBusUser
         redZoneVertex = GetRawVertex();
         blueZoneVertex = GetRawVertex();
 
-        Basis leftController = new Basis(left);
-        Basis rightController = new Basis(right);
-        Basis upController = new Basis(up);
-        Basis downController = new Basis(down);
-        Basis redZoneDesireController = new Basis(redZoneVertex);
-        Basis blueZoneDesireController = new Basis(blueZoneVertex);
+        Basis leftBasis = new Basis(left);
+        Basis rightBasis = new Basis(right);
+        Basis upBasis = new Basis(up);
+        Basis downBasis = new Basis(down);
+        Basis redZoneBasis = new Basis(redZoneVertex);
+        Basis blueZoneBasis = new Basis(blueZoneVertex);
 
-        mainBus.Add(leftController, leftControllerKey);
-        mainBus.Add(rightController, rightControllerKey);
-        mainBus.Add(upController, upControllerKey);
-        mainBus.Add(downController, downControllerKey);
-        mainBus.Add(redZoneDesireController, redZoneDesireControllerKey);
-        mainBus.Add(blueZoneDesireController, blueZoneDesireControllerKey);
+        mainBus.Add(leftBasis, leftBasisKey);
+        mainBus.Add(rightBasis, rightBasisKey);
+        mainBus.Add(upBasis, upBasisKey);
+        mainBus.Add(downBasis, downBasisKey);
+        mainBus.Add(redZoneBasis, redZoneBasisKey);
+        mainBus.Add(blueZoneBasis, blueZoneBasisKey);
 
         mainBus.Add(left, nodeLeftKey);
         mainBus.Add(right, nodeRightKey);

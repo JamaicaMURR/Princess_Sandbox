@@ -13,10 +13,10 @@ public class DotMoverS3 : MainBusUser
 
     public string redZoneDetectorKey = "rzd";
     public string blueZoneDetectorKey = "bzd";
-    public string nodeLeftKey = "nodeLeft";
-    public string nodeRightKey = "nodeRight";
-    public string nodeUpKey = "nodeUp";
-    public string nodeDownKey = "nodeDown";
+    public string nodeLeftKey = "Go_Left";
+    public string nodeRightKey = "Go_Right";
+    public string nodeUpKey = "Go_Up";
+    public string nodeDownKey = "Go_Down";
     public string dotXKey = "x";
     public string dotYKey = "y";
 

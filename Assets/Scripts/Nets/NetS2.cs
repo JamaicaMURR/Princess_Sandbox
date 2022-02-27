@@ -7,27 +7,18 @@ public class NetS2 : MainBusUser
 {
     public string redZoneDetectorKey = "rzd";
     public string rightHalfDetectorKey = "rhd";
-    public string vertex1Key = "vertex1";
-    public string vertex2Key = "vertex2";
-    public string nodeLeftKey = "nodeLeft";
-    public string nodeRightKey = "nodeRight";
+    public string redZoneVertexKey = "Is_On_RedZone";
+    public string rightHalfVertexKey = "Is_On_RightHalf";
+    public string nodeLeftKey = "Go_Left";
+    public string nodeRightKey = "Go_Right";
 
-    public string leftControllerKey = "lc";
-    public string rightControllerKey = "rc";
-    public string redZoneDesireControllerKey = "rzdc";
-    public string rightHalfDesireControllerKey = "rhdc";
-
-    public string v1leftKey = "v1l";
-    public string v1rightKey = "v1r";
-    public string v1v2Key = "v1v2";
-
-    public string v2leftKey = "v2l";
-    public string v2rightKey = "v2r";
-    public string v2v1Key = "v2v1";
-
+    public string leftBasisKey = "Left";
+    public string rightBasisKey = "Right";
+    public string redZoneBasisKey = "RedZone_Basis";
+    public string rightHalfBasisKey = "RightHalf_Basis";
 
     Sink left, right;
-    Vertex vertex1, vertex2;
+    Vertex redZoneVertex, rightHalfVertex;
 
     private void Awake()
     {
@@ -36,7 +27,7 @@ public class NetS2 : MainBusUser
         left = new Sink();
         right = new Sink();
 
-        vertex1 = new Vertex()
+        redZoneVertex = new Vertex()
         {
             RMemory = new Plume(10),
             FMemory = new Plume(10),
@@ -44,7 +35,7 @@ public class NetS2 : MainBusUser
             Caller = new Mortar()
         };
 
-        vertex2 = new Vertex()
+        rightHalfVertex = new Vertex()
         {
             RMemory = new Plume(10),
             FMemory = new Plume(10),
@@ -52,50 +43,42 @@ public class NetS2 : MainBusUser
             Caller = new Mortar()
         };
 
-        Basis leftController = new Basis(left);
-        Basis rightController = new Basis(right);
-        Basis redZoneDesireController = new Basis(vertex1);
-        Basis rightHalfDesireController = new Basis(vertex2);
+        Basis leftBasis = new Basis(left);
+        Basis rightBasis = new Basis(right);
+        Basis redZoneBasis = new Basis(redZoneVertex);
+        Basis rightHalfBasis = new Basis(rightHalfVertex);
 
-        mainBus.Add(leftController, leftControllerKey);
-        mainBus.Add(rightController, rightControllerKey);
-        mainBus.Add(redZoneDesireController, redZoneDesireControllerKey);
-        mainBus.Add(rightHalfDesireController, rightHalfDesireControllerKey);
+        mainBus.Add(leftBasis, leftBasisKey);
+        mainBus.Add(rightBasis, rightBasisKey);
+        mainBus.Add(redZoneBasis, redZoneBasisKey);
+        mainBus.Add(rightHalfBasis, rightHalfBasisKey);
 
         mainBus.Add(left, nodeLeftKey);
         mainBus.Add(right, nodeRightKey);
-        mainBus.Add(vertex1, vertex1Key);
-        mainBus.Add(vertex2, vertex2Key);
+        mainBus.Add(redZoneVertex, redZoneVertexKey);
+        mainBus.Add(rightHalfVertex, rightHalfVertexKey);
 
         EdgeMaker edgeMaker = new HeavyEM();
 
-        vertex1.Connect(vertex1, edgeMaker);
-        vertex2.Connect(vertex2, edgeMaker);
+        redZoneVertex.Connect(redZoneVertex, edgeMaker);
+        rightHalfVertex.Connect(rightHalfVertex, edgeMaker);
 
-        Edge v1left = vertex1.Connect(left, edgeMaker);
-        Edge v1right = vertex1.Connect(right, edgeMaker);
-        Edge v1v2 = vertex1.Connect(vertex2, edgeMaker);
+        redZoneVertex.Connect(left, edgeMaker);
+        redZoneVertex.Connect(right, edgeMaker);
+        redZoneVertex.Connect(rightHalfVertex, edgeMaker);
 
-        Edge v2left = vertex2.Connect(left, edgeMaker);
-        Edge v2right = vertex2.Connect(right, edgeMaker);
-        Edge v2v1 = vertex2.Connect(vertex1, edgeMaker);
-
-        mainBus.Add(v1left, v1leftKey);
-        mainBus.Add(v1right, v1rightKey);
-        mainBus.Add(v1v2, v1v2Key);
-
-        mainBus.Add(v2left, v2leftKey);
-        mainBus.Add(v2right, v2rightKey);
-        mainBus.Add(v2v1, v2v1Key);
+        rightHalfVertex.Connect(left, edgeMaker);
+        rightHalfVertex.Connect(right, edgeMaker);
+        rightHalfVertex.Connect(redZoneVertex, edgeMaker);
     }
 
     private void Start()
     {
         ISignalSource redZoneDetector = mainBus.Get<ISignalSource>(redZoneDetectorKey);
-        vertex1.SignalSource = redZoneDetector;
+        redZoneVertex.SignalSource = redZoneDetector;
 
         ISignalSource rightHalfDetector = mainBus.Get<ISignalSource>(rightHalfDetectorKey);
-        vertex2.SignalSource = rightHalfDetector;
+        rightHalfVertex.SignalSource = rightHalfDetector;
     }
 
     private void Update()
@@ -105,21 +88,21 @@ public class NetS2 : MainBusUser
 
     public void Sleep()
     {
-        vertex1.Sleep();
-        vertex2.Sleep();
+        redZoneVertex.Sleep();
+        rightHalfVertex.Sleep();
     }
 
     void Proceed()
     {
         left.Listen();
         right.Listen();
-        vertex1.Listen();
-        vertex2.Listen();
+        redZoneVertex.Listen();
+        rightHalfVertex.Listen();
 
-        vertex1.Think();
-        vertex2.Think();
+        redZoneVertex.Think();
+        rightHalfVertex.Think();
 
-        vertex1.Call();
-        vertex2.Call();
+        redZoneVertex.Call();
+        rightHalfVertex.Call();
     }
 }
