@@ -21,15 +21,9 @@ public class ButtonReleasable : MonoBehaviour, IPointerEnterHandler, IPointerExi
         _targetImage = GetComponent<Image>();
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        _targetImage.sprite = highlitedSprite;
-    }
-
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        _targetImage.sprite = defaultSprite;
-    }
+    public void OnPointerEnter(PointerEventData eventData)=>_targetImage.sprite = highlitedSprite;
+    
+    public void OnPointerExit(PointerEventData eventData) => _targetImage.sprite = defaultSprite;
 
     public void OnPointerDown(PointerEventData eventData)
     {
@@ -40,6 +34,13 @@ public class ButtonReleasable : MonoBehaviour, IPointerEnterHandler, IPointerExi
     public void OnPointerUp(PointerEventData eventData)
     {
         _targetImage.sprite = highlitedSprite;
+        OnRelease?.Invoke();
+    }
+
+    public void Press() => OnPointerDown(null);
+    public void Release()
+    {
+        _targetImage.sprite = defaultSprite;
         OnRelease?.Invoke();
     }
 }

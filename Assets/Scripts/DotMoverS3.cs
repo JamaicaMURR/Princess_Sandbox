@@ -5,7 +5,8 @@ using Princess;
 
 public class DotMoverS3 : MainBusUser
 {
-    public float speed = 4;
+    public float Speed { get; set; } = 2;
+
     public float leftBorder = -3.75f;
     public float rightBorder = 3.75f;
     public float upBorder = 3.75f;
@@ -76,6 +77,6 @@ public class DotMoverS3 : MainBusUser
         if(down.Signal && transform.position.y > downBorder)
             resultive += Vector2.down;
 
-        transform.Translate(resultive.normalized * speed * Time.deltaTime);
+        transform.Translate(resultive.normalized * Speed * Time.deltaTime);
     }
 }
