@@ -3,18 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using Princess;
 using UnityEngine.UI;
+using System;
 
 public class NodeSignalIndicator : MainBusUser
 {
     GameObject _signalIsTrueIndicator, _signalIsFalseIndicator, _taskIsTrueIndicator, _taskIsFalseIndicator;
-
     Node _node;
+    Text _weightText;
+
+    Action RefreshWeightText;
 
     public string signalIsTrueIndicatorName = "IndicatorTrue";
     public string signalIsFalseIndicatorName = "IndicatorFalse";
     public string taskIsTrueIndicatorName = "TaskIsTrueIndicator";
     public string taskIsFalseIndicatorName = "TaskIsFalseIndicator";
     public string headerTextName = "Header";
+    public string weightTextFieldName = "Weight";
     public string nodeBusKey;
 
     private void Awake()
@@ -27,6 +31,16 @@ public class NodeSignalIndicator : MainBusUser
         _taskIsFalseIndicator = transform.Find(taskIsFalseIndicatorName).gameObject;
 
         transform.Find(headerTextName).GetComponent<Text>().text = nodeBusKey;
+
+        Transform t = transform.Find(weightTextFieldName);
+
+        if(t != null)
+        {
+            _weightText = t.GetComponent<Text>();
+            RefreshWeightText = ActualRefreshWeightText;
+        }
+        else
+            RefreshWeightText = () => { };
     }
 
     private void Start()
@@ -77,5 +91,8 @@ public class NodeSignalIndicator : MainBusUser
             _taskIsFalseIndicator.SetActive(true);
         }
 
+        RefreshWeightText();
     }
+
+    void ActualRefreshWeightText() => _weightText.text = _node.Weight.ToString();
 }
