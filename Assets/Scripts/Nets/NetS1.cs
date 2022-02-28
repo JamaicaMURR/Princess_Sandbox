@@ -47,7 +47,7 @@ public class NetS1 : MainBusUser
         mainBus.Add(right, nodeRightKey);
         mainBus.Add(vertex, vertexKey);
 
-        EdgeMaker edgeMaker = new HeavyEM();
+        EdgeMaker<Edge> edgeMaker = new SinglePourerEdgeMaker<Edge, Dozer>();
 
         Edge leftEdge = vertex.Connect(left, edgeMaker);
         Edge rightEdge = vertex.Connect(right, edgeMaker);

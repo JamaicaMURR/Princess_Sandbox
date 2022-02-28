@@ -58,7 +58,7 @@ public class NetS2 : MainBusUser
         mainBus.Add(redZoneVertex, redZoneVertexKey);
         mainBus.Add(rightHalfVertex, rightHalfVertexKey);
 
-        EdgeMaker edgeMaker = new HeavyEM();
+        EdgeMaker<Edge> edgeMaker = new SinglePourerEdgeMaker<Edge, Dozer>();
 
         redZoneVertex.Connect(redZoneVertex, edgeMaker);
         rightHalfVertex.Connect(rightHalfVertex, edgeMaker);

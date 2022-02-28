@@ -94,5 +94,16 @@ public class NodeSignalIndicator : MainBusUser
         RefreshWeightText();
     }
 
-    void ActualRefreshWeightText() => _weightText.text = _node.Weight.ToString();
+    void ActualRefreshWeightText()
+    {
+        if(float.IsInfinity(_node.Weight))
+        {
+            if(float.IsNegativeInfinity(_node.Weight))
+                _weightText.text = "---";
+            else
+                _weightText.text = "+++";
+        }
+        else
+            _weightText.text = _node.Weight.ToString();
+    }
 }

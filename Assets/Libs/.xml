@@ -124,27 +124,6 @@
             <summary></summary>
             <param name="task"></param>
         </member>
-        <member name="T:Princess.IndicatorHeavyEM">
-            <summary></summary>
-        </member>
-        <member name="M:Princess.IndicatorHeavyEM.Produce(Princess.Node)">
-            <summary></summary>
-            <param name="destination"></param>
-            <returns></returns>
-        </member>
-        <member name="T:Princess.MeatEM">
-            <summary></summary>
-        </member>
-        <member name="M:Princess.MeatEM.#ctor(System.Func{System.Single,System.Single,System.Single})">
-            <summary></summary>
-            <param name="oblivionFunction"></param>
-        </member>
-        <member name="T:Princess.HeavyEM">
-            <summary></summary>
-        </member>
-        <member name="M:Princess.HeavyEM.#ctor">
-            <summary></summary>
-        </member>
         <member name="T:Princess.ICaller">
             <summary>
             Calculates calls
@@ -788,7 +767,7 @@
             <param name="node"></param>
             <returns></returns>
         </member>
-        <member name="M:Princess.Vertex.Connect(Princess.Node,Princess.EdgeMaker)">
+        <member name="M:Princess.Vertex.Connect``1(Princess.Node,Princess.EdgeMaker{``0})">
             <summary></summary>
             <param name="node"></param>
             <param name="edgeMaker"></param>

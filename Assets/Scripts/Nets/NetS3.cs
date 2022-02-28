@@ -31,6 +31,8 @@ public class NetS3 : MainBusUser
     public string redZoneBasisKey = "RedZone_Basis";
     public string blueZoneBasisKey = "BlueZone_Basis";
 
+    public string CallerKey = "Caller";
+
     Sink left, right, up, down;
     Vertex redZoneVertex, blueZoneVertex;
     Vertex[] verticals;
@@ -87,6 +89,8 @@ public class NetS3 : MainBusUser
             mainBus.Add(horizontals[i], horizontalVerticesKeys[i]);
         }
 
+        mainBus.Add(caller, CallerKey);
+
         Vertex GetRawVertex()
         {
             return new Vertex()
@@ -125,7 +129,7 @@ public class NetS3 : MainBusUser
             allVertices.Add(verticals[i]);
         }
 
-        EdgeMaker edgeMaker = new HeavyEM();
+        EdgeMaker<Edge> edgeMaker = new SinglePourerEdgeMaker<Edge, Dozer>();
 
         List<Vertex> connected = new List<Vertex>();
 
