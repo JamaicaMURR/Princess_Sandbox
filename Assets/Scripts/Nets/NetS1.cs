@@ -28,13 +28,7 @@ public class NetS1 : MainBusUser
         left = new Sink();
         right = new Sink();
 
-        vertex = new Vertex()
-        {
-            RMemory = new Plume(10),
-            FMemory = new Plume(10),
-            Sandman = new Morpheus(),
-            Caller = new Mortar()
-        };
+        vertex = new Vertex(new Plume(10), new Plume(10), new Morpheus(), new Mortar());
 
         Basis leftBasis = new Basis(left);
         Basis rightBasis = new Basis(right);

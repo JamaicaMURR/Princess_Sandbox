@@ -17,6 +17,8 @@ public class NetS2 : MainBusUser
     public string redZoneBasisKey = "RedZone_Basis";
     public string rightHalfBasisKey = "RightHalf_Basis";
 
+    public string callerKey = "Caller";
+
     Sink left, right;
     Vertex redZoneVertex, rightHalfVertex;
 
@@ -27,21 +29,13 @@ public class NetS2 : MainBusUser
         left = new Sink();
         right = new Sink();
 
-        redZoneVertex = new Vertex()
-        {
-            RMemory = new Plume(10),
-            FMemory = new Plume(10),
-            Sandman = new Morpheus(),
-            Caller = new Mortar()
-        };
+        ISandman sandman = new Morpheus();
+        ICaller caller = new Mortar();
 
-        rightHalfVertex = new Vertex()
-        {
-            RMemory = new Plume(10),
-            FMemory = new Plume(10),
-            Sandman = new Morpheus(),
-            Caller = new Mortar()
-        };
+        mainBus.Add(caller, callerKey);
+
+        redZoneVertex = GetVertex();
+        rightHalfVertex = GetVertex();
 
         Basis leftBasis = new Basis(left);
         Basis rightBasis = new Basis(right);
@@ -70,6 +64,8 @@ public class NetS2 : MainBusUser
         rightHalfVertex.Connect(left, edgeMaker);
         rightHalfVertex.Connect(right, edgeMaker);
         rightHalfVertex.Connect(redZoneVertex, edgeMaker);
+
+        Vertex GetVertex() => new Vertex(new Plume(10), new Plume(10), sandman, caller);
     }
 
     private void Start()

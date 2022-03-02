@@ -65,6 +65,9 @@
         <member name="P:Princess.Barrel.IsEmpty">
             <summary></summary>
         </member>
+        <member name="P:Princess.Barrel.IsFull">
+            <summary></summary>
+        </member>
         <member name="P:Princess.Barrel.Count">
             <summary></summary>
         </member>
@@ -115,14 +118,62 @@
             Invokes if conducted task objective is false
             </summary>
         </member>
+        <member name="M:Princess.Indicator.#ctor">
+            <summary>
+            Unsafe constructor. Destination and Pourer needed
+            </summary>
+        </member>
         <member name="M:Princess.Indicator.#ctor(Princess.Node,Princess.IPourer)">
-            <summary></summary>
+            <summary>
+            Safe public constructor
+            </summary>
             <param name="destination"></param>
             <param name="pourer"></param>
         </member>
         <member name="M:Princess.Indicator.Conduct(Princess.Task)">
-            <summary></summary>
+            <summary>
+            Conducts task to destination
+            </summary>
             <param name="task"></param>
+        </member>
+        <member name="T:Princess.EdgeMaker`1">
+            <summary>
+            Makes edges
+            </summary>
+            <typeparam name="T">Edge type</typeparam>
+        </member>
+        <member name="P:Princess.EdgeMaker`1.Dispenser">
+            <summary>
+            Dispenser of pourers
+            </summary>
+        </member>
+        <member name="M:Princess.EdgeMaker`1.#ctor">
+            <summary>
+            Dispenser needed
+            </summary>
+        </member>
+        <member name="M:Princess.EdgeMaker`1.#ctor(Princess.IDispenser{Princess.IPourer})">
+            <summary>
+            Safe public constructor
+            </summary>
+            <param name="pourerDispenser"></param>
+        </member>
+        <member name="M:Princess.EdgeMaker`1.Produce(Princess.Node)">
+            <summary>
+            Produces new edge
+            </summary>
+            <param name="destination"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Princess.SinglePourerEdgeMaker`2">
+            <summary>
+            Makes edges with single pourer
+            </summary>
+            <typeparam name="ET">Edge type</typeparam>
+            <typeparam name="PT">Pourer type</typeparam>
+        </member>
+        <member name="M:Princess.SinglePourerEdgeMaker`2.#ctor">
+            <summary></summary>
         </member>
         <member name="T:Princess.ICaller">
             <summary>
@@ -192,6 +243,9 @@
         <member name="P:Princess.IMemory.IsEmpty">
             <summary></summary>
         </member>
+        <member name="P:Princess.IMemory.IsFull">
+            <summary></summary>
+        </member>
         <member name="P:Princess.IMemory.Count">
             <summary>
             Number of punchcards in memory
@@ -258,28 +312,19 @@
             Node of vertexnet
             </summary>
         </member>
-        <member name="F:Princess.Node.INTENSION_RISE">
-            <summary></summary>
-        </member>
-        <member name="F:Princess.Node.INTENSION_NEUTRAL">
-            <summary></summary>
-        </member>
-        <member name="F:Princess.Node.INTENSION_FALL">
-            <summary></summary>
-        </member>
         <member name="P:Princess.Node.task">
             <summary></summary>
         </member>
-        <member name="P:Princess.Node.IsUnderTask">
+        <member name="P:Princess.Node.IsOnTask">
             <summary></summary>
         </member>
         <member name="P:Princess.Node.Weight">
             <summary></summary>
         </member>
-        <member name="P:Princess.Node.Intension">
+        <member name="P:Princess.Node.Signal">
             <summary></summary>
         </member>
-        <member name="P:Princess.Node.Signal">
+        <member name="P:Princess.Node.Intension">
             <summary></summary>
         </member>
         <member name="E:Princess.Node.OnRise">
@@ -295,6 +340,9 @@
             <summary></summary>
         </member>
         <member name="E:Princess.Node.OnTick">
+            <summary></summary>
+        </member>
+        <member name="M:Princess.Node.#ctor">
             <summary></summary>
         </member>
         <member name="M:Princess.Node.Listen">
@@ -399,6 +447,9 @@
         <member name="P:Princess.Plume.IsEmpty">
             <summary></summary>
         </member>
+        <member name="P:Princess.Plume.IsFull">
+            <summary></summary>
+        </member>
         <member name="P:Princess.Plume.Count">
             <summary></summary>
         </member>
@@ -444,15 +495,11 @@
             <typeparam name="T"></typeparam>
         </member>
         <member name="M:Princess.Universal`1.#ctor(System.Func{`0})">
-            <summary>
-            
-            </summary>
+            <summary></summary>
             <param name="componentGetter"></param>
         </member>
         <member name="M:Princess.Universal`1.Dispense">
-            <summary>
-            
-            </summary>
+            <summary></summary>
             <returns></returns>
         </member>
         <member name="T:Princess.IDispenser`1">
@@ -462,6 +509,74 @@
         <member name="M:Princess.IDispenser`1.Dispense">
             <summary></summary>
             <returns></returns>
+        </member>
+        <member name="T:Princess.Edge">
+            <summary></summary>
+        </member>
+        <member name="P:Princess.Edge.Destination">
+            <summary></summary>
+        </member>
+        <member name="P:Princess.Edge.Pourer">
+            <summary></summary>
+        </member>
+        <member name="M:Princess.Edge.#ctor">
+            <summary>
+            Unsafe constructor. Destination and Pourer needed
+            </summary>
+        </member>
+        <member name="M:Princess.Edge.#ctor(Princess.Node,Princess.IPourer)">
+            <summary>
+            Safe public constructor
+            </summary>
+            <param name="destination"></param>
+            <param name="pourer"></param>
+        </member>
+        <member name="M:Princess.Edge.Pour(System.Single[],System.Single,Princess.SandbagType)">
+            <summary>
+            Pours sand to chosen sandbag
+            </summary>
+            <param name="incomingSand"></param>
+            <param name="sandWeight"></param>
+            <param name="sandbagType"></param>
+        </member>
+        <member name="M:Princess.Edge.GetSandbag(Princess.SandbagType)">
+            <summary></summary>
+            <param name="sandbagType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Princess.Edge.SetSandBag(System.Single[],Princess.SandbagType)">
+            <summary></summary>
+            <param name="sandbag"></param>
+            <param name="sandbagType"></param>
+        </member>
+        <member name="M:Princess.Edge.GetBagWeight(Princess.SandbagType)">
+            <summary></summary>
+            <param name="sandbagType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Princess.Edge.SetBagWeight(System.Single,Princess.SandbagType)">
+            <summary></summary>
+            <param name="bagWeight"></param>
+            <param name="sandbagType"></param>
+        </member>
+        <member name="M:Princess.Edge.Conduct(Princess.Task)">
+            <summary>
+            Conducts task to destination
+            </summary>
+            <param name="task"></param>
+        </member>
+        <member name="M:Princess.Edge.CreateSandbags(System.Int32)">
+            <summary></summary>
+            <param name="size"></param>
+        </member>
+        <member name="M:Princess.Edge.ExtendSandbags">
+            <summary></summary>
+        </member>
+        <member name="M:Princess.Edge.ReduceSandbags(System.Int32)">
+            <summary>
+            Reduces sandbags size on specified index
+            </summary>
+            <param name="index"></param>
         </member>
         <member name="T:Princess.EventType">
             <summary></summary>
@@ -692,7 +807,13 @@
         <member name="P:Princess.Vertex.Calling">
             <summary></summary>
         </member>
-        <member name="P:Princess.Vertex.Punchcard">
+        <member name="P:Princess.Vertex.BlinkSleepMode">
+            <summary></summary>
+        </member>
+        <member name="P:Princess.Vertex.SignalPunchcard">
+            <summary></summary>
+        </member>
+        <member name="P:Princess.Vertex.IntensionPunchcard">
             <summary></summary>
         </member>
         <member name="P:Princess.Vertex.WeightsReport">
@@ -709,16 +830,16 @@
             Source of signal
             </summary>
         </member>
-        <member name="P:Princess.Vertex.Sandman">
-            <summary></summary>
-        </member>
-        <member name="P:Princess.Vertex.Caller">
-            <summary></summary>
-        </member>
         <member name="P:Princess.Vertex.RMemory">
             <summary></summary>
         </member>
         <member name="P:Princess.Vertex.FMemory">
+            <summary></summary>
+        </member>
+        <member name="P:Princess.Vertex.Sandman">
+            <summary></summary>
+        </member>
+        <member name="P:Princess.Vertex.Caller">
             <summary></summary>
         </member>
         <member name="P:Princess.Vertex.Edges">
@@ -734,7 +855,7 @@
             Called when signal become false
             </summary>
         </member>
-        <member name="M:Princess.Vertex.#ctor">
+        <member name="M:Princess.Vertex.#ctor(Princess.IMemory,Princess.IMemory,Princess.ISandman,Princess.ICaller)">
             <summary>
             Need SigmalSource and components: Activator, Hopper, Sandman, Caller, RMemory and FMemory
             </summary>

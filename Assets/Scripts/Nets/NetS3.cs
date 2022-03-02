@@ -91,16 +91,7 @@ public class NetS3 : MainBusUser
 
         mainBus.Add(caller, CallerKey);
 
-        Vertex GetRawVertex()
-        {
-            return new Vertex()
-            {
-                RMemory = new Plume(10),
-                FMemory = new Plume(10),
-                Sandman = morpheus,
-                Caller = caller
-            };
-        }
+        Vertex GetRawVertex() => new Vertex(new Plume(10), new Plume(10), morpheus, caller);
     }
 
     private void Start()

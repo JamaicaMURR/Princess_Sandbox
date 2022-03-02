@@ -73,22 +73,23 @@ public class NodeSignalIndicator : MainBusUser
     }
     void CheckIntension()
     {
-        int intension = _node.Intension;
-
-        if(intension == Node.INTENSION_NEUTRAL)
+        if(_node.IsOnTask)
         {
-            _taskIsTrueIndicator.SetActive(false);
-            _taskIsFalseIndicator.SetActive(false);
-        }
-        else if(intension == Node.INTENSION_RISE)
-        {
-            _taskIsTrueIndicator.SetActive(true);
-            _taskIsFalseIndicator.SetActive(false);
+            if(_node.Intension)
+            {
+                _taskIsTrueIndicator.SetActive(true);
+                _taskIsFalseIndicator.SetActive(false);
+            }
+            else
+            {
+                _taskIsTrueIndicator.SetActive(false);
+                _taskIsFalseIndicator.SetActive(true);
+            }
         }
         else
         {
             _taskIsTrueIndicator.SetActive(false);
-            _taskIsFalseIndicator.SetActive(true);
+            _taskIsFalseIndicator.SetActive(false);
         }
 
         RefreshWeightText();
