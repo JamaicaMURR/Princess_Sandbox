@@ -19,6 +19,7 @@ public class NodeSignalIndicator : MainBusUser
     public string taskIsFalseIndicatorName = "TaskIsFalseIndicator";
     public string headerTextName = "Header";
     public string weightTextFieldName = "Weight";
+    public string delegatedTaskIndicatorName = "DelegatedTaskIndicator";
     public string nodeBusKey;
 
     private void Awake()
@@ -51,6 +52,15 @@ public class NodeSignalIndicator : MainBusUser
             ChangeAtTrue();
         else
             ChangeAtFalse();
+
+        Transform t = transform.Find(delegatedTaskIndicatorName);
+
+        if(t != null && _node is Vertex)
+        {
+            // Capturing of local variable
+            (_node as Vertex).OnDelegatedTaskSet += () => t.gameObject.SetActive(true);
+            (_node as Vertex).OnDelegatedTaskFinish += () => t.gameObject.SetActive(false);
+        }
 
         _node.OnRise += ChangeAtTrue;
         _node.OnFall += ChangeAtFalse;

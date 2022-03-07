@@ -26,11 +26,12 @@ public class NetS2 : MainBusUser
     {
         ConnectMainBus();
 
-        left = new Sink();
-        right = new Sink();
+        left = new Sink(new Sun());
+        right = new Sink(new Sun());
 
         ISandman sandman = new Morpheus();
-        ICaller caller = new Mortar();
+        ICaller caller = new ControllableCannon();
+        IAttenuator attenuator = new Stairway();
 
         mainBus.Add(caller, callerKey);
 
@@ -52,7 +53,7 @@ public class NetS2 : MainBusUser
         mainBus.Add(redZoneVertex, redZoneVertexKey);
         mainBus.Add(rightHalfVertex, rightHalfVertexKey);
 
-        EdgeMaker<Edge> edgeMaker = new SinglePourerEdgeMaker<Edge, Dozer>();
+        EdgeMaker<Edge> edgeMaker = new SinglePourerEdgeMaker<Edge, Absolute>();
 
         redZoneVertex.Connect(redZoneVertex, edgeMaker);
         rightHalfVertex.Connect(rightHalfVertex, edgeMaker);
@@ -65,7 +66,7 @@ public class NetS2 : MainBusUser
         rightHalfVertex.Connect(right, edgeMaker);
         rightHalfVertex.Connect(redZoneVertex, edgeMaker);
 
-        Vertex GetVertex() => new Vertex(new Plume(10), new Plume(10), sandman, caller);
+        Vertex GetVertex() => new Vertex(new Plume(10), new Plume(10), sandman, caller, attenuator, new Sun());
     }
 
     private void Start()

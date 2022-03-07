@@ -45,13 +45,14 @@ public class NetS3 : MainBusUser
     {
         ConnectMainBus();
 
-        left = new Sink();
-        right = new Sink();
-        up = new Sink();
-        down = new Sink();
+        ISandman morpheus = new Morpheus();
+        ICaller caller = new ControllableCannon();
+        IAttenuator attenuator = new Stairway();
 
-        Morpheus morpheus = new Morpheus();
-        ICaller caller = new Mortar();
+        left = new Sink(new Sun());
+        right = new Sink(new Sun());
+        up = new Sink(new Sun());
+        down = new Sink(new Sun());
 
         redZoneVertex = GetRawVertex();
         blueZoneVertex = GetRawVertex();
@@ -91,7 +92,7 @@ public class NetS3 : MainBusUser
 
         mainBus.Add(caller, CallerKey);
 
-        Vertex GetRawVertex() => new Vertex(new Plume(10), new Plume(10), morpheus, caller);
+        Vertex GetRawVertex() => new Vertex(new Plume(1), new Plume(1), morpheus, caller, attenuator, new Sun()) { BlinkSleepMode = true };
     }
 
     private void Start()
@@ -122,22 +123,22 @@ public class NetS3 : MainBusUser
 
         EdgeMaker<Edge> edgeMaker = new SinglePourerEdgeMaker<Edge, Dozer>();
 
-        List<Vertex> connected = new List<Vertex>();
-
         // Makes Paragon vertexnet
         for(int i = 0; i < allVertices.Count; i++)
         {
-            for(int j = 0; j < connected.Count; j++)
-            {
-                allVertices[i].Connect(connected[j], edgeMaker);
-                connected[j].Connect(allVertices[i], edgeMaker);
-            }
+            for(int j = 0; j < allVertices.Count; j++)
+                allVertices[i].Connect(allVertices[j], edgeMaker);
 
-            connected.Add(allVertices[i]);
-
-            for(int j = 0; j < allNodes.Count; j++)
-                allVertices[i].Connect(allNodes[j], edgeMaker);
+            for(int k = 0; k < allNodes.Count; k++)
+                allVertices[i].Connect(allNodes[k], edgeMaker);
         }
+
+        int edgesTotal = default;
+
+        foreach(Vertex v in allVertices)
+            edgesTotal += v.Edges.Length;
+
+        Debug.Log($"Edges total: {edgesTotal}");
     }
 
     private void Update()

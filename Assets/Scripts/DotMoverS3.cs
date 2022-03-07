@@ -5,7 +5,7 @@ using Princess;
 
 public class DotMoverS3 : MainBusUser
 {
-    public float Speed { get; set; } = 2;
+    public float Speed { get; set; } = 4;
 
     public float leftBorder = -3.75f;
     public float rightBorder = 3.75f;

@@ -25,10 +25,10 @@ public class NetS1 : MainBusUser
     {
         ConnectMainBus();
 
-        left = new Sink();
-        right = new Sink();
+        left = new Sink(new Sun());
+        right = new Sink(new Sun());
 
-        vertex = new Vertex(new Plume(10), new Plume(10), new Morpheus(), new Mortar());
+        vertex = new Vertex(new Plume(10), new Plume(10), new Morpheus(), new ControllableCannon(), new Stairway(), new Sun());
 
         Basis leftBasis = new Basis(left);
         Basis rightBasis = new Basis(right);
