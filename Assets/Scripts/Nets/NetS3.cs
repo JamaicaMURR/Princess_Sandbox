@@ -46,7 +46,7 @@ public class NetS3 : MainBusUser
         ConnectMainBus();
 
         ISandman morpheus = new Morpheus();
-        ICaller caller = new ControllableCannon();
+        ICaller caller = new ControllableCaller<Cannon>();
         IAttenuator attenuator = new Stairway();
 
         left = new Sink(new Sun());

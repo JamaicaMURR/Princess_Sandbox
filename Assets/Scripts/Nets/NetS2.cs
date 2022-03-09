@@ -30,7 +30,7 @@ public class NetS2 : MainBusUser
         right = new Sink(new Sun());
 
         ISandman sandman = new Morpheus();
-        ICaller caller = new ControllableCannon();
+        ICaller caller = new ControllableCaller<Cannon>();
         IAttenuator attenuator = new Stairway();
 
         mainBus.Add(caller, callerKey);

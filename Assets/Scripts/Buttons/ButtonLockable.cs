@@ -6,7 +6,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ButtonLockable : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
+public class ButtonLockable : AdvancedButton, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
 {
     Image _targetImage;
 
@@ -53,7 +53,9 @@ public class ButtonLockable : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerDown(PointerEventData eventData) => DoOnPointerDown();
 
-    public void Release()
+    public override void Press() => OnPointerDown(null);
+
+    public override void Release()
     {
         SwitchToDefaultSprite();
         

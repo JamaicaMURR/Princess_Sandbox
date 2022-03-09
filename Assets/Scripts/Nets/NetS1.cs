@@ -28,7 +28,7 @@ public class NetS1 : MainBusUser
         left = new Sink(new Sun());
         right = new Sink(new Sun());
 
-        vertex = new Vertex(new Plume(10), new Plume(10), new Morpheus(), new ControllableCannon(), new Stairway(), new Sun());
+        vertex = new Vertex(new Plume(10), new Plume(10), new Morpheus(), new ControllableCaller<Cannon>(), new Stairway(), new Sun());
 
         Basis leftBasis = new Basis(left);
         Basis rightBasis = new Basis(right);

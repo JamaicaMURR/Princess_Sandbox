@@ -17,19 +17,15 @@
         <member name="T:Princess.Cannon">
             <summary></summary>
         </member>
-        <member name="M:Princess.Cannon.StraightCall(System.Single,System.Single[],System.Single[],System.Single[])">
+        <member name="M:Princess.Cannon.CalcStraightCall(System.Single[],System.Single[])">
             <summary></summary>
-            <param name="weight"></param>
             <param name="heatCard"></param>
-            <param name="weightCard"></param>
             <param name="solution"></param>
-            <returns></returns>
+            <returns>null if Call is not calculated</returns>
         </member>
-        <member name="M:Princess.Cannon.InvertedCall(System.Single,System.Single[],System.Single[],System.Single[])">
+        <member name="M:Princess.Cannon.CalcInvertedCall(System.Single[],System.Single[])">
             <summary></summary>
-            <param name="weight"></param>
             <param name="heatCard"></param>
-            <param name="weightCard"></param>
             <param name="solution"></param>
             <returns></returns>
         </member>
@@ -203,6 +199,18 @@
             <summary>
             Calculates calls
             </summary>
+        </member>
+        <member name="M:Princess.ICaller.CalcStraightCall(System.Single[],System.Single[])">
+            <summary></summary>
+            <param name="heatCard"></param>
+            <param name="solution"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Princess.ICaller.CalcInvertedCall(System.Single[],System.Single[])">
+            <summary></summary>
+            <param name="heatCard"></param>
+            <param name="solution"></param>
+            <returns></returns>
         </member>
         <member name="T:Princess.IHeater">
             <summary></summary>
@@ -876,9 +884,18 @@
             Called when signal become false
             </summary>
         </member>
+        <member name="E:Princess.Vertex.OnDelegatedTaskSet">
+            <summary></summary>
+        </member>
+        <member name="E:Princess.Vertex.OnDelegatedTaskFinish">
+            <summary></summary>
+        </member>
+        <member name="E:Princess.Vertex.OnCallNotFound">
+            <summary></summary>
+        </member>
         <member name="M:Princess.Vertex.#ctor(Princess.IMemory,Princess.IMemory,Princess.ISandman,Princess.ICaller,Princess.IAttenuator,Princess.IHeater)">
             <summary>
-            Need SigmalSource and components: Activator, Hopper, Sandman, Caller, RMemory and FMemory
+            Need SignalSource and components: Activator, Hopper, Sandman, Caller, RMemory and FMemory
             </summary>
         </member>
         <member name="M:Princess.Vertex.OnListen">

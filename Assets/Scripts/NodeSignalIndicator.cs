@@ -20,6 +20,8 @@ public class NodeSignalIndicator : MainBusUser
     public string headerTextName = "Header";
     public string weightTextFieldName = "Weight";
     public string delegatedTaskIndicatorName = "DelegatedTaskIndicator";
+    public string taskFinishIndicatorName = "TaskFinishIndicator";
+    public string callNotFoundIndicatorName = "TaskNotFoundIndicator";
     public string nodeBusKey;
 
     private void Awake()
@@ -53,13 +55,36 @@ public class NodeSignalIndicator : MainBusUser
         else
             ChangeAtFalse();
 
-        Transform t = transform.Find(delegatedTaskIndicatorName);
-
-        if(t != null && _node is Vertex)
+        if(_node is Vertex)
         {
-            // Capturing of local variable
-            (_node as Vertex).OnDelegatedTaskSet += () => t.gameObject.SetActive(true);
-            (_node as Vertex).OnDelegatedTaskFinish += () => t.gameObject.SetActive(false);
+            Vertex vertex = _node as Vertex;
+
+            Transform dti = transform.Find(delegatedTaskIndicatorName);
+            Transform tfi = transform.Find(taskFinishIndicatorName);
+            Transform cnfi = transform.Find(callNotFoundIndicatorName);
+
+            if(dti != null)
+            {
+                // Capturing of local variable
+                vertex.OnDelegatedTaskSet += () => dti.gameObject.SetActive(true);
+                vertex.OnDelegatedTaskFinish += () => dti.gameObject.SetActive(false);
+            }
+
+            if(tfi != null)
+            {
+                vertex.OnDelegatedTaskSet += () => tfi.gameObject.SetActive(false);
+                vertex.OnCallNotFound += () => tfi.gameObject.SetActive(false);
+                vertex.OnTaskIsFinished += () => tfi.gameObject.SetActive(false);
+                vertex.OnDelegatedTaskFinish += () => tfi.gameObject.SetActive(true);
+            }
+
+            if(cnfi != null)
+            {
+                vertex.OnDelegatedTaskSet += () => cnfi.gameObject.SetActive(false);
+                vertex.OnTaskIsFinished += () => cnfi.gameObject.SetActive(false);
+                vertex.OnCallNotFound += () => cnfi.gameObject.SetActive(true);
+            }
+
         }
 
         _node.OnRise += ChangeAtTrue;

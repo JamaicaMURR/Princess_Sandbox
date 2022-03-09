@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CallerController : MainBusUser
 {
-    ControllableCannon _caller;
+    ControllableCaller<Cannon> _caller;
     Switcher _switcherStraight, _switcherInverted;
 
     public string callerBusKey = "Caller";
@@ -19,7 +19,7 @@ public class CallerController : MainBusUser
 
     private void Start()
     {
-        _caller = mainBus.Get<ControllableCannon>(callerBusKey);
+        _caller = mainBus.Get<ControllableCaller<Cannon>>(callerBusKey);
         _switcherStraight = transform.Find(switcherStraightName).GetComponent<Switcher>();
         _switcherInverted = transform.Find(switcherInvertedName).GetComponent<Switcher>();
 

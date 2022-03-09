@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
 
-public class ButtonReleasable : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
+public class ButtonReleasable : AdvancedButton, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
 {
     Image _targetImage;
 
@@ -17,6 +17,8 @@ public class ButtonReleasable : MonoBehaviour, IPointerEnterHandler, IPointerExi
     public Sprite defaultSprite;
     public Sprite highlitedSprite;
     public Sprite pressedSprite;
+
+    public AdvancedButton[] doublers;
 
     public UnityEvent OnClick;
     public UnityEvent OnRelease;
@@ -32,12 +34,20 @@ public class ButtonReleasable : MonoBehaviour, IPointerEnterHandler, IPointerExi
     public void OnPointerEnter(PointerEventData eventData)
     {
         SwitchOnPointerEnter();
+
+        foreach(AdvancedButton button in doublers)
+            if(button is IPointerEnterHandler)
+                (button as IPointerEnterHandler).OnPointerEnter(null);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         SwitchOnPointerExit();
         SwithOnPointerUp = () => _targetImage.sprite = defaultSprite;
+
+        foreach(AdvancedButton button in doublers)
+            if(button is IPointerExitHandler)
+                (button as IPointerExitHandler).OnPointerExit(null);
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -46,6 +56,10 @@ public class ButtonReleasable : MonoBehaviour, IPointerEnterHandler, IPointerExi
         SwitchOnPointerEnter = () => { };
         SwitchOnPointerExit = () => { };
         OnClick?.Invoke();
+
+        foreach(AdvancedButton button in doublers)
+            if(button is IPointerDownHandler)
+                (button as IPointerDownHandler).OnPointerDown(null);
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -54,8 +68,12 @@ public class ButtonReleasable : MonoBehaviour, IPointerEnterHandler, IPointerExi
         SwitchOnPointerEnter = () => _targetImage.sprite = highlitedSprite;
         SwitchOnPointerExit = () => _targetImage.sprite = defaultSprite;
         OnRelease?.Invoke();
+
+        foreach(AdvancedButton button in doublers)
+            if(button is IPointerUpHandler)
+                (button as IPointerUpHandler).OnPointerUp(null);
     }
 
-    public void Press() => OnPointerDown(null);
-    public void Release() => OnPointerUp(null);
+    public override void Press() => OnPointerDown(null);
+    public override void Release() => OnPointerUp(null);
 }
