@@ -8,5 +8,5 @@ public class MainBusUser : MonoBehaviour
 
     public string mainBusHolderName = "MainBus";
 
-    protected void ConnectMainBus() => mainBus = GameObject.Find(mainBusHolderName).GetComponent<MainBus>();
+    protected virtual void ConnectMainBus() => mainBus = GameObject.Find(mainBusHolderName).GetComponent<MainBus>();
 }

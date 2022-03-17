@@ -3,77 +3,63 @@ using System.Collections.Generic;
 using UnityEngine;
 using Princess;
 using Princess.ConnectionToolkit;
+using System;
 
-public class NetS1 : MainBusUser
+public class NetS1 : Net
 {
-    public string redZoneDetectorKey = "rzd";
-    public string vertexKey = "Is_On_RedZone";
-    public string nodeLeftKey = "Go_Left";
-    public string nodeRightKey = "Go_Right";
+    Sink _left, _right;
+    Vertex _vertex;
+    Exponential _cooler;
 
-    public string leftBasisKey = "Left";
-    public string rightBasisKey = "Right";
-    public string redZoneBasisKey = "Red zone basis";
+    float _coolingMultiplier = ControlledExponentialCoolersDispenser.DEFAULT_MULTIPLIER;
 
-    public string leftEdgeKey = "el";
-    public string rightEdgeKey = "er";
+    public string redZoneDetectorKey = "Is_On_RedZone";
 
-    Sink left, right;
-    Vertex vertex;
+    public string vertexKey = "Vertex_RedZone";
+    public string leftSinkKey = "Go_Left";
+    public string rightSinkKey = "Go_Right";
+
+    public string leftBasisKey = "Left_Basis";
+    public string rightBasisKey = "Right_Basis";
+    public string redZoneBasisKey = "RedZone_Basis";
+
+    public float CoolingMultiplier 
+    { 
+        get => _coolingMultiplier; 
+        set
+        {
+            try
+            {
+                _cooler.Multiplier = value;
+            }
+            catch(Exception e)
+            {
+                Debug.Log(e.Message);
+            }
+        }
+    }
 
     private void Awake()
     {
-        ConnectMainBus();
+        InitiateNet(netName: "S1");
 
-        left = new Sink(new Sun());
-        right = new Sink(new Sun());
+        _left = SpawnSink(leftSinkKey, true);
+        _right = SpawnSink(rightSinkKey, true);
 
-        vertex = new Vertex(new Plume(10), new Plume(10), new Morpheus(), new ControllableCaller<Cannon>(), new Stairway(), new Sun());
+        _vertex = SpawnVertex(vertexKey, true);
 
-        Basis leftBasis = new Basis(left);
-        Basis rightBasis = new Basis(right);
-        Basis redZoneBasis = new Basis(vertex);
-
-        mainBus.Add(leftBasis, leftBasisKey);
-        mainBus.Add(rightBasis, rightBasisKey);
-        mainBus.Add(redZoneBasis, redZoneBasisKey);
-        mainBus.Add(left, nodeLeftKey);
-        mainBus.Add(right, nodeRightKey);
-        mainBus.Add(vertex, vertexKey);
-
-        EdgeMaker<Edge> edgeMaker = new SinglePourerEdgeMaker<Edge, Dozer>();
-
-        Edge leftEdge = vertex.Connect(left, edgeMaker);
-        Edge rightEdge = vertex.Connect(right, edgeMaker);
-
-        vertex.Connect(vertex, edgeMaker);
-
-        mainBus.Add(leftEdge, leftEdgeKey);
-        mainBus.Add(rightEdge, rightEdgeKey);
+        // Assembling
+        AssembleParagon();
     }
 
     private void Start()
     {
-        ISignalSource redZoneDetector = mainBus.Get<ISignalSource>(redZoneDetectorKey);
-
-        vertex.SignalSource = redZoneDetector;
+        _vertex.SignalSource = mainBus.Get<ISignalSource>(redZoneDetectorKey);
+        _cooler = mainBus.Get<Exponential>("S1_Cooler");
     }
 
     private void Update()
     {
         Proceed();
-    }
-
-    public void Sleep() => vertex.Sleep();
-
-    void Proceed()
-    {
-        left.Listen();
-        right.Listen();
-        vertex.Listen();
-
-        vertex.Think();
-
-        vertex.Call();
     }
 }

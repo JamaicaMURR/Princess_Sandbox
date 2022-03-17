@@ -2,104 +2,76 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Princess;
+using System;
 
-public class NetS2 : MainBusUser
+public class NetS2 : Net
 {
-    public string redZoneDetectorKey = "rzd";
-    public string rightHalfDetectorKey = "rhd";
-    public string redZoneVertexKey = "Is_On_RedZone";
-    public string rightHalfVertexKey = "Is_On_RightHalf";
-    public string nodeLeftKey = "Go_Left";
-    public string nodeRightKey = "Go_Right";
+    Sink _left, _right;
+    Vertex _redZoneVertex, _rightHalfVertex;
+    Exponential _cooler;
 
-    public string leftBasisKey = "Left";
-    public string rightBasisKey = "Right";
+    float _coolingMultiplier = ControlledExponentialCoolersDispenser.DEFAULT_MULTIPLIER;
+
+    public string redZoneDetectorKey = "Is_On_RedZone";
+    public string rightHalfDetectorKey = "Is_On_RightHalf";
+    public string redZoneVertexKey = "Vertex_RedZone";
+    public string rightHalfVertexKey = "Vertex_RightHalf";
+    public string leftSinkKey = "Go_Left";
+    public string rightSinkKey = "Go_Right";
+
+    public string leftBasisKey = "Left_Basis";
+    public string rightBasisKey = "Right_Basis";
     public string redZoneBasisKey = "RedZone_Basis";
     public string rightHalfBasisKey = "RightHalf_Basis";
 
-    public string callerKey = "Caller";
-
-    Sink left, right;
-    Vertex redZoneVertex, rightHalfVertex;
+    public float CoolingMultiplier
+    {
+        get => _coolingMultiplier;
+        set
+        {
+            try
+            {
+                _cooler.Multiplier = value;
+            }
+            catch(Exception e)
+            {
+                Debug.Log(e.Message);
+            }
+        }
+    }
 
     private void Awake()
     {
-        ConnectMainBus();
+        InitiateNet(netName: "S2");
 
-        left = new Sink(new Sun());
-        right = new Sink(new Sun());
+        _left = SpawnSink(leftSinkKey);
+        _right = SpawnSink(rightSinkKey);
 
-        ISandman sandman = new Morpheus();
-        ICaller caller = new ControllableCaller<Cannon>();
-        IAttenuator attenuator = new Stairway();
+        _redZoneVertex = SpawnVertex(redZoneVertexKey);
+        _rightHalfVertex = SpawnVertex(rightHalfVertexKey);
 
-        mainBus.Add(caller, callerKey);
+        AddBasis(_left, leftBasisKey);
+        AddBasis(_right, rightBasisKey);
+        AddBasis(_redZoneVertex, redZoneBasisKey);
+        AddBasis(_rightHalfVertex, rightHalfBasisKey);
 
-        redZoneVertex = GetVertex();
-        rightHalfVertex = GetVertex();
-
-        Basis leftBasis = new Basis(left);
-        Basis rightBasis = new Basis(right);
-        Basis redZoneBasis = new Basis(redZoneVertex);
-        Basis rightHalfBasis = new Basis(rightHalfVertex);
-
-        mainBus.Add(leftBasis, leftBasisKey);
-        mainBus.Add(rightBasis, rightBasisKey);
-        mainBus.Add(redZoneBasis, redZoneBasisKey);
-        mainBus.Add(rightHalfBasis, rightHalfBasisKey);
-
-        mainBus.Add(left, nodeLeftKey);
-        mainBus.Add(right, nodeRightKey);
-        mainBus.Add(redZoneVertex, redZoneVertexKey);
-        mainBus.Add(rightHalfVertex, rightHalfVertexKey);
-
-        EdgeMaker<Edge> edgeMaker = new SinglePourerEdgeMaker<Edge, Absolute>();
-
-        redZoneVertex.Connect(redZoneVertex, edgeMaker);
-        rightHalfVertex.Connect(rightHalfVertex, edgeMaker);
-
-        redZoneVertex.Connect(left, edgeMaker);
-        redZoneVertex.Connect(right, edgeMaker);
-        redZoneVertex.Connect(rightHalfVertex, edgeMaker);
-
-        rightHalfVertex.Connect(left, edgeMaker);
-        rightHalfVertex.Connect(right, edgeMaker);
-        rightHalfVertex.Connect(redZoneVertex, edgeMaker);
-
-        Vertex GetVertex() => new Vertex(new Plume(10), new Plume(10), sandman, caller, attenuator, new Sun());
+        // Assembling
+        AssembleParagon();
     }
 
     private void Start()
     {
         ISignalSource redZoneDetector = mainBus.Get<ISignalSource>(redZoneDetectorKey);
-        redZoneVertex.SignalSource = redZoneDetector;
+        _redZoneVertex.SignalSource = redZoneDetector;
 
         ISignalSource rightHalfDetector = mainBus.Get<ISignalSource>(rightHalfDetectorKey);
-        rightHalfVertex.SignalSource = rightHalfDetector;
+        _rightHalfVertex.SignalSource = rightHalfDetector;
+
+        _cooler = mainBus.Get<Exponential>("S2_ICooler");
     }
 
     private void Update()
     {
         Proceed();
-    }
-
-    public void Sleep()
-    {
-        redZoneVertex.Sleep();
-        rightHalfVertex.Sleep();
-    }
-
-    void Proceed()
-    {
-        left.Listen();
-        right.Listen();
-        redZoneVertex.Listen();
-        rightHalfVertex.Listen();
-
-        redZoneVertex.Think();
-        rightHalfVertex.Think();
-
-        redZoneVertex.Call();
-        rightHalfVertex.Call();
     }
 }

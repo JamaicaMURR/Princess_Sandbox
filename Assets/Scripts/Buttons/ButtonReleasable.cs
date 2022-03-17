@@ -35,9 +35,9 @@ public class ButtonReleasable : AdvancedButton, IPointerEnterHandler, IPointerEx
     {
         SwitchOnPointerEnter();
 
-        foreach(AdvancedButton button in doublers)
-            if(button is IPointerEnterHandler)
-                (button as IPointerEnterHandler).OnPointerEnter(null);
+        for(int i=0; i<doublers.Length; i++)
+            if(doublers[i] is IPointerEnterHandler)
+                (doublers[i] as IPointerEnterHandler).OnPointerEnter(null);
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -45,9 +45,9 @@ public class ButtonReleasable : AdvancedButton, IPointerEnterHandler, IPointerEx
         SwitchOnPointerExit();
         SwithOnPointerUp = () => _targetImage.sprite = defaultSprite;
 
-        foreach(AdvancedButton button in doublers)
-            if(button is IPointerExitHandler)
-                (button as IPointerExitHandler).OnPointerExit(null);
+        for(int i = 0; i < doublers.Length; i++)
+            if(doublers[i] is IPointerExitHandler)
+                (doublers[i] as IPointerExitHandler).OnPointerExit(null);
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -57,9 +57,9 @@ public class ButtonReleasable : AdvancedButton, IPointerEnterHandler, IPointerEx
         SwitchOnPointerExit = () => { };
         OnClick?.Invoke();
 
-        foreach(AdvancedButton button in doublers)
-            if(button is IPointerDownHandler)
-                (button as IPointerDownHandler).OnPointerDown(null);
+        for(int i = 0; i < doublers.Length; i++)
+            if(doublers[i] is IPointerDownHandler)
+                (doublers[i] as IPointerDownHandler).OnPointerDown(null);
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -69,9 +69,9 @@ public class ButtonReleasable : AdvancedButton, IPointerEnterHandler, IPointerEx
         SwitchOnPointerExit = () => _targetImage.sprite = defaultSprite;
         OnRelease?.Invoke();
 
-        foreach(AdvancedButton button in doublers)
-            if(button is IPointerUpHandler)
-                (button as IPointerUpHandler).OnPointerUp(null);
+        for(int i = 0; i < doublers.Length; i++)
+            if(doublers[i] is IPointerUpHandler)
+                (doublers[i] as IPointerUpHandler).OnPointerUp(null);
     }
 
     public override void Press() => OnPointerDown(null);

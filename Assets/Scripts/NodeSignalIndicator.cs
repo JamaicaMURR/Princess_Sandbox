@@ -22,6 +22,7 @@ public class NodeSignalIndicator : MainBusUser
     public string delegatedTaskIndicatorName = "DelegatedTaskIndicator";
     public string taskFinishIndicatorName = "TaskFinishIndicator";
     public string callNotFoundIndicatorName = "TaskNotFoundIndicator";
+    public string taskRejectionIndicatorName = "TaskRejectionIndicator";
     public string nodeBusKey;
 
     private void Awake()
@@ -73,7 +74,7 @@ public class NodeSignalIndicator : MainBusUser
             if(tfi != null)
             {
                 vertex.OnDelegatedTaskSet += () => tfi.gameObject.SetActive(false);
-                vertex.OnCallNotFound += () => tfi.gameObject.SetActive(false);
+                vertex.OnDecisionIsNotFound += () => tfi.gameObject.SetActive(false);
                 vertex.OnTaskIsFinished += () => tfi.gameObject.SetActive(false);
                 vertex.OnDelegatedTaskFinish += () => tfi.gameObject.SetActive(true);
             }
@@ -82,9 +83,18 @@ public class NodeSignalIndicator : MainBusUser
             {
                 vertex.OnDelegatedTaskSet += () => cnfi.gameObject.SetActive(false);
                 vertex.OnTaskIsFinished += () => cnfi.gameObject.SetActive(false);
-                vertex.OnCallNotFound += () => cnfi.gameObject.SetActive(true);
+                vertex.OnDecisionIsNotFound += () => cnfi.gameObject.SetActive(true);
             }
 
+        }
+
+        Transform tri = transform.Find(taskRejectionIndicatorName);
+
+        if(tri != null)
+        {
+            _node.OnNewTaskRejected += () => tri.gameObject.SetActive(true);
+            _node.OnTaskIsFinished += () => tri.gameObject.SetActive(false);
+            _node.OnTaskIsSetted += () => tri.gameObject.SetActive(false);
         }
 
         _node.OnRise += ChangeAtTrue;
@@ -132,14 +142,14 @@ public class NodeSignalIndicator : MainBusUser
 
     void ActualRefreshWeightText()
     {
-        if(float.IsInfinity(_node.Weight))
+        if(float.IsInfinity(_node.TaskWeight))
         {
-            if(float.IsNegativeInfinity(_node.Weight))
+            if(float.IsNegativeInfinity(_node.TaskWeight))
                 _weightText.text = "---";
             else
                 _weightText.text = "+++";
         }
         else
-            _weightText.text = _node.Weight.ToString();
+            _weightText.text = _node.TaskWeight.ToString();
     }
 }

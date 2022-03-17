@@ -16,14 +16,14 @@ public class Switcher : MonoBehaviour, IPointerDownHandler
     public UnityEvent OnUp;
     public UnityEvent OnDown;
 
-    public bool IsUp
+    public bool State
     {
         get => DoOnPress == GoDown;
         set
         {
-            if(value && !IsUp)
+            if(value && !State)
                 GoUp();
-            else if(!value && IsUp)
+            else if(!value && State)
                 GoDown();
         }
     }

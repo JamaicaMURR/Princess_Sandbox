@@ -6,156 +6,165 @@ using Princess.ConnectionToolkit;
 
 public class NetS3 : MainBusUser
 {
-    public string redZoneDetectorKey = "rzd";
-    public string blueZoneDetectorKey = "bzd";
+    //public string redZoneDetectorKey = "Is_On_RedZone";
+    //public string blueZoneDetectorKey = "Is_On_BlueZone";
 
-    public string redZoneVertexKey = "Is_On_RedZone";
-    public string blueZoneVertexKey = "Is_On_BlueZone";
+    //public string redZoneVertexKey = "Vertex_RedZone";
+    //public string blueZoneVertexKey = "Vertex_BlueZone";
 
-    public string[] verticalVerticesKeys = new string[] { "y>-2", "y>0", "y>2" };
-    public string[] horizontalVerticesKeys = new string[] { "x>-2", "x>0", "x>2" };
+    //public string[] verticalVerticesKeys = new string[] { "y>-2", "y>0", "y>2" };
+    //public string[] horizontalVerticesKeys = new string[] { "x>-2", "x>0", "x>2" };
 
-    public string nodeLeftKey = "Go_Left";
-    public string nodeRightKey = "Go_Right";
-    public string nodeUpKey = "Go_Up";
-    public string nodeDownKey = "Go_Down";
+    //public string nodeLeftKey = "Go_Left";
+    //public string nodeRightKey = "Go_Right";
+    //public string nodeUpKey = "Go_Up";
+    //public string nodeDownKey = "Go_Down";
 
-    public string dotXKey = "x";
-    public string dotYKey = "y";
+    //public string dotXKey = "x";
+    //public string dotYKey = "y";
 
-    public string leftBasisKey = "Left";
-    public string rightBasisKey = "Right";
-    public string upBasisKey = "Up";
-    public string downBasisKey = "Down";
+    //public string leftBasisKey = "Left";
+    //public string rightBasisKey = "Right";
+    //public string upBasisKey = "Up";
+    //public string downBasisKey = "Down";
 
-    public string redZoneBasisKey = "RedZone_Basis";
-    public string blueZoneBasisKey = "BlueZone_Basis";
+    //public string redZoneBasisKey = "RedZone_Basis";
+    //public string blueZoneBasisKey = "BlueZone_Basis";
 
-    public string CallerKey = "Caller";
+    //public string CallerKey = "Caller";
 
-    Sink left, right, up, down;
-    Vertex redZoneVertex, blueZoneVertex;
-    Vertex[] verticals;
-    Vertex[] horizontals;
+    //Sink left, right, up, down;
+    //Vertex redZoneVertex, blueZoneVertex;
+    //Vertex[] verticals;
+    //Vertex[] horizontals;
 
-    List<Vertex> allVertices;
-    List<Node> allNodes;
+    //List<Vertex> allVertices;
+    //List<Node> allNodes;
 
-    private void Awake()
-    {
-        ConnectMainBus();
+    //private void Awake()
+    //{
+    //    ConnectMainBus();
 
-        ISandman morpheus = new Morpheus();
-        ICaller caller = new ControllableCaller<Cannon>();
-        IAttenuator attenuator = new Stairway();
+    //    ISandman morpheus = new Morpheus();
+    //    Forum forum = new ControllableForum<Competent>();
+    //    Digger digger = new Usual(forum, 10);
+    //    IAttenuator attenuator = new Stairway();
+    //    var exponentialDispenser = new SpammerOfControlledExponentialCoolers(0.9f);
 
-        left = new Sink(new Sun());
-        right = new Sink(new Sun());
-        up = new Sink(new Sun());
-        down = new Sink(new Sun());
+    //    left = new Sink(exponentialDispenser.Dispense());
+    //    right = new Sink(exponentialDispenser.Dispense());
+    //    up = new Sink(exponentialDispenser.Dispense());
+    //    down = new Sink(exponentialDispenser.Dispense());
 
-        redZoneVertex = GetRawVertex();
-        blueZoneVertex = GetRawVertex();
+    //    redZoneVertex = GetRawVertex();
+    //    blueZoneVertex = GetRawVertex();
 
-        Basis leftBasis = new Basis(left);
-        Basis rightBasis = new Basis(right);
-        Basis upBasis = new Basis(up);
-        Basis downBasis = new Basis(down);
-        Basis redZoneBasis = new Basis(redZoneVertex);
-        Basis blueZoneBasis = new Basis(blueZoneVertex);
+    //    Basis leftBasis = new Basis(left);
+    //    Basis rightBasis = new Basis(right);
+    //    Basis upBasis = new Basis(up);
+    //    Basis downBasis = new Basis(down);
+    //    Basis redZoneBasis = new Basis(redZoneVertex);
+    //    Basis blueZoneBasis = new Basis(blueZoneVertex);
 
-        mainBus.Add(leftBasis, leftBasisKey);
-        mainBus.Add(rightBasis, rightBasisKey);
-        mainBus.Add(upBasis, upBasisKey);
-        mainBus.Add(downBasis, downBasisKey);
-        mainBus.Add(redZoneBasis, redZoneBasisKey);
-        mainBus.Add(blueZoneBasis, blueZoneBasisKey);
+    //    mainBus.Add(leftBasis, leftBasisKey);
+    //    mainBus.Add(rightBasis, rightBasisKey);
+    //    mainBus.Add(upBasis, upBasisKey);
+    //    mainBus.Add(downBasis, downBasisKey);
+    //    mainBus.Add(redZoneBasis, redZoneBasisKey);
+    //    mainBus.Add(blueZoneBasis, blueZoneBasisKey);
 
-        mainBus.Add(left, nodeLeftKey);
-        mainBus.Add(right, nodeRightKey);
-        mainBus.Add(up, nodeUpKey);
-        mainBus.Add(down, nodeDownKey);
+    //    mainBus.Add(left, nodeLeftKey);
+    //    mainBus.Add(right, nodeRightKey);
+    //    mainBus.Add(up, nodeUpKey);
+    //    mainBus.Add(down, nodeDownKey);
 
-        mainBus.Add(redZoneVertex, redZoneVertexKey);
-        mainBus.Add(blueZoneVertex, blueZoneVertexKey);
+    //    mainBus.Add(redZoneVertex, redZoneVertexKey);
+    //    mainBus.Add(blueZoneVertex, blueZoneVertexKey);
 
-        verticals = new Vertex[3];
-        horizontals = new Vertex[3];
+    //    verticals = new Vertex[3];
+    //    horizontals = new Vertex[3];
 
-        for(int i = 0; i < 3; i++)
-        {
-            verticals[i] = GetRawVertex();
-            horizontals[i] = GetRawVertex();
-            mainBus.Add(verticals[i], verticalVerticesKeys[i]);
-            mainBus.Add(horizontals[i], horizontalVerticesKeys[i]);
-        }
+    //    for(int i = 0; i < 3; i++)
+    //    {
+    //        verticals[i] = GetRawVertex();
+    //        horizontals[i] = GetRawVertex();
+    //        mainBus.Add(verticals[i], verticalVerticesKeys[i]);
+    //        mainBus.Add(horizontals[i], horizontalVerticesKeys[i]);
+    //    }
 
-        mainBus.Add(caller, CallerKey);
+    //    mainBus.Add(forum, CallerKey);
 
-        Vertex GetRawVertex() => new Vertex(new Plume(1), new Plume(1), morpheus, caller, attenuator, new Sun()) { BlinkSleepMode = true };
-    }
+    //    Vertex GetRawVertex() => new Vertex(new Plume(1, Princess.EventType.Rise), new Plume(1, Princess.EventType.Fall), morpheus, forum, digger, attenuator, exponentialDispenser.Dispense()) { BlinkSleepMode = true };
+    //}
 
-    private void Start()
-    {
-        allNodes = new List<Node>() { left, right, up, down };
+    //private void Start()
+    //{
+    //    allNodes = new List<Node>() { left, right, up, down };
 
-        ISignalSource redZoneDetector = mainBus.Get<ISignalSource>(redZoneDetectorKey);
-        redZoneVertex.SignalSource = redZoneDetector;
+    //    ISignalSource redZoneDetector = mainBus.Get<ISignalSource>(redZoneDetectorKey);
+    //    redZoneVertex.SignalSource = redZoneDetector;
 
-        ISignalSource blueZoneDetector = mainBus.Get<ISignalSource>(blueZoneDetectorKey);
-        blueZoneVertex.SignalSource = blueZoneDetector;
+    //    ISignalSource blueZoneDetector = mainBus.Get<ISignalSource>(blueZoneDetectorKey);
+    //    blueZoneVertex.SignalSource = blueZoneDetector;
 
-        allVertices = new List<Vertex>() { redZoneVertex, blueZoneVertex };
+    //    allVertices = new List<Vertex>() { redZoneVertex, blueZoneVertex };
 
-        IRawProvider xProvider = mainBus.Get<IRawProvider>(dotXKey);
-        IRawProvider yProvider = mainBus.Get<IRawProvider>(dotYKey);
+    //    IRawProvider xProvider = mainBus.Get<IRawProvider>(dotXKey);
+    //    IRawProvider yProvider = mainBus.Get<IRawProvider>(dotYKey);
 
-        List<ISignalSource> horizontalSensors = SensorMaker.MakeLadder(xProvider.GetRaw, 4, -4, 4);
-        List<ISignalSource> verticalSensors = SensorMaker.MakeLadder(yProvider.GetRaw, 4, -4, 4);
+    //    List<ISignalSource> horizontalSensors = SensorMaker.MakeLadder(xProvider.GetRaw, 4, -4, 4);
+    //    List<ISignalSource> verticalSensors = SensorMaker.MakeLadder(yProvider.GetRaw, 4, -4, 4);
 
-        for(int i = 0; i < 3; i++)
-        {
-            horizontals[2 - i].SignalSource = horizontalSensors[i];
-            verticals[2 - i].SignalSource = verticalSensors[i];
-            allVertices.Add(horizontals[i]);
-            allVertices.Add(verticals[i]);
-        }
+    //    for(int i = 0; i < 3; i++)
+    //    {
+    //        horizontals[2 - i].SignalSource = horizontalSensors[i];
+    //        verticals[2 - i].SignalSource = verticalSensors[i];
+    //        allVertices.Add(horizontals[i]);
+    //        allVertices.Add(verticals[i]);
+    //    }
 
-        EdgeMaker<Edge> edgeMaker = new SinglePourerEdgeMaker<Edge, Dozer>();
+    //    EdgeMaker<Edge> edgeMaker = new SinglePourerEdgeMaker<Edge, Dozer>();
 
-        // Makes Paragon vertexnet
-        for(int i = 0; i < allVertices.Count; i++)
-        {
-            for(int j = 0; j < allVertices.Count; j++)
-                allVertices[i].Connect(allVertices[j], edgeMaker);
+    //    // Makes Paragon vertexnet
+    //    for(int i = 0; i < allVertices.Count; i++)
+    //    {
+    //        for(int j = 0; j < allVertices.Count; j++)
+    //        {
+    //            // Stupid but fast
+    //            try
+    //            {
+    //                allVertices[i].Connect(allVertices[j], edgeMaker);
+    //            }
+    //            catch { }
+    //        }
 
-            for(int k = 0; k < allNodes.Count; k++)
-                allVertices[i].Connect(allNodes[k], edgeMaker);
-        }
+    //        for(int k = 0; k < allNodes.Count; k++)
+    //            allVertices[i].Connect(allNodes[k], edgeMaker);
+    //    }
 
-        int edgesTotal = default;
+    //    int edgesTotal = default;
 
-        foreach(Vertex v in allVertices)
-            edgesTotal += v.Edges.Length;
+    //    foreach(Vertex v in allVertices)
+    //        edgesTotal += v.Edges.Length;
 
-        Debug.Log($"Edges total: {edgesTotal}");
-    }
+    //    Debug.Log($"Edges total: {edgesTotal}");
+    //}
 
-    private void Update()
-    {
-        Proceed();
-    }
+    //private void Update()
+    //{
+    //    Proceed();
+    //}
 
-    public void Sleep()
-    {
-        allVertices.ForEach((x) => x.Sleep());
-    }
+    //public void Sleep()
+    //{
+    //    allVertices.ForEach((x) => x.Sleep());
+    //}
 
-    void Proceed()
-    {
-        allNodes.ForEach((x) => x.Listen());
-        allVertices.ForEach((x) => x.Listen());
-        allVertices.ForEach((x) => x.Think());
-        allVertices.ForEach((x) => x.Call());
-    }
+    //void Proceed()
+    //{
+    //    allNodes.ForEach((x) => x.Listen());
+    //    allVertices.ForEach((x) => x.Listen());
+    //    allVertices.ForEach((x) => x.Think());
+    //    allVertices.ForEach((x) => x.Call());
+    //}
 }
