@@ -13,16 +13,20 @@ public class NodeSignalIndicator : MainBusUser
 
     Action RefreshWeightText;
 
-    public string signalIsTrueIndicatorName = "IndicatorTrue";
-    public string signalIsFalseIndicatorName = "IndicatorFalse";
-    public string taskIsTrueIndicatorName = "TaskIsTrueIndicator";
-    public string taskIsFalseIndicatorName = "TaskIsFalseIndicator";
     public string headerTextName = "Header";
     public string weightTextFieldName = "Weight";
-    public string delegatedTaskIndicatorName = "DelegatedTaskIndicator";
-    public string taskFinishIndicatorName = "TaskFinishIndicator";
-    public string callNotFoundIndicatorName = "TaskNotFoundIndicator";
+
+    public string signalIsTrueIndicatorName = "IndicatorTrue";
+    public string signalIsFalseIndicatorName = "IndicatorFalse";
+
+    public string taskIsTrueIndicatorName = "TaskIsTrueIndicator";
+    public string taskIsFalseIndicatorName = "TaskIsFalseIndicator";
+
+    public string delegatedTaskIndicatorName = "TaskDelegatingIndicator";
+    public string decisionNotFoundIndicatorName = "DecisionNotFoundIndicator";
+
     public string taskRejectionIndicatorName = "TaskRejectionIndicator";
+
     public string nodeBusKey;
 
     private void Awake()
@@ -60,50 +64,39 @@ public class NodeSignalIndicator : MainBusUser
         {
             Vertex vertex = _node as Vertex;
 
-            Transform dti = transform.Find(delegatedTaskIndicatorName);
-            Transform tfi = transform.Find(taskFinishIndicatorName);
-            Transform cnfi = transform.Find(callNotFoundIndicatorName);
+            Transform taskDelegatingIndicator = transform.Find(delegatedTaskIndicatorName);
+            Transform decisionNotFoundIndicator = transform.Find(decisionNotFoundIndicatorName);
 
-            if(dti != null)
+            if(taskDelegatingIndicator != null)
             {
                 // Capturing of local variable
-                vertex.OnDelegatedTaskSet += () => dti.gameObject.SetActive(true);
-                vertex.OnDelegatedTaskFinish += () => dti.gameObject.SetActive(false);
+                vertex.OnDelegatedTaskSet += () => taskDelegatingIndicator.gameObject.SetActive(true);
+                vertex.OnDelegatedTaskFinish += () => taskDelegatingIndicator.gameObject.SetActive(false);
             }
 
-            if(tfi != null)
+            if(decisionNotFoundIndicator != null)
             {
-                vertex.OnDelegatedTaskSet += () => tfi.gameObject.SetActive(false);
-                vertex.OnDecisionIsNotFound += () => tfi.gameObject.SetActive(false);
-                vertex.OnTaskIsFinished += () => tfi.gameObject.SetActive(false);
-                vertex.OnDelegatedTaskFinish += () => tfi.gameObject.SetActive(true);
-            }
-
-            if(cnfi != null)
-            {
-                vertex.OnDelegatedTaskSet += () => cnfi.gameObject.SetActive(false);
-                vertex.OnTaskIsFinished += () => cnfi.gameObject.SetActive(false);
-                vertex.OnDecisionIsNotFound += () => cnfi.gameObject.SetActive(true);
+                vertex.OnDelegatedTaskSet += () => decisionNotFoundIndicator.gameObject.SetActive(false);
+                vertex.OnTaskIsFinished += () => decisionNotFoundIndicator.gameObject.SetActive(false);
+                vertex.OnDecisionIsNotFound += () => decisionNotFoundIndicator.gameObject.SetActive(true);
             }
 
         }
 
-        Transform tri = transform.Find(taskRejectionIndicatorName);
+        Transform taskRejectionIndicator = transform.Find(taskRejectionIndicatorName);
 
-        if(tri != null)
+        if(taskRejectionIndicator != null)
         {
-            _node.OnNewTaskRejected += () => tri.gameObject.SetActive(true);
-            _node.OnTaskIsFinished += () => tri.gameObject.SetActive(false);
-            _node.OnTaskIsSetted += () => tri.gameObject.SetActive(false);
+            _node.OnNewTaskRejected += () => taskRejectionIndicator.gameObject.SetActive(true);
+            _node.OnTaskIsFinished += () => taskRejectionIndicator.gameObject.SetActive(false);
+            _node.OnTaskIsSetted += () => taskRejectionIndicator.gameObject.SetActive(false);
         }
 
         _node.OnRise += ChangeAtTrue;
         _node.OnFall += ChangeAtFalse;
 
-        _node.OnTaskIsSetted += CheckIntension;
-        _node.OnTaskIsFinished += CheckIntension;
-
-        CheckIntension();
+        _node.OnTaskIsSetted += IndicateIntension;
+        _node.OnTaskIsFinished += HideIntension;
     }
 
     void ChangeAtTrue()
@@ -111,31 +104,33 @@ public class NodeSignalIndicator : MainBusUser
         _signalIsTrueIndicator.SetActive(true);
         _signalIsFalseIndicator.SetActive(false);
     }
+
     void ChangeAtFalse()
     {
         _signalIsTrueIndicator.SetActive(false);
         _signalIsFalseIndicator.SetActive(true);
     }
-    void CheckIntension()
+
+    void IndicateIntension()
     {
-        if(_node.IsOnTask)
+        if(_node.Intension)
         {
-            if(_node.Intension)
-            {
-                _taskIsTrueIndicator.SetActive(true);
-                _taskIsFalseIndicator.SetActive(false);
-            }
-            else
-            {
-                _taskIsTrueIndicator.SetActive(false);
-                _taskIsFalseIndicator.SetActive(true);
-            }
+            _taskIsTrueIndicator.SetActive(true);
+            _taskIsFalseIndicator.SetActive(false);
         }
         else
         {
             _taskIsTrueIndicator.SetActive(false);
-            _taskIsFalseIndicator.SetActive(false);
+            _taskIsFalseIndicator.SetActive(true);
         }
+
+        RefreshWeightText();
+    }
+
+    void HideIntension()
+    {
+        _taskIsTrueIndicator.SetActive(false);
+        _taskIsFalseIndicator.SetActive(false);
 
         RefreshWeightText();
     }
