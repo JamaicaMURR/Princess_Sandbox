@@ -1020,7 +1020,7 @@ MonoBehaviour:
   signalIsFalseIndicatorName: IndicatorFalse
   taskIsTrueIndicatorName: TaskIsTrueIndicator
   taskIsFalseIndicatorName: TaskIsFalseIndicator
-  delegatedTaskIndicatorName: DelegatedTaskIndicator
+  delegatedTaskIndicatorName: TaskDelegatingIndicator
   decisionNotFoundIndicatorName: DecisionNotFoundIndicator
   taskRejectionIndicatorName: TaskRejectionIndicator
   nodeBusKey: 

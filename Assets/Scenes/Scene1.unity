@@ -139,6 +139,7 @@ GameObject:
   - component: {fileID: 17866055}
   - component: {fileID: 17866054}
   - component: {fileID: 17866056}
+  - component: {fileID: 17866057}
   m_Layer: 0
   m_Name: RedZone
   m_TagString: Untagged
@@ -237,6 +238,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.95, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &17866057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 17866053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ea115a3920a18a4a880d772095a131c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainBusHolderName: MainBus
+  busKey: Is_On_RedZone
+  invaderTag: Dot
 --- !u!1 &142143101
 GameObject:
   m_ObjectHideFlags: 0
@@ -760,7 +776,7 @@ GameObject:
   - component: {fileID: 609925305}
   m_Layer: 0
   m_Name: Dot
-  m_TagString: Untagged
+  m_TagString: Dot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -880,13 +896,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainBusHolderName: MainBus
-  speed: 4
   leftBorder: -3.75
   rightBorder: 3.75
-  redZoneDetectorKey: Is_On_RedZone
-  rightHalfDetectorKey: 
-  nodeLeftKey: Left_Sink
-  nodeRightKey: Right_Sink
+  upBorder: 3.75
+  downBorder: -3.75
+  leftSinkKey: Left_Sink
+  rightSinkKey: Right_Sink
+  upSinkKey: 
+  downSinkKey: 
 --- !u!224 &624522725 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 3632367137355636341, guid: 19ccd97aba64c2d4d8a343b1472790aa, type: 3}

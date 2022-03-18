@@ -151,7 +151,10 @@ public abstract class Net : MainBusUser
         for(int i = 0; i < _vertices.Count; i++)
         {
             for(int j = 0; j < connected.Count; j++)
+            {
                 _vertices[i].Connect(connected[j], edgeMaker);
+                connected[j].Connect(_vertices[i], edgeMaker);
+            }
 
             for(int k = 0; k < _sinks.Count; k++)
                 _vertices[i].Connect(_sinks[k], edgeMaker);

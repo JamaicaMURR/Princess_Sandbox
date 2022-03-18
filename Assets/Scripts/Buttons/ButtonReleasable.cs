@@ -37,7 +37,7 @@ public class ButtonReleasable : AdvancedButton, IPointerEnterHandler, IPointerEx
 
         for(int i=0; i<doublers.Length; i++)
             if(doublers[i] is IPointerEnterHandler)
-                (doublers[i] as IPointerEnterHandler).OnPointerEnter(null);
+                (doublers[i] as IPointerEnterHandler).OnPointerEnter(eventData);
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -47,7 +47,7 @@ public class ButtonReleasable : AdvancedButton, IPointerEnterHandler, IPointerEx
 
         for(int i = 0; i < doublers.Length; i++)
             if(doublers[i] is IPointerExitHandler)
-                (doublers[i] as IPointerExitHandler).OnPointerExit(null);
+                (doublers[i] as IPointerExitHandler).OnPointerExit(eventData);
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -59,7 +59,7 @@ public class ButtonReleasable : AdvancedButton, IPointerEnterHandler, IPointerEx
 
         for(int i = 0; i < doublers.Length; i++)
             if(doublers[i] is IPointerDownHandler)
-                (doublers[i] as IPointerDownHandler).OnPointerDown(null);
+                (doublers[i] as IPointerDownHandler).OnPointerDown(eventData);
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -71,7 +71,7 @@ public class ButtonReleasable : AdvancedButton, IPointerEnterHandler, IPointerEx
 
         for(int i = 0; i < doublers.Length; i++)
             if(doublers[i] is IPointerUpHandler)
-                (doublers[i] as IPointerUpHandler).OnPointerUp(null);
+                (doublers[i] as IPointerUpHandler).OnPointerUp(eventData);
     }
 
     public override void Press() => OnPointerDown(null);

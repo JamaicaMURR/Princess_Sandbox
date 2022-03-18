@@ -74,6 +74,8 @@ public class NodeSignalIndicator : MainBusUser
                 vertex.OnDelegatedTaskSet += () => taskDelegatingIndicator.gameObject.SetActive(true);
                 vertex.OnDelegatedTaskFinish += () => taskDelegatingIndicator.gameObject.SetActive(false);
             }
+            else
+                Debug.LogError("Task delegating indicator is not found");
 
             if(decisionNotFoundIndicator != null)
             {

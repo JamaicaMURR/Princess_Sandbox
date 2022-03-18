@@ -6,52 +6,35 @@ using System;
 
 public class NetS2 : Net
 {
-    Sink _left, _right;
+    Sink _leftSink, _rightSink;
     Vertex _redZoneVertex, _rightHalfVertex;
-    Exponential _cooler;
-
-    float _coolingMultiplier = ControlledExponentialCoolersDispenser.DEFAULT_MULTIPLIER;
 
     public string redZoneDetectorKey = "Is_On_RedZone";
     public string rightHalfDetectorKey = "Is_On_RightHalf";
-    public string redZoneVertexKey = "Vertex_RedZone";
-    public string rightHalfVertexKey = "Vertex_RightHalf";
-    public string leftSinkKey = "Go_Left";
-    public string rightSinkKey = "Go_Right";
+
+    public string redZoneVertexKey = "RedZone_Vertex";
+    public string rightHalfVertexKey = "RightHalf_Vertex";
+
+    public string leftSinkKey = "Left_Sink";
+    public string rightSinkKey = "Right_Sink";
 
     public string leftBasisKey = "Left_Basis";
     public string rightBasisKey = "Right_Basis";
     public string redZoneBasisKey = "RedZone_Basis";
     public string rightHalfBasisKey = "RightHalf_Basis";
 
-    public float CoolingMultiplier
-    {
-        get => _coolingMultiplier;
-        set
-        {
-            try
-            {
-                _cooler.Multiplier = value;
-            }
-            catch(Exception e)
-            {
-                Debug.Log(e.Message);
-            }
-        }
-    }
-
     private void Awake()
     {
         InitiateNet(netName: "S2");
 
-        _left = SpawnSink(leftSinkKey);
-        _right = SpawnSink(rightSinkKey);
+        _leftSink = SpawnSink(leftSinkKey);
+        _rightSink = SpawnSink(rightSinkKey);
 
         _redZoneVertex = SpawnVertex(redZoneVertexKey);
         _rightHalfVertex = SpawnVertex(rightHalfVertexKey);
 
-        AddBasis(_left, leftBasisKey);
-        AddBasis(_right, rightBasisKey);
+        AddBasis(_leftSink, leftBasisKey);
+        AddBasis(_rightSink, rightBasisKey);
         AddBasis(_redZoneVertex, redZoneBasisKey);
         AddBasis(_rightHalfVertex, rightHalfBasisKey);
 
@@ -66,8 +49,6 @@ public class NetS2 : Net
 
         ISignalSource rightHalfDetector = mainBus.Get<ISignalSource>(rightHalfDetectorKey);
         _rightHalfVertex.SignalSource = rightHalfDetector;
-
-        _cooler = mainBus.Get<Exponential>("S2_ICooler");
     }
 
     private void Update()

@@ -7,6 +7,10 @@ using UnityEngine.UI;
 public class OppositeBasisControl : MainBusUser
 {
     public string basis1Key, basis2Key;
+
+    public string arrow1Name = "Arrow1";
+    public string arrow2Name = "Arrow2";
+
     public float force = float.PositiveInfinity;
     public float stopDelay = 0.1f;
 
@@ -16,11 +20,8 @@ public class OppositeBasisControl : MainBusUser
     {
         ConnectMainBus();
 
-        ButtonReleasable arrow1 = transform.Find("Arrow1").GetComponent<ButtonReleasable>();
-        ButtonReleasable arrow2 = transform.Find("Arrow2").GetComponent<ButtonReleasable>();
-
-        arrow1.transform.Find("Text").GetComponent<Text>().text = basis1Key;
-        arrow2.transform.Find("Text").GetComponent<Text>().text = basis2Key;
+        ButtonReleasable arrow1 = transform.Find(arrow1Name).GetComponent<ButtonReleasable>();
+        ButtonReleasable arrow2 = transform.Find(arrow2Name).GetComponent<ButtonReleasable>();
 
         arrow1.OnClick.AddListener(() => Shift(_basis1, _basis2));
         arrow1.OnRelease.AddListener(StopBoth);
