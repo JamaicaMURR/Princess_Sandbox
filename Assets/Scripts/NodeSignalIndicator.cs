@@ -9,12 +9,11 @@ public class NodeSignalIndicator : MainBusUser
 {
     GameObject _signalIsTrueIndicator, _signalIsFalseIndicator, _taskIsTrueIndicator, _taskIsFalseIndicator;
     Node _node;
-    Text _weightText;
-
-    Action RefreshWeightText;
+    Text _weightText, _heatText;
 
     public string headerTextName = "Header";
     public string weightTextFieldName = "Weight";
+    public string heatTextFialdName = "Heat";
 
     public string signalIsTrueIndicatorName = "IndicatorTrue";
     public string signalIsFalseIndicatorName = "IndicatorFalse";
@@ -40,15 +39,8 @@ public class NodeSignalIndicator : MainBusUser
 
         transform.Find(headerTextName).GetComponent<Text>().text = nodeBusKey;
 
-        Transform t = transform.Find(weightTextFieldName);
-
-        if(t != null)
-        {
-            _weightText = t.GetComponent<Text>();
-            RefreshWeightText = ActualRefreshWeightText;
-        }
-        else
-            RefreshWeightText = () => { };
+        _weightText = transform.Find(weightTextFieldName).GetComponent<Text>();
+        _heatText = transform.Find(heatTextFialdName).GetComponent<Text>();
     }
 
     private void Start()
@@ -59,6 +51,15 @@ public class NodeSignalIndicator : MainBusUser
             ChangeAtTrue();
         else
             ChangeAtFalse();
+
+        Transform taskRejectionIndicator = transform.Find(taskRejectionIndicatorName);
+
+        if(taskRejectionIndicator != null)
+        {
+            _node.OnTaskRejected += () => taskRejectionIndicator.gameObject.SetActive(true);
+            _node.OnTaskFinished += () => taskRejectionIndicator.gameObject.SetActive(false);
+            _node.OnTaskSetted += () => taskRejectionIndicator.gameObject.SetActive(false);
+        }
 
         if(_node is Vertex)
         {
@@ -77,26 +78,23 @@ public class NodeSignalIndicator : MainBusUser
             if(decisionNotFoundIndicator != null)
             {
                 vertex.OnDelegatedTaskSet += () => decisionNotFoundIndicator.gameObject.SetActive(false);
-                vertex.OnTaskIsFinished += () => decisionNotFoundIndicator.gameObject.SetActive(false);
-                vertex.OnDecisionIsNotFound += () => decisionNotFoundIndicator.gameObject.SetActive(true);
+                vertex.OnTaskFinished += () => decisionNotFoundIndicator.gameObject.SetActive(false);
+                vertex.OnDecisionNotFound += () => decisionNotFoundIndicator.gameObject.SetActive(true);
             }
-
-        }
-
-        Transform taskRejectionIndicator = transform.Find(taskRejectionIndicatorName);
-
-        if(taskRejectionIndicator != null)
-        {
-            _node.OnNewTaskRejected += () => taskRejectionIndicator.gameObject.SetActive(true);
-            _node.OnTaskIsFinished += () => taskRejectionIndicator.gameObject.SetActive(false);
-            _node.OnTaskIsSetted += () => taskRejectionIndicator.gameObject.SetActive(false);
         }
 
         _node.OnRise += ChangeAtTrue;
         _node.OnFall += ChangeAtFalse;
 
-        _node.OnTaskIsSetted += IndicateIntension;
-        _node.OnTaskIsFinished += HideIntension;
+        _node.OnTaskSetted += IndicateIntension;
+        _node.OnTaskFinished += HideIntension;
+
+        _node.OnRise += RefreshHeatText;
+        _node.OnFall += RefreshHeatText;
+        _node.OnHeatDrained += RefreshHeatText;
+
+        RefreshHeatText();
+        RefreshWeightText();
     }
 
     void ChangeAtTrue()
@@ -135,7 +133,7 @@ public class NodeSignalIndicator : MainBusUser
         RefreshWeightText();
     }
 
-    void ActualRefreshWeightText()
+    void RefreshWeightText()
     {
         if(float.IsInfinity(_node.TaskWeight))
         {
@@ -146,5 +144,10 @@ public class NodeSignalIndicator : MainBusUser
         }
         else
             _weightText.text = _node.TaskWeight.ToString();
+    }
+
+    void RefreshHeatText()
+    {
+        _heatText.text = _node.Heat.ToString("F3");
     }
 }

@@ -43,7 +43,7 @@ public abstract class Net : MainBusUser
         MemoryDispenser = MemoryDispenser ?? new UniversalDispenser<IMemory>(() => new Plume(10));
         SandmanDispenser = SandmanDispenser ?? new OneInstanceDispenser<ISandman>(new Morpheus());
         IgnitorDispenser = IgnitorDispenser ?? new OneInstanceDispenser<IForum>(new Competent());
-        DiggerDispenser = DiggerDispenser ?? new OneInstanceDispenser<Digger>(new Usual(new Competent()));
+        DiggerDispenser = DiggerDispenser ?? new OneInstanceDispenser<Digger>(new UsualDigger(new Competent()));
         AttenuatorDispenser = AttenuatorDispenser ?? new OneInstanceDispenser<IAttenuator>(new Stairway());
         CoolerDispenser = CoolerDispenser ?? new ControlledExponentialCoolersDispenser();
 
@@ -104,7 +104,7 @@ public abstract class Net : MainBusUser
     protected void AddBasis(Node node, string busKey)
     {
         mainBus.Add(new Basis(node), busKey);
-        Debug.Log($"\"{busKey}\" added to MainBus | type is {node.GetType().ToString().Remove(0, "Princess.".Length)}");
+        Debug.Log($"\"{busKey}\" added to MainBus");
     }
 
     protected string AddToNet(Node node, string busKey = null)
@@ -153,11 +153,18 @@ public abstract class Net : MainBusUser
             for(int j = 0; j < connected.Count; j++)
                 _vertices[i].Connect(connected[j], edgeMaker);
 
-            for(int k = 0; k < connected.Count; k++)
+            for(int k = 0; k < _sinks.Count; k++)
                 _vertices[i].Connect(_sinks[k], edgeMaker);
 
             connected.Add(_vertices[i]);
         }
+
+        int totalEdges = 0;
+
+        foreach(Vertex v in _vertices)
+            totalEdges += v.Edges.Length;
+
+        Debug.Log($"Paragon assembled with {totalEdges} edges");
     }
 
     protected void Proceed()

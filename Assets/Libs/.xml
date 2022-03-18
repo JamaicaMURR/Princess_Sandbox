@@ -216,6 +216,9 @@
         <member name="T:Princess.ICooler">
             <summary></summary>
         </member>
+        <member name="P:Princess.ICooler.Heat">
+            <summary></summary>
+        </member>
         <member name="M:Princess.ICooler.Next">
             <summary></summary>
             <returns></returns>
@@ -365,13 +368,16 @@
         <member name="E:Princess.Node.OnFall">
             <summary></summary>
         </member>
-        <member name="E:Princess.Node.OnTaskIsSetted">
+        <member name="E:Princess.Node.OnTaskSetted">
             <summary></summary>
         </member>
-        <member name="E:Princess.Node.OnTaskIsFinished">
+        <member name="E:Princess.Node.OnTaskFinished">
             <summary></summary>
         </member>
-        <member name="E:Princess.Node.OnNewTaskRejected">
+        <member name="E:Princess.Node.OnTaskRejected">
+            <summary></summary>
+        </member>
+        <member name="E:Princess.Node.OnHeatDrained">
             <summary></summary>
         </member>
         <member name="E:Princess.Node.OnTick">
@@ -840,7 +846,7 @@
         <member name="E:Princess.Vertex.OnDelegatedTaskFinish">
             <summary></summary>
         </member>
-        <member name="E:Princess.Vertex.OnDecisionIsNotFound">
+        <member name="E:Princess.Vertex.OnDecisionNotFound">
             <summary></summary>
         </member>
         <member name="M:Princess.Vertex.#ctor(Princess.IMemory,Princess.IMemory,Princess.ISandman,Princess.IForum,Princess.Digger,Princess.IAttenuator,Princess.ICooler)">
