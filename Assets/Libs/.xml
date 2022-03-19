@@ -904,6 +904,11 @@
         <member name="M:Princess.Vertex.CallingPreparation">
             <summary></summary>
         </member>
+        <member name="M:Princess.Vertex.GetEdgeTo(Princess.Node)">
+            <summary></summary>
+            <param name="node"></param>
+            <returns></returns>
+        </member>
         <member name="M:Princess.Vertex.WipeEdges">
             <summary></summary>
         </member>

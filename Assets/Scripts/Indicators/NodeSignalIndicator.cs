@@ -56,9 +56,25 @@ public class NodeSignalIndicator : MainBusUser
 
         if(taskRejectionIndicator != null)
         {
+            Action Timer = () => { };
+
             _node.OnTaskRejected += () => taskRejectionIndicator.gameObject.SetActive(true);
-            _node.OnTaskFinished += () => taskRejectionIndicator.gameObject.SetActive(false);
-            _node.OnTaskSetted += () => taskRejectionIndicator.gameObject.SetActive(false);
+            _node.OnTaskRejected += () => Timer = SwitchOffAfterOneIteration;
+
+            _node.OnTick += () => Timer();
+
+            _node.OnTaskFinished += SwitchOffTaskRejectionIndicator;
+            _node.OnTaskSetted += SwitchOffTaskRejectionIndicator;
+
+            void SwitchOffTaskRejectionIndicator() => taskRejectionIndicator.gameObject.SetActive(false);
+
+            void SwitchOffAfterOneIteration() => Timer = SwitchOffByTimer;
+
+            void SwitchOffByTimer()
+            {
+                SwitchOffTaskRejectionIndicator();
+                Timer = () => { };
+            }
         }
 
         if(_node is Vertex)

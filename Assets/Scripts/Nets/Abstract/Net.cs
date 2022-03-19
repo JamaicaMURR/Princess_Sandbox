@@ -12,6 +12,9 @@ public abstract class Net : MainBusUser
     public const string SINK_POSTFIX = "_Sink";
     public const string BASIS_POSTFIX = "_Basis";
 
+    public int memorySize = 10;
+    public int diggerDepth = 10;
+
     List<Vertex> _vertices;
     List<Sink> _sinks;
 
@@ -40,10 +43,10 @@ public abstract class Net : MainBusUser
         _vertices = new List<Vertex>();
         _sinks = new List<Sink>();
 
-        MemoryDispenser = MemoryDispenser ?? new UniversalDispenser<IMemory>(() => new Plume(10));
+        MemoryDispenser = MemoryDispenser ?? new UniversalDispenser<IMemory>(() => new Plume(memorySize));
         SandmanDispenser = SandmanDispenser ?? new OneInstanceDispenser<ISandman>(new Morpheus());
         IgnitorDispenser = IgnitorDispenser ?? new OneInstanceDispenser<IForum>(new Competent());
-        DiggerDispenser = DiggerDispenser ?? new OneInstanceDispenser<Digger>(new UsualDigger(new Competent()));
+        DiggerDispenser = DiggerDispenser ?? new OneInstanceDispenser<Digger>(new UsualDigger(new Competent(), diggerDepth));
         AttenuatorDispenser = AttenuatorDispenser ?? new OneInstanceDispenser<IAttenuator>(new Stairway());
         CoolerDispenser = CoolerDispenser ?? new ControlledExponentialCoolersDispenser();
 
