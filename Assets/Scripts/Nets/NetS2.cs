@@ -27,14 +27,15 @@ public class NetS2 : Net
     {
         InitiateNet(netName: "S2");
 
-        _leftSink = SpawnSink(leftSinkKey);
-        _rightSink = SpawnSink(rightSinkKey);
+        Sink leftSink = SpawnSink(leftSinkKey);
+        Sink rightSink = SpawnSink(rightSinkKey);
 
         _redZoneVertex = SpawnVertex(redZoneVertexKey);
         _rightHalfVertex = SpawnVertex(rightHalfVertexKey);
 
-        AddBasis(_leftSink, leftBasisKey);
-        AddBasis(_rightSink, rightBasisKey);
+        AddBasis(leftSink, leftBasisKey);
+        AddBasis(rightSink, rightBasisKey);
+
         AddBasis(_redZoneVertex, redZoneBasisKey);
         AddBasis(_rightHalfVertex, rightHalfBasisKey);
 

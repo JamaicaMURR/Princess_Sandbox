@@ -4,167 +4,63 @@ using UnityEngine;
 using Princess;
 using Princess.ConnectionToolkit;
 
-public class NetS3 : MainBusUser
+public class NetS3 : Net
 {
-    //public string redZoneDetectorKey = "Is_On_RedZone";
-    //public string blueZoneDetectorKey = "Is_On_BlueZone";
+    Vertex _redZoneVertex, _rightHalfVertex;
 
-    //public string redZoneVertexKey = "Vertex_RedZone";
-    //public string blueZoneVertexKey = "Vertex_BlueZone";
+    public string redZoneDetectorKey = "Is_On_RedZone";
+    public string rightHalfDetectorKey = "Is_On_RightHalf";
 
-    //public string[] verticalVerticesKeys = new string[] { "y>-2", "y>0", "y>2" };
-    //public string[] horizontalVerticesKeys = new string[] { "x>-2", "x>0", "x>2" };
+    public string redZoneVertexKey = "RedZone_Vertex";
+    public string rightHalfVertexKey = "RightHalf_Vertex";
 
-    //public string nodeLeftKey = "Go_Left";
-    //public string nodeRightKey = "Go_Right";
-    //public string nodeUpKey = "Go_Up";
-    //public string nodeDownKey = "Go_Down";
+    public string leftSinktKey = "Left_Sink";
+    public string rightSinkKey = "Right_Sink";
+    public string upSinkKey = "Up_Sink";
+    public string downSinkKey = "Down_Sink";
 
-    //public string dotXKey = "x";
-    //public string dotYKey = "y";
+    public string leftBasisKey = "Left_Basis";
+    public string rightBasisKey = "Right_Basis";
+    public string upBasisKey = "Up_Basis";
+    public string downBasisKey = "Down_Basis";
 
-    //public string leftBasisKey = "Left";
-    //public string rightBasisKey = "Right";
-    //public string upBasisKey = "Up";
-    //public string downBasisKey = "Down";
+    public string redZoneBasisKey = "RedZone_Basis";
+    public string rightHalfBasisKey = "RightHalf_Basis";
 
-    //public string redZoneBasisKey = "RedZone_Basis";
-    //public string blueZoneBasisKey = "BlueZone_Basis";
+    private void Awake()
+    {
+        InitiateNet(netName: "S3");
 
-    //public string CallerKey = "Caller";
+        Sink left = SpawnSink(leftSinktKey);
+        Sink right = SpawnSink(rightSinkKey);
+        Sink up = SpawnSink(upSinkKey);
+        Sink down = SpawnSink(downSinkKey);
 
-    //Sink left, right, up, down;
-    //Vertex redZoneVertex, blueZoneVertex;
-    //Vertex[] verticals;
-    //Vertex[] horizontals;
+        _redZoneVertex = SpawnVertex(redZoneVertexKey);
+        _rightHalfVertex = SpawnVertex(rightHalfVertexKey);
 
-    //List<Vertex> allVertices;
-    //List<Node> allNodes;
+        AddBasis(left, leftBasisKey);
+        AddBasis(right, rightBasisKey);
+        AddBasis(up, upBasisKey);
+        AddBasis(down, downBasisKey);
 
-    //private void Awake()
-    //{
-    //    ConnectMainBus();
+        AddBasis(_redZoneVertex, redZoneBasisKey);
+        AddBasis(_rightHalfVertex, rightHalfBasisKey);
 
-    //    ISandman morpheus = new Morpheus();
-    //    Forum forum = new ControllableForum<Competent>();
-    //    Digger digger = new Usual(forum, 10);
-    //    IAttenuator attenuator = new Stairway();
-    //    var exponentialDispenser = new SpammerOfControlledExponentialCoolers(0.9f);
+        AssembleParagon();
+    }
 
-    //    left = new Sink(exponentialDispenser.Dispense());
-    //    right = new Sink(exponentialDispenser.Dispense());
-    //    up = new Sink(exponentialDispenser.Dispense());
-    //    down = new Sink(exponentialDispenser.Dispense());
+    private void Start()
+    {
+        ISignalSource redZoneDetector = mainBus.Get<ISignalSource>(redZoneDetectorKey);
+        _redZoneVertex.SignalSource = redZoneDetector;
 
-    //    redZoneVertex = GetRawVertex();
-    //    blueZoneVertex = GetRawVertex();
+        ISignalSource rightHalfDetector = mainBus.Get<ISignalSource>(rightHalfDetectorKey);
+        _rightHalfVertex.SignalSource = rightHalfDetector;
+    }
 
-    //    Basis leftBasis = new Basis(left);
-    //    Basis rightBasis = new Basis(right);
-    //    Basis upBasis = new Basis(up);
-    //    Basis downBasis = new Basis(down);
-    //    Basis redZoneBasis = new Basis(redZoneVertex);
-    //    Basis blueZoneBasis = new Basis(blueZoneVertex);
-
-    //    mainBus.Add(leftBasis, leftBasisKey);
-    //    mainBus.Add(rightBasis, rightBasisKey);
-    //    mainBus.Add(upBasis, upBasisKey);
-    //    mainBus.Add(downBasis, downBasisKey);
-    //    mainBus.Add(redZoneBasis, redZoneBasisKey);
-    //    mainBus.Add(blueZoneBasis, blueZoneBasisKey);
-
-    //    mainBus.Add(left, nodeLeftKey);
-    //    mainBus.Add(right, nodeRightKey);
-    //    mainBus.Add(up, nodeUpKey);
-    //    mainBus.Add(down, nodeDownKey);
-
-    //    mainBus.Add(redZoneVertex, redZoneVertexKey);
-    //    mainBus.Add(blueZoneVertex, blueZoneVertexKey);
-
-    //    verticals = new Vertex[3];
-    //    horizontals = new Vertex[3];
-
-    //    for(int i = 0; i < 3; i++)
-    //    {
-    //        verticals[i] = GetRawVertex();
-    //        horizontals[i] = GetRawVertex();
-    //        mainBus.Add(verticals[i], verticalVerticesKeys[i]);
-    //        mainBus.Add(horizontals[i], horizontalVerticesKeys[i]);
-    //    }
-
-    //    mainBus.Add(forum, CallerKey);
-
-    //    Vertex GetRawVertex() => new Vertex(new Plume(1, Princess.EventType.Rise), new Plume(1, Princess.EventType.Fall), morpheus, forum, digger, attenuator, exponentialDispenser.Dispense()) { BlinkSleepMode = true };
-    //}
-
-    //private void Start()
-    //{
-    //    allNodes = new List<Node>() { left, right, up, down };
-
-    //    ISignalSource redZoneDetector = mainBus.Get<ISignalSource>(redZoneDetectorKey);
-    //    redZoneVertex.SignalSource = redZoneDetector;
-
-    //    ISignalSource blueZoneDetector = mainBus.Get<ISignalSource>(blueZoneDetectorKey);
-    //    blueZoneVertex.SignalSource = blueZoneDetector;
-
-    //    allVertices = new List<Vertex>() { redZoneVertex, blueZoneVertex };
-
-    //    IRawProvider xProvider = mainBus.Get<IRawProvider>(dotXKey);
-    //    IRawProvider yProvider = mainBus.Get<IRawProvider>(dotYKey);
-
-    //    List<ISignalSource> horizontalSensors = SensorMaker.MakeLadder(xProvider.GetRaw, 4, -4, 4);
-    //    List<ISignalSource> verticalSensors = SensorMaker.MakeLadder(yProvider.GetRaw, 4, -4, 4);
-
-    //    for(int i = 0; i < 3; i++)
-    //    {
-    //        horizontals[2 - i].SignalSource = horizontalSensors[i];
-    //        verticals[2 - i].SignalSource = verticalSensors[i];
-    //        allVertices.Add(horizontals[i]);
-    //        allVertices.Add(verticals[i]);
-    //    }
-
-    //    EdgeMaker<Edge> edgeMaker = new SinglePourerEdgeMaker<Edge, Dozer>();
-
-    //    // Makes Paragon vertexnet
-    //    for(int i = 0; i < allVertices.Count; i++)
-    //    {
-    //        for(int j = 0; j < allVertices.Count; j++)
-    //        {
-    //            // Stupid but fast
-    //            try
-    //            {
-    //                allVertices[i].Connect(allVertices[j], edgeMaker);
-    //            }
-    //            catch { }
-    //        }
-
-    //        for(int k = 0; k < allNodes.Count; k++)
-    //            allVertices[i].Connect(allNodes[k], edgeMaker);
-    //    }
-
-    //    int edgesTotal = default;
-
-    //    foreach(Vertex v in allVertices)
-    //        edgesTotal += v.Edges.Length;
-
-    //    Debug.Log($"Edges total: {edgesTotal}");
-    //}
-
-    //private void Update()
-    //{
-    //    Proceed();
-    //}
-
-    //public void Sleep()
-    //{
-    //    allVertices.ForEach((x) => x.Sleep());
-    //}
-
-    //void Proceed()
-    //{
-    //    allNodes.ForEach((x) => x.Listen());
-    //    allVertices.ForEach((x) => x.Listen());
-    //    allVertices.ForEach((x) => x.Think());
-    //    allVertices.ForEach((x) => x.Call());
-    //}
+    private void Update()
+    {
+        Proceed();
+    }
 }
