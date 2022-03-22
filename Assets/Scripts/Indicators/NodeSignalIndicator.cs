@@ -153,15 +153,15 @@ public class NodeSignalIndicator : MainBusUser
 
     void RefreshWeightText()
     {
-        if(float.IsInfinity(_node.TaskWeight))
+        if(float.IsInfinity(_node.TaskForce))
         {
-            if(float.IsNegativeInfinity(_node.TaskWeight))
+            if(float.IsNegativeInfinity(_node.TaskForce))
                 _weightText.text = "---";
             else
                 _weightText.text = "+++";
         }
         else
-            _weightText.text = _node.TaskWeight.ToString();
+            _weightText.text = _node.TaskForce.ToString();
     }
 
     void RefreshHeatText()

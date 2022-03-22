@@ -20,8 +20,9 @@ public abstract class Net : MainBusUser
 
     IDispenser<IMemory> _memoryDispenser;
     IDispenser<ISandman> _sandmanDispenser;
-    IDispenser<IForum> _ignitorDispenser;
-    IDispenser<Digger> _diggerDispenser;
+    IDispenser<IPourer> _heapPourerDispenser;
+    IDispenser<Digger> _oppositeDiggerDispenser;
+    IDispenser<Digger> _conservativeDiggerDispenser;
     IDispenser<IAttenuator> _attenuatorDispenser;
     IDispenser<ICooler> _coolerDispenser;
 
@@ -29,8 +30,9 @@ public abstract class Net : MainBusUser
 
     protected IDispenser<IMemory> MemoryDispenser { get => _memoryDispenser; set => Setter.Init(ref _memoryDispenser, value); }
     protected IDispenser<ISandman> SandmanDispenser { get => _sandmanDispenser; set => Setter.Init(ref _sandmanDispenser, value); }
-    protected IDispenser<IForum> IgnitorDispenser { get => _ignitorDispenser; set => Setter.Init(ref _ignitorDispenser, value); }
-    protected IDispenser<Digger> DiggerDispenser { get => _diggerDispenser; set => Setter.Init(ref _diggerDispenser, value); }
+    protected IDispenser<IPourer> HeapPourerDispenser { get => _heapPourerDispenser; set => Setter.Init(ref _heapPourerDispenser, value); }
+    protected IDispenser<Digger> OppositeDiggerDispenser { get => _oppositeDiggerDispenser; set => Setter.Init(ref _oppositeDiggerDispenser, value); }
+    protected IDispenser<Digger> ConservativeDiggerDispenser { get => _conservativeDiggerDispenser; set => Setter.Init(ref _conservativeDiggerDispenser, value); }
     protected IDispenser<IAttenuator> AttenuatorDispenser { get => _attenuatorDispenser; set => Setter.Init(ref _attenuatorDispenser, value); }
     protected IDispenser<ICooler> CoolerDispenser { get => _coolerDispenser; set => Setter.Init(ref _coolerDispenser, value); }
 
@@ -45,14 +47,15 @@ public abstract class Net : MainBusUser
 
         MemoryDispenser = MemoryDispenser ?? new UniversalDispenser<IMemory>(() => new Plume(memorySize));
         SandmanDispenser = SandmanDispenser ?? new OneInstanceDispenser<ISandman>(new Morpheus());
-        IgnitorDispenser = IgnitorDispenser ?? new OneInstanceDispenser<IForum>(new Competent());
-        DiggerDispenser = DiggerDispenser ?? new OneInstanceDispenser<Digger>(new UsualDigger(new Competent(), diggerDepth));
+        HeapPourerDispenser = HeapPourerDispenser ?? new OneInstanceDispenser<IPourer>(new Mixer());
+        OppositeDiggerDispenser = OppositeDiggerDispenser ?? new OneInstanceDispenser<Digger>(new LastAnswerOSFDigger(new Competent(), diggerDepth));
+        ConservativeDiggerDispenser = ConservativeDiggerDispenser ?? new OneInstanceDispenser<Digger>(new NullDigger());
         AttenuatorDispenser = AttenuatorDispenser ?? new OneInstanceDispenser<IAttenuator>(new Stairway());
         CoolerDispenser = CoolerDispenser ?? new ControlledExponentialCoolersDispenser();
 
         AddPrototypeToMainBus(SandmanDispenser);
-        AddPrototypeToMainBus(IgnitorDispenser);
-        AddPrototypeToMainBus(DiggerDispenser);
+        AddPrototypeToMainBus(HeapPourerDispenser);
+        AddPrototypeToMainBus(OppositeDiggerDispenser);
         AddPrototypeToMainBus(AttenuatorDispenser);
         AddPrototypeToMainBus(CoolerDispenser);
 
@@ -79,8 +82,9 @@ public abstract class Net : MainBusUser
         Vertex vertex = new Vertex(MemoryDispenser.Dispense(),
                                    MemoryDispenser.Dispense(),
                                    SandmanDispenser.Dispense(),
-                                   IgnitorDispenser.Dispense(),
-                                   DiggerDispenser.Dispense(),
+                                   HeapPourerDispenser.Dispense(),
+                                   OppositeDiggerDispenser.Dispense(),
+                                   ConservativeDiggerDispenser.Dispense(),
                                    AttenuatorDispenser.Dispense(),
                                    CoolerDispenser.Dispense());
 
@@ -147,7 +151,7 @@ public abstract class Net : MainBusUser
     protected void AssembleParagon(EdgeMaker edgeMaker = null)
     {
         if(edgeMaker == null)
-            edgeMaker = new SinglePourerEdgeMaker<Edge, Dozer>();
+            edgeMaker = new SinglePourerEdgeMaker<Edge, Mixer>();
 
         List<Vertex> connected = new List<Vertex>();
 

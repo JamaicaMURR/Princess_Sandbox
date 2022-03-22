@@ -292,10 +292,10 @@
             <param name="storage"></param>
             <returns>Returns null if storage is empty</returns>
         </member>
-        <member name="T:Princess.Dozer">
+        <member name="T:Princess.Mixer">
             <summary></summary>
         </member>
-        <member name="M:Princess.Dozer.Pour(System.Single[],System.Single[],System.Single,System.Single)">
+        <member name="M:Princess.Mixer.Pour(System.Single[],System.Single[],System.Single,System.Single)">
             <summary>
             Pours sand into sandbag
             </summary>
@@ -350,7 +350,7 @@
         <member name="P:Princess.Node.IsOnTask">
             <summary></summary>
         </member>
-        <member name="P:Princess.Node.TaskWeight">
+        <member name="P:Princess.Node.TaskForce">
             <summary></summary>
         </member>
         <member name="P:Princess.Node.Signal">
@@ -628,6 +628,9 @@
             Calculates and store average value of all added values
             </summary>
         </member>
+        <member name="F:Princess.Average.DEFAULT_WEIGHT">
+            <summary></summary>
+        </member>
         <member name="P:Princess.Average.Val">
             <summary>
             Resultive average value
@@ -817,6 +820,9 @@
         <member name="P:Princess.Vertex.BlinkSleepMode">
             <summary></summary>
         </member>
+        <member name="P:Princess.Vertex.CallForce">
+            <summary></summary>
+        </member>
         <member name="P:Princess.Vertex.SignalSource">
             <summary>
             Source of signal
@@ -825,10 +831,13 @@
         <member name="P:Princess.Vertex.Sandman">
             <summary></summary>
         </member>
-        <member name="P:Princess.Vertex.Ignitor">
+        <member name="P:Princess.Vertex.HeapPourer">
             <summary></summary>
         </member>
-        <member name="P:Princess.Vertex.Digger">
+        <member name="P:Princess.Vertex.OppositeDigger">
+            <summary></summary>
+        </member>
+        <member name="P:Princess.Vertex.ConservativeDigger">
             <summary></summary>
         </member>
         <member name="P:Princess.Vertex.Attenuator">
@@ -849,7 +858,7 @@
         <member name="E:Princess.Vertex.OnDecisionNotFound">
             <summary></summary>
         </member>
-        <member name="M:Princess.Vertex.#ctor(Princess.IMemory,Princess.IMemory,Princess.ISandman,Princess.IForum,Princess.Digger,Princess.IAttenuator,Princess.ICooler)">
+        <member name="M:Princess.Vertex.#ctor(Princess.IMemory,Princess.IMemory,Princess.ISandman,Princess.IPourer,Princess.Digger,Princess.Digger,Princess.IAttenuator,Princess.ICooler)">
             <summary>
             Need SignalSource
             </summary>
