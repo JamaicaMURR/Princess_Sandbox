@@ -25,6 +25,8 @@ public class NetS2 : Net
 
     private void Awake()
     {
+        OppositeDiggerDispenser = new OneInstanceDispenser<Digger>(new OppositeFASFDigger(new Competent(), int.MaxValue));
+
         InitiateNet(netName: "S2");
 
         Sink leftSink = SpawnSink(leftSinkKey);

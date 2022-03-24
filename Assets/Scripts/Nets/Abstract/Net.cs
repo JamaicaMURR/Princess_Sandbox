@@ -45,17 +45,31 @@ public abstract class Net : MainBusUser
         _vertices = new List<Vertex>();
         _sinks = new List<Sink>();
 
-        MemoryDispenser = MemoryDispenser ?? new UniversalDispenser<IMemory>(() => new Plume(memorySize));
-        SandmanDispenser = SandmanDispenser ?? new OneInstanceDispenser<ISandman>(new Morpheus());
-        HeapPourerDispenser = HeapPourerDispenser ?? new OneInstanceDispenser<IPourer>(new Mixer());
-        OppositeDiggerDispenser = OppositeDiggerDispenser ?? new OneInstanceDispenser<Digger>(new LastAnswerOSFDigger(new Competent(), diggerDepth));
-        ConservativeDiggerDispenser = ConservativeDiggerDispenser ?? new OneInstanceDispenser<Digger>(new NullDigger());
-        AttenuatorDispenser = AttenuatorDispenser ?? new OneInstanceDispenser<IAttenuator>(new Stairway());
-        CoolerDispenser = CoolerDispenser ?? new ControlledExponentialCoolersDispenser();
+        if(MemoryDispenser == null)
+            MemoryDispenser = new UniversalDispenser<IMemory>(() => new Plume(memorySize));
+
+        if(SandmanDispenser == null)
+            SandmanDispenser = new OneInstanceDispenser<ISandman>(new Morpheus());
+
+        if(HeapPourerDispenser == null)
+            HeapPourerDispenser = new OneInstanceDispenser<IPourer>(new Mixer());
+
+        if(OppositeDiggerDispenser == null)
+            OppositeDiggerDispenser = OppositeDiggerDispenser ?? new OneInstanceDispenser<Digger>(new LastAnswerOAASFDigger(new Competent(), diggerDepth));
+
+        if(ConservativeDiggerDispenser == null)
+            ConservativeDiggerDispenser = ConservativeDiggerDispenser ?? new OneInstanceDispenser<Digger>(new NullDigger());
+
+        if(AttenuatorDispenser == null)
+            AttenuatorDispenser = AttenuatorDispenser ?? new OneInstanceDispenser<IAttenuator>(new Stairway());
+
+        if(CoolerDispenser == null)
+            CoolerDispenser = CoolerDispenser ?? new ControlledExponentialCoolersDispenser();
 
         AddPrototypeToMainBus(SandmanDispenser);
         AddPrototypeToMainBus(HeapPourerDispenser);
         AddPrototypeToMainBus(OppositeDiggerDispenser);
+        //AddPrototypeToMainBus(ConservativeDiggerDispenser);
         AddPrototypeToMainBus(AttenuatorDispenser);
         AddPrototypeToMainBus(CoolerDispenser);
 
