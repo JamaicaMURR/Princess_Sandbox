@@ -1,4 +1,5 @@
 using Princess;
+using Princess.ConnectionToolkit;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,7 @@ using UnityEngine;
 public class NetS4 : Net
 {
     Vertex _redZoneVertex, _blueZoneVertex;
+    Vertex[] _xVertices, _yVertices;
 
     public string redZoneDetectorKey = "Is_On_RedZone";
     public string blueZoneDetectorKey = "Is_On_BlueZone";
@@ -26,9 +28,15 @@ public class NetS4 : Net
     public string redZoneBasisKey = "RedZone_Basis";
     public string blueZoneBasisKey = "BlueZone_Basis";
 
+    public string[] xKeys = new string[] { "x>-2", "x>0", "x>2" };
+    public string[] yKeys = new string[] { "y>-2", "y>0", "y>2" };
+
+    public string xKey = "x";
+    public string yKey = "y";
+
     private void Awake()
     {
-        //OppositeDiggerDispenser = new OneInstanceDispenser<Digger>(new OppositeFASFDigger(new Competent(), int.MaxValue));
+        OppositeDiggerDispenser = new OneInstanceDispenser<Digger>(new OppositeFASFDigger(new Competent(), int.MaxValue));
 
         InitiateNet(netName: "S4");
 
@@ -48,7 +56,20 @@ public class NetS4 : Net
         AddBasis(_redZoneVertex, redZoneBasisKey);
         AddBasis(_blueZoneVertex, blueZoneBasisKey);
 
+        _xVertices = SpawnVertices(xKeys);
+        _yVertices = SpawnVertices(yKeys);
+
         AssembleParagon();
+
+        Vertex[] SpawnVertices(string[] keys)
+        {
+            Vertex[] vertices = new Vertex[keys.Length];
+
+            for(int i = 0; i < keys.Length; i++)
+                vertices[i] = SpawnVertex(keys[i]);
+
+            return vertices;
+        }
     }
 
     private void Start()
@@ -58,6 +79,18 @@ public class NetS4 : Net
 
         ISignalSource blueZoneDetector = mainBus.Get<ISignalSource>(blueZoneDetectorKey);
         _blueZoneVertex.SignalSource = blueZoneDetector;
+
+        List<ISignalSource> xPosition = SensorMaker.MakeLadder(mainBus.Get<IRawProvider>(xKey).GetRaw, 4, -3.75f, 3.75f);
+        ConnectSignalSources(_xVertices, xPosition);
+
+        List<ISignalSource> yPosition = SensorMaker.MakeLadder(mainBus.Get<IRawProvider>(yKey).GetRaw, 4, -3.75f, 3.75f);
+        ConnectSignalSources(_yVertices, yPosition);
+
+        void ConnectSignalSources(Vertex[] vertices, List<ISignalSource> sources)
+        {
+            for(int i = 0; i < vertices.Length; i++)
+                vertices[i].SignalSource = sources[sources.Count - 1 - i];
+        }
     }
 
     private void Update()

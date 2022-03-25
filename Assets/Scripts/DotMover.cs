@@ -18,11 +18,17 @@ public class DotMover : MainBusUser
     public float upBorder = 3.75f;
     public float downBorder = -3.75f;
 
+    public string xKey = "x";
+    public string yKey = "y";
+
     public string leftSinkKey, rightSinkKey, upSinkKey, downSinkKey;
 
     private void Awake()
     {
         ConnectMainBus();
+
+        mainBus.Add(new RawWrap(() => transform.position.x), xKey);
+        mainBus.Add(new RawWrap(() => transform.position.y), yKey);
     }
 
     private void Start()

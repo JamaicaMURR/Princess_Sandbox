@@ -29,7 +29,7 @@ public class NetS3 : Net
 
     private void Awake()
     {
-        //OppositeDiggerDispenser = new OneInstanceDispenser<Digger>(new OppositeFASFDigger(new Competent(), int.MaxValue));
+        OppositeDiggerDispenser = new OneInstanceDispenser<Digger>(new OppositeFASFDigger(new Competent(), int.MaxValue));
 
         InitiateNet(netName: "S3");
 
